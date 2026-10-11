@@ -1,0 +1,1334 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Eros’s Block Diagram Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;1,400;1,500&display=swap">
+<style>
+/* Layout: a drafting bench — tool rail, gridded sheet, and a calculation sheet beside it. */
+:root{
+  --paper:#E9EDF1; --sheet:#F7F9FB; --panel:#FFFFFF; --ink:#132030; --ink-2:#4A5869; --ink-3:#768494;
+  --rule:#CBD3DC; --grid:#D7DEE6; --grid-major:#C2CCD7; --block:#FFFFFF;
+  --accent:#C2560B; --accent-soft:#F7E4D4; --accent-ink:#FFFFFF;
+  --pos:#1D7A51; --neg:#BF3127; --warn:#9A6A00;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --math:"STIX Two Text","Cambria Math","Times New Roman",serif;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0C1218; --sheet:#111A22; --panel:#16202A; --ink:#E2E9F0; --ink-2:#9DABBA; --ink-3:#6E7C8B;
+  --rule:#26323F; --grid:#18222C; --grid-major:#202C38; --block:#16202A;
+  --accent:#FF9548; --accent-soft:#3A2312; --accent-ink:#1A0E05;
+  --pos:#4CC38A; --neg:#FF6F62; --warn:#E3B341; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0C1218; --sheet:#111A22; --panel:#16202A; --ink:#E2E9F0; --ink-2:#9DABBA; --ink-3:#6E7C8B;
+  --rule:#26323F; --grid:#18222C; --grid-major:#202C38; --block:#16202A;
+  --accent:#FF9548; --accent-soft:#3A2312; --accent-ink:#1A0E05;
+  --pos:#4CC38A; --neg:#FF6F62; --warn:#E3B341; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font:14px/1.5 var(--sans)}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{height:100%;display:flex;flex-direction:column;padding:0 16px 16px;gap:12px}
+header.top{display:flex;align-items:center;gap:20px;padding-top:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.01em;white-space:nowrap}
+.brand svg{flex:none}
+.brand small{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-left:4px}
+nav.tabs{display:flex;gap:2px;background:var(--sheet);border:1px solid var(--rule);border-radius:var(--r);padding:3px;overflow-x:auto;max-width:100%}
+nav.tabs button{border:0;background:none;padding:6px 14px;border-radius:4px;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.02em;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--sheet)}
+nav.tabs button:hover:not([aria-selected="true"]){color:var(--ink)}
+.spacer{flex:1}
+.theme-btn{border:1px solid var(--rule);background:var(--sheet);border-radius:var(--r);padding:6px 10px;cursor:pointer;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+main{flex:1;min-height:0;position:relative}
+.tab{height:100%;overflow:auto}
+
+/* ---------- editor ---------- */
+.editor{display:grid;grid-template-columns:72px minmax(0,1fr) 384px;height:100%;overflow:hidden;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet)}
+.rail{display:flex;flex-direction:column;gap:2px;padding:8px 6px;border-right:1px solid var(--rule);overflow-y:auto;background:var(--panel)}
+.rail .grp{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);text-align:center;padding:8px 0 3px}
+.tool{display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid transparent;background:none;border-radius:5px;padding:6px 2px 5px;cursor:pointer;color:var(--ink-2);font-size:10.5px;font-family:var(--sans);line-height:1.15;touch-action:none;user-select:none}
+.tool svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6}
+.tool:hover{background:var(--sheet);color:var(--ink)}
+.tool[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.tool[data-add]{cursor:grab}
+.tool:disabled{opacity:.35;cursor:default}
+.stage{position:relative;min-width:0;overflow:hidden}
+#cv{display:block;width:100%;height:100%;touch-action:none;user-select:none;-webkit-user-select:none;background:var(--sheet)}
+.stage-hint{position:absolute;left:12px;bottom:10px;right:120px;font-size:12px;color:var(--ink-3);pointer-events:none;line-height:1.4}
+.stage-hint b{color:var(--ink-2);font-weight:600}
+.zoom{position:absolute;right:10px;bottom:10px;display:flex;border:1px solid var(--rule);border-radius:5px;background:var(--panel);overflow:hidden}
+.zoom button{border:0;background:none;width:32px;height:30px;cursor:pointer;font-family:var(--mono);font-size:15px;color:var(--ink-2)}
+.zoom button+button{border-left:1px solid var(--rule)}
+.zoom button:hover{background:var(--sheet);color:var(--ink)}
+.mode-pill{position:absolute;top:10px;left:12px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:3px 8px;border-radius:3px}
+.side{border-left:1px solid var(--rule);overflow-y:auto;background:var(--panel);min-width:0}
+.sec{padding:16px 18px;border-bottom:1px solid var(--rule)}
+.sec h3{margin:0 0 10px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+.sec h3 .kind{font-family:var(--mono);font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--accent);font-size:12px}
+.muted{color:var(--ink-3)}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.field label{font-size:12px;color:var(--ink-2);font-weight:500}
+.field input,.field select,textarea{border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:7px 9px;width:100%;min-width:0}
+.field input.code,textarea{font-family:var(--mono);font-size:13px}
+.field .note{font-size:12px;line-height:1.4}
+.ok{color:var(--pos)} .bad{color:var(--neg)}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.btn{border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:6px 11px;cursor:pointer;font-size:13px;font-weight:500;color:var(--ink)}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.btn.primary:hover{opacity:.9}
+.btn.accent{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.danger{color:var(--neg)}
+.btn.sm{padding:4px 8px;font-size:12px}
+.signrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px dashed var(--rule)}
+.signbtn{font-family:var(--mono);font-weight:600;font-size:15px;width:34px;height:28px;border-radius:5px;border:1px solid var(--rule);background:var(--sheet);cursor:pointer}
+.signbtn.pos{color:var(--pos)} .signbtn.neg{color:var(--neg)}
+.mth{font-family:var(--math);font-size:1.12em;white-space:nowrap}
+.mth i{font-style:italic}
+.mth sub{font-size:.68em;font-style:normal}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px}
+.frac .fn{padding:0 4px 3px}
+.frac .fd{padding:3px 4px 0;border-top:1.4px solid currentColor}
+.tf{font-family:var(--math);font-size:19px;line-height:1.3;padding:14px 12px;background:var(--sheet);border:1px solid var(--rule);border-radius:5px;overflow-x:auto;display:flex;align-items:center;gap:8px}
+.tf .lhs{white-space:nowrap}
+.tf sup{font-size:.62em}
+.io{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;font-size:13px;color:var(--ink-2)}
+.io select{border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:4px 6px;font-family:var(--math);font-size:15px}
+.warns{margin:10px 0 0;padding:0;list-style:none;font-size:12.5px;color:var(--warn)}
+.warns li::before{content:"△ ";}
+details.mason{margin-top:12px;border:1px solid var(--rule);border-radius:5px;background:var(--sheet)}
+details.mason summary{cursor:pointer;padding:9px 12px;font-weight:600;font-size:13px}
+details.mason .body{padding:0 12px 12px;font-size:13.5px}
+.mason h4{margin:12px 0 4px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.mason ul{list-style:none;margin:0;padding:0}
+.mason li{padding:3px 6px;border-radius:4px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.mason li[data-hl]{cursor:pointer}
+.mason li[data-hl]:hover,.mason li.on{background:var(--accent-soft)}
+.mason .tagk{font-family:var(--math);font-style:italic;min-width:30px}
+.mason .meta{font-size:12px;color:var(--ink-3)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--rule);border-radius:999px;padding:2px 9px;background:var(--sheet)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:3px;font-weight:600}
+.badge.stable{background:color-mix(in srgb,var(--pos) 16%,transparent);color:var(--pos)}
+.badge.unstable{background:color-mix(in srgb,var(--neg) 16%,transparent);color:var(--neg)}
+.badge.marginal{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:10px}
+.metrics div{display:flex;flex-direction:column}
+.metrics span{font-size:11.5px;color:var(--ink-3)}
+.metrics b{font-family:var(--mono);font-weight:500;font-size:14px;font-variant-numeric:tabular-nums}
+.plots{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:12px}
+.plot{border:1px solid var(--rule);border-radius:5px;background:var(--sheet);padding:6px}
+.plot h5{margin:2px 4px 2px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.plot svg{width:100%;height:auto;display:block}
+.ax{stroke:var(--rule);stroke-width:1} .axz{stroke:var(--ink-3);stroke-width:1}
+.tk{font-family:var(--mono);font-size:9.5px;fill:var(--ink-3)}
+.curve{fill:none;stroke:var(--accent);stroke-width:2}
+.fvline{stroke:var(--ink-3);stroke-dasharray:4 3}
+.rhp{fill:var(--neg);opacity:.07}
+.pole{stroke:var(--accent);stroke-width:2;fill:none} .zero{stroke:var(--ink);stroke-width:1.6;fill:var(--sheet)}
+.kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--rule);border-bottom-width:2px;border-radius:3px;padding:0 4px;background:var(--sheet)}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12.5px;color:var(--ink-2);margin-top:8px}
+
+/* ---------- diagram SVG ---------- */
+.wl{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.whit{fill:none;stroke:transparent;stroke-width:14;cursor:pointer}
+.wire.sel .wl{stroke:var(--accent);stroke-width:2.4}
+.wire.hl .wl{stroke:var(--accent);stroke-width:3}
+.mk{fill:var(--ink)} .mkA{fill:var(--accent)}
+.node{cursor:grab}
+.blk rect{fill:var(--block);stroke:var(--ink);stroke-width:1.6}
+.sum .ring{fill:var(--block);stroke:var(--ink);stroke-width:1.6}
+.sum path{stroke:var(--ink);stroke-width:1.2}
+.pick .dot{fill:var(--ink)} .pick .hit{fill:transparent}
+.term{fill:var(--ink)} .term.hollow{fill:var(--block);stroke:var(--ink);stroke-width:1.6}
+.node.sel rect,.node.sel .ring,.node.sel .term.hollow{stroke:var(--accent);stroke-width:2.6}
+.node.sel .dot,.node.sel .term:not(.hollow){fill:var(--accent)}
+.node.hl rect,.node.hl .ring{stroke:var(--accent);stroke-width:2.4;fill:var(--accent-soft)}
+.node.hl .dot{fill:var(--accent)}
+.node.cand rect,.node.cand .ring{stroke:var(--accent);stroke-width:2.6;stroke-dasharray:5 3}
+.node.cand .dot{fill:var(--accent)}
+.lb{font-family:var(--math);font-size:20px;fill:var(--ink);text-anchor:middle;pointer-events:none}
+.ex{font-family:var(--mono);font-size:13px;fill:var(--ink);text-anchor:middle;pointer-events:none}
+.fl{stroke:var(--ink);stroke-width:1.1}
+.tag{font-family:var(--math);font-size:14px;fill:var(--accent);pointer-events:none}
+.tl{font-family:var(--math);font-size:17px;fill:var(--ink);pointer-events:none}
+.sl{font-family:var(--math);font-size:14px;fill:var(--ink-2);pointer-events:none}
+.mi{font-style:italic}
+.sb{font-size:70%;font-style:normal}
+.port{fill:var(--panel);stroke:var(--accent);stroke-width:1.6;opacity:0;cursor:crosshair;transition:opacity .12s}
+.node:hover .port,.node.sel .port{opacity:1}
+@media (hover:none){.port{opacity:.85}}
+.sgn{font-family:var(--mono);font-size:15px;font-weight:600;text-anchor:middle;cursor:pointer}
+.sgn.pos{fill:var(--pos)} .sgn.neg{fill:var(--neg)}
+.bend{fill:var(--accent);stroke:var(--panel);stroke-width:2;cursor:move}
+.tmp{fill:none;stroke:var(--accent);stroke-width:1.8;stroke-dasharray:6 4}
+.gdot{fill:var(--grid-major)} .gline{stroke:var(--grid);stroke-width:1}
+svg.wiring .node{cursor:crosshair}
+.mini .sgn{cursor:default}
+.mini .node{cursor:default}
+
+/* ---------- examples ---------- */
+.page{max-width:1240px;margin:0 auto;padding:8px 0 40px}
+.page-head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:8px 0 18px}
+.page-head h2{margin:0;font-family:var(--display);font-size:30px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.page-head p{margin:4px 0 0;color:var(--ink-2);max-width:62ch}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:4px 12px;cursor:pointer;font-size:13px;color:var(--ink-2)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.card .pv{background:var(--sheet);border-bottom:1px solid var(--rule);padding:8px;height:170px;display:flex;align-items:center;justify-content:center}
+.card .pv svg{width:100%;height:100%}
+.card .cb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h4{margin:0;font-family:var(--display);font-size:17px;font-weight:600}
+.card p{margin:0;color:var(--ink-2);font-size:13px;flex:1}
+.meta-row{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+.lvl{display:inline-flex;gap:2px}
+.lvl i{width:6px;height:6px;border-radius:1px;background:var(--rule)}
+.lvl i.on{background:var(--accent)}
+.card .ans{font-family:var(--math);font-size:15px;color:var(--ink);padding:4px 0;overflow-x:auto}
+
+/* ---------- practice ---------- */
+.prac{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:16px;align-items:start}
+.prac .board{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+.board-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.board-head .num{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+.board-svg{background:var(--sheet);padding:10px;min-height:280px;display:flex;align-items:center;justify-content:center}
+.board-svg svg{width:100%;max-height:440px}
+.qpanel{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.seg button{border:0;background:var(--sheet);padding:5px 12px;cursor:pointer;font-size:13px;color:var(--ink-2)}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+.question{font-size:15px}
+.question .mth{font-size:1.25em}
+#ansIn{font-family:var(--mono);font-size:15px;padding:10px 12px;border:1.5px solid var(--rule);border-radius:5px;background:var(--sheet);width:100%}
+#ansIn:focus{border-color:var(--accent);outline:none}
+.preview{min-height:44px;font-family:var(--math);font-size:18px;display:flex;align-items:center;gap:8px;overflow-x:auto;color:var(--ink-2)}
+.fb{border-radius:5px;padding:10px 12px;font-size:14px;line-height:1.45}
+.fb.good{background:color-mix(in srgb,var(--pos) 14%,transparent);color:var(--ink)}
+.fb.good b{color:var(--pos)}
+.fb.miss{background:color-mix(in srgb,var(--neg) 12%,transparent)}
+.fb.miss b{color:var(--neg)}
+.fb.info{background:var(--sheet);border:1px solid var(--rule)}
+.score{display:flex;gap:18px;font-family:var(--mono);font-size:12px;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:12px}
+.score b{display:block;font-size:20px;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.hints{display:flex;flex-direction:column;gap:8px}
+.hint{border-left:3px solid var(--accent);padding:6px 10px;background:var(--sheet);font-size:13.5px}
+.hint ul{margin:4px 0 0;padding:0;list-style:none}
+.hint li{padding:2px 4px;border-radius:3px;cursor:pointer}
+.hint li:hover{background:var(--accent-soft)}
+
+/* ---------- rules ---------- */
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.rule{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.rule h4{margin:0;font-family:var(--display);font-size:17px;font-weight:600}
+.rule .pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;background:var(--sheet);border:1px solid var(--rule);border-radius:5px;padding:6px}
+.rule .pair svg{width:100%;height:110px}
+.rule .arrow{font-family:var(--mono);color:var(--accent);font-size:18px}
+.rule .eq{font-family:var(--math);font-size:16px}
+.rule p{margin:0;font-size:13px;color:var(--ink-2)}
+.rule.wide{grid-column:1/-1}
+.mason-big{font-family:var(--math);font-size:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0}
+.deflist{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px;color:var(--ink-2)}
+.deflist dt{font-family:var(--math);font-size:16px;color:var(--ink)}
+.deflist dd{margin:0}
+
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--sheet);padding:9px 14px;border-radius:5px;font-size:13px;max-width:min(520px,calc(100% - 32px));opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+#toast.show{opacity:1}
+#ghost{position:fixed;pointer-events:none;z-index:60;width:54px;height:36px;border:1.6px dashed var(--accent);border-radius:4px;background:var(--accent-soft);transform:translate(-50%,-50%)}
+
+@media (max-width:980px){
+  .editor{grid-template-columns:64px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto}
+  .side{grid-column:1/-1;border-left:0;border-top:1px solid var(--rule);max-height:none}
+  .tab.editor-tab{overflow:auto}
+  .editor{height:auto;min-height:100%}
+  .stage{height:62vh}
+  .prac{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  .editor{grid-template-columns:minmax(0,1fr)}
+  .rail{flex-direction:row;border-right:0;border-bottom:1px solid var(--rule);overflow-x:auto;overflow-y:hidden}
+  .rail .grp{display:none}
+  .tool{min-width:52px}
+  .stage-hint{display:none}
+  .brand small{display:none}
+  .page-head h2{font-size:24px}
+  .rules{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true"><path d="M1 11h6" stroke="currentColor" stroke-width="1.6" fill="none"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 8l6 6M14 8l-6 6" stroke="currentColor" stroke-width="1.1"/><path d="M15.5 11h3" stroke="currentColor" stroke-width="1.6"/><rect x="18.5" y="5" width="10" height="12" rx="1" fill="none" stroke="var(--accent)" stroke-width="1.8"/></svg>
+      Eros’s Block Diagram Editor <small>Mason solver</small>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="editor" aria-selected="true">Editor</button>
+      <button role="tab" data-tab="examples" aria-selected="false">Examples</button>
+      <button role="tab" data-tab="practice" aria-selected="false">Practice</button>
+      <button role="tab" data-tab="rules" aria-selected="false">Reduction rules</button>
+    </nav>
+    <div class="spacer"></div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch theme">◐ Theme</button>
+  </header>
+  <main>
+    <section class="tab editor-tab" id="tab-editor">
+      <div class="editor">
+        <div class="rail" id="rail">
+          <div class="grp">Mode</div>
+          <button class="tool" data-tool="select" aria-pressed="true" title="Select and move (V)"><svg viewBox="0 0 24 24"><path d="M6 3l12 9-6 1 3 7-2.5 1-3-7L6 18z" stroke-linejoin="round"/></svg>Select</button>
+          <button class="tool" data-tool="wire" aria-pressed="false" title="Draw wires (W)"><svg viewBox="0 0 24 24"><path d="M3 18h7V6h8"/><path d="M15 3l4 3-4 3" stroke-linejoin="round"/></svg>Wire</button>
+          <div class="grp">Add</div>
+          <button class="tool" data-add="blk" title="Block — click or drag onto the sheet (B)"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="1"/><path d="M1 12h3M20 12h3"/></svg>Block</button>
+          <button class="tool" data-add="sum" title="Summing junction (S)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M7 7l10 10M17 7L7 17" stroke-width="1.2"/></svg>Sum</button>
+          <button class="tool" data-add="pick" title="Pickoff point (P)"><svg viewBox="0 0 24 24"><path d="M2 12h20M12 12v9"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/></svg>Pickoff</button>
+          <button class="tool" data-add="in" title="Input signal"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.4" fill="currentColor"/><path d="M7 12h13M16 8l4 4-4 4"/></svg>Input</button>
+          <button class="tool" data-add="out" title="Output signal"><svg viewBox="0 0 24 24"><path d="M2 12h14M12 8l4 4-4 4"/><circle cx="19" cy="12" r="2.6"/></svg>Output</button>
+          <div class="grp">Edit</div>
+          <button class="tool" id="bUndo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 7L4 12l5 5"/><path d="M4 12h10a6 6 0 010 12h-2" transform="translate(0 -6)"/></svg>Undo</button>
+          <button class="tool" id="bRedo" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><path d="M15 7l5 5-5 5"/><path d="M20 12H10a6 6 0 000 12h2" transform="translate(0 -6)"/></svg>Redo</button>
+          <button class="tool" id="bFlip" title="Flip direction (R)"><svg viewBox="0 0 24 24"><path d="M4 8h14l-3-3M20 16H6l3 3"/></svg>Flip</button>
+          <button class="tool" id="bDel" title="Delete (Del)"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg>Delete</button>
+          <button class="tool" id="bClear" title="Start a blank sheet"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 9h6M9 13h6"/></svg>New</button>
+        </div>
+        <div class="stage" id="stage">
+          <svg id="cv" aria-label="Block diagram editor">
+            <defs>
+              <pattern id="gMinor" width="20" height="20" patternUnits="userSpaceOnUse"><circle class="gdot" cx="0" cy="0" r="0.9"/></pattern>
+              <pattern id="gMajor" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="url(#gMinor)"/><path class="gline" d="M100 0V100M0 100H100" fill="none"/></pattern>
+              <marker id="e_ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path class="mk" d="M0 0.8L10 5L0 9.2z"/></marker>
+              <marker id="e_arA" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path class="mkA" d="M0 0.8L10 5L0 9.2z"/></marker>
+            </defs>
+            <g id="world"><rect id="gridbg" x="-6000" y="-6000" width="12000" height="12000" fill="url(#gMajor)"/><g id="content"></g><g id="overlay"></g></g>
+          </svg>
+          <div class="mode-pill" id="modePill" hidden>Wire mode — drag between parts</div>
+          <div class="stage-hint">Drag from a <b>port ◦</b> to connect · drag along a <b>wire</b> to branch it · drop a wire on empty space to create a block · click a <b>± sign</b> to flip it</div>
+          <div class="zoom"><button id="zOut" title="Zoom out" aria-label="Zoom out">−</button><button id="zFit" title="Fit diagram (F)" aria-label="Fit diagram">⤢</button><button id="zIn" title="Zoom in" aria-label="Zoom in">+</button></div>
+        </div>
+        <aside class="side">
+          <div class="sec" id="insp"></div>
+          <div class="sec" id="result"></div>
+          <div class="sec" id="filesec"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-examples" hidden>
+      <div class="page">
+        <div class="page-head">
+          <div><h2>Example library</h2><p>Open any diagram in the editor to rearrange it, or practise solving it by hand first. Numeric examples include real transfer functions, so you get poles and a step response too.</p></div>
+          <div class="spacer"></div>
+          <div class="filters" id="filters"></div>
+        </div>
+        <div class="grid" id="exGrid"></div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-practice" hidden>
+      <div class="page">
+        <div class="page-head">
+          <div><h2>Practice</h2><p>Find the closed-loop transfer function. Type it with block names, like <code>G1G2/(1+G1G2H1)</code>. Any algebraically equal form counts as correct.</p></div>
+        </div>
+        <div class="prac">
+          <div class="board">
+            <div class="board-head"><span class="num" id="prNum">Problem 1</span><div class="spacer"></div><div class="seg" id="prLevel"><button data-lv="easy" aria-pressed="false">Easy</button><button data-lv="medium" aria-pressed="true">Medium</button><button data-lv="hard" aria-pressed="false">Hard</button></div></div>
+            <div class="board-svg" id="prSvg"></div>
+          </div>
+          <div class="qpanel">
+            <div class="question" id="prQ"></div>
+            <div><input id="ansIn" autocomplete="off" spellcheck="false" placeholder="e.g. G1G2/(1+G1G2H1)" aria-label="Your answer"></div>
+            <div class="preview" id="ansPrev"><span class="muted" style="font-family:var(--sans);font-size:13px">Your answer will be typeset here.</span></div>
+            <div class="btns"><button class="btn primary" id="prCheck">Check answer</button><button class="btn" id="prHint">Hint</button><button class="btn" id="prReveal">Show solution</button><button class="btn" id="prNext">Next problem →</button></div>
+            <div id="prFb"></div>
+            <div class="hints" id="prHints"></div>
+            <div class="btns"><button class="btn sm" id="prOpen">Open this diagram in the editor</button></div>
+            <div class="score" id="prScore"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-rules" hidden>
+      <div class="page">
+        <div class="page-head"><div><h2>Reduction rules</h2><p>The classic block-diagram identities. Each pair shows a diagram and its equivalent. Mason’s gain formula, at the bottom, solves any diagram in one pass, and it is what the editor uses.</p></div></div>
+        <div class="rules" id="rulesGrid"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="ghost" hidden></div>
+<script>
+/* ===== Core: algebra, parsing, Mason's rule, numerics (no DOM) ===== */
+const SUPD={0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
+const R_SUM=14, SNAP=10;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byId=(d,id)=>d.nodes.find(n=>n.id===id);
+const snapv=v=>Math.round(v/SNAP)*SNAP;
+const symCmp=(a,b)=>a.localeCompare(b,undefined,{numeric:true});
+
+function fmtN(x){
+  if(!isFinite(x)) return x>0?'∞':'−∞';
+  const r=Math.round(x);
+  if(Math.abs(x-r)<1e-9*Math.max(1,Math.abs(x))) return String(r);
+  const s=x.toPrecision(4);
+  return s.includes('e')?s:String(parseFloat(s));
+}
+
+/* ---- polynomials in s (ascending coefficient arrays) ---- */
+const PS={
+  trim(a){a=a.slice();const mx=Math.max(1e-300,...a.map(Math.abs));while(a.length>1&&Math.abs(a[a.length-1])<=1e-12*mx)a.pop();return a;},
+  add(a,b){const r=[];for(let i=0;i<Math.max(a.length,b.length);i++)r.push((a[i]||0)+(b[i]||0));return r;},
+  mul(a,b){const r=new Array(a.length+b.length-1).fill(0);for(let i=0;i<a.length;i++)for(let j=0;j<b.length;j++)r[i+j]+=a[i]*b[j];return r;},
+  scale(a,k){return a.map(x=>x*k);},
+  isZero(a){return a.every(x=>Math.abs(x)<1e-14);},
+  eq(a,b){a=PS.trim(a);b=PS.trim(b);return a.length===b.length&&a.every((x,i)=>Math.abs(x-b[i])<=1e-12*Math.max(1,Math.abs(x)));},
+  val(a,x){let s=0;for(let i=a.length-1;i>=0;i--)s=s*x+a[i];return s;}
+};
+const RO={
+  num:v=>({n:[v],d:[1]}),
+  sym:()=>({n:[0,1],d:[1]}),
+  add:(a,b)=>PS.eq(a.d,b.d)?{n:PS.add(a.n,b.n),d:a.d}:{n:PS.add(PS.mul(a.n,b.d),PS.mul(b.n,a.d)),d:PS.mul(a.d,b.d)},
+  neg:a=>({n:PS.scale(a.n,-1),d:a.d}),
+  sub:(a,b)=>RO.add(a,RO.neg(b)),
+  mul:(a,b)=>({n:PS.mul(a.n,b.n),d:PS.mul(a.d,b.d)}),
+  div:(a,b)=>{if(PS.isZero(PS.trim(b.n)))throw new Error('Division by zero');return{n:PS.mul(a.n,b.d),d:PS.mul(a.d,b.n)};},
+  pow:(a,k)=>{if(k>12)throw new Error('Exponent too large');let r=RO.num(1);for(let i=0;i<k;i++)r=RO.mul(r,a);return r;}
+};
+const NO=vals=>({num:v=>v,sym:n=>vals[n],add:(a,b)=>a+b,sub:(a,b)=>a-b,neg:a=>-a,mul:(a,b)=>a*b,div:(a,b)=>a/b,pow:(a,k)=>a**k});
+
+/* generic recursive-descent parser with implicit multiplication */
+function parseWith(src,ops,ident,badIdent){
+  const s=String(src).replace(/[−–]/g,'-').replace(/[×·∙]/g,'*').replace(/\s+/g,'');
+  if(!s) throw new Error('Empty expression');
+  let i=0;
+  const startsFactor=()=>{const c=s[i];return c!==undefined&&(c==='('||/[0-9.]/.test(c)||!!ident(s,i));};
+  function expr(){let v=term();while(s[i]==='+'||s[i]==='-'){const op=s[i++];const r=term();v=op==='+'?ops.add(v,r):ops.sub(v,r);}return v;}
+  function term(){let v=factor();for(;;){const c=s[i];if(c==='*'){i++;v=ops.mul(v,factor());}else if(c==='/'){i++;v=ops.div(v,factor());}else if(startsFactor()){v=ops.mul(v,factor());}else break;}return v;}
+  function factor(){if(s[i]==='-'){i++;return ops.neg(factor());}if(s[i]==='+'){i++;return factor();}let b=primary();while(s[i]==='^'){i++;const m=/^\(?(\d+)\)?/.exec(s.slice(i));if(!m)throw new Error('Powers must be whole numbers, like s^2');i+=m[0].length;b=ops.pow(b,+m[1]);}return b;}
+  function primary(){
+    const c=s[i];
+    if(c==='('){i++;const v=expr();if(s[i]!==')')throw new Error('Missing a closing bracket');i++;return v;}
+    const m=/^(\d+\.?\d*|\.\d+)(e[+-]?\d+)?/i.exec(s.slice(i));
+    if(m){i+=m[0].length;return ops.num(parseFloat(m[0]));}
+    const id=ident(s,i);
+    if(id){i+=id.len;return ops.sym(id.name);}
+    if(c===undefined) throw new Error('The expression ends too early');
+    if(/[A-Za-z]/.test(c)) throw new Error(badIdent(s,i));
+    throw new Error(`Unexpected “${c}”`);
+  }
+  const v=expr();
+  if(i<s.length) throw new Error(s[i]===')'?'There is an extra closing bracket':`Unexpected “${s[i]}”`);
+  return v;
+}
+const parseS=str=>parseWith(str,RO,(s,i)=>s[i]==='s'?{name:'s',len:1}:null,(s,i)=>`Use s as the only variable (found “${s[i]}”)`);
+function symIdent(syms){
+  const list=[...syms].sort((a,b)=>b.length-a.length);
+  return (s,i)=>{for(const n of list){if(s.substr(i,n.length).toLowerCase()===n.toLowerCase())return{name:n,len:n.length};}return null;};
+}
+const parseSym=(str,syms,vals)=>parseWith(str,NO(vals),symIdent(syms),(s,i)=>`“${s.slice(i).match(/^[A-Za-z]\w*/)[0]}” is not a block in this diagram`);
+
+/* ---- symbolic polynomials over block symbols ---- */
+const SP={
+  c(v){const m=new Map();if(v)m.set('',{c:v,m:{}});return m;},
+  sym(n){return new Map([[n,{c:1,m:{[n]:1}}]]);},
+  key(m){return Object.keys(m).sort().map(k=>m[k]>1?k+'^'+m[k]:k).join('*');},
+  put(r,k,c,m){const e=r.get(k);const v=(e?e.c:0)+c;if(Math.abs(v)<1e-12)r.delete(k);else r.set(k,{c:v,m});},
+  add(a,b){const r=new Map(a);for(const [k,t] of b)SP.put(r,k,t.c,t.m);return r;},
+  neg(a){const r=new Map();for(const [k,t] of a)r.set(k,{c:-t.c,m:t.m});return r;},
+  mul(a,b){const r=new Map();for(const x of a.values())for(const y of b.values()){const m={...x.m};for(const k in y.m)m[k]=(m[k]||0)+y.m[k];SP.put(r,SP.key(m),x.c*y.c,m);}return r;},
+  evalN(a,vals){let s=0;for(const t of a.values()){let v=t.c;for(const k in t.m)v*=vals[k]**t.m[k];s+=v;}return s;},
+  syms(a,set=new Set()){for(const t of a.values())for(const k in t.m)set.add(k);return set;},
+  isOne(a){if(a.size!==1)return false;const t=a.get('');return !!t&&Math.abs(t.c-1)<1e-12;}
+};
+const mdeg=m=>Object.values(m).reduce((a,b)=>a+b,0);
+function termsSorted(a){return [...a.values()].sort((x,y)=>mdeg(x.m)-mdeg(y.m)||symCmp(SP.key(x.m),SP.key(y.m)));}
+
+/* ---- label typesetting ---- */
+function symParts(label){
+  const out=[];const re=/([A-Za-z])([a-z0-9]*)/g;let last=0,m;label=String(label);
+  while((m=re.exec(label))){if(m.index>last)out.push({t:'txt',v:label.slice(last,m.index)});out.push({t:'sym',main:m[1],sub:m[2]});last=re.lastIndex;}
+  if(last<label.length)out.push({t:'txt',v:label.slice(last)});
+  return out;
+}
+function labelLen(label){return symParts(label).reduce((s,p)=>s+(p.t==='txt'?p.v.length*0.8:1+p.sub.length*0.7),0);}
+function symHTML(label){return '<span class="mth">'+symParts(label).map(p=>p.t==='txt'?esc(p.v):`<i>${esc(p.main)}</i>${p.sub?`<sub>${esc(p.sub)}</sub>`:''}`).join('')+'</span>';}
+function symSVG(label){
+  let s='',pend=0;
+  const open=(cls,dy)=>{const d=dy+pend;pend=0;return `<tspan${cls?` class="${cls}"`:''}${d?` dy="${d}em"`:''}>`;};
+  for(const p of symParts(label)){
+    if(p.t==='txt'){s+=open('',0)+esc(p.v)+'</tspan>';}
+    else{s+=open('mi',0)+esc(p.main)+'</tspan>';if(p.sub){s+=open('sb',0.3)+esc(p.sub)+'</tspan>';pend=-0.21;}}
+  }
+  return s;
+}
+function monoHTML(m){return Object.keys(m).sort(symCmp).map(k=>symHTML(k)+(m[k]>1?`<sup>${m[k]}</sup>`:'')).join('');}
+function spHTML(a){
+  if(!a.size) return '0';
+  return termsSorted(a).map((t,i)=>{const neg=t.c<0,ac=Math.abs(t.c),mono=monoHTML(t.m);const co=(!mono||Math.abs(ac-1)>1e-9)?fmtN(ac):'';return (i===0?(neg?'−':''):(neg?' − ':' + '))+co+mono;}).join('');
+}
+function spText(a){
+  if(!a.size) return '0';
+  return termsSorted(a).map((t,i)=>{const neg=t.c<0,ac=Math.abs(t.c);const ks=Object.keys(t.m).sort(symCmp).map(k=>t.m[k]>1?k+'^'+t.m[k]:k);const parts=(Math.abs(ac-1)>1e-9||!ks.length)?[fmtN(ac),...ks]:ks;return (i===0?(neg?'-':''):(neg?' - ':' + '))+parts.join('*');}).join('');
+}
+function fracHTML(n,d){return `<span class="frac"><span class="fn">${n}</span><span class="fd">${d}</span></span>`;}
+
+/* ---- block expression display helpers ---- */
+function prettyExpr(e){
+  e=String(e).replace(/\s+/g,'').replace(/\*/g,'·').replace(/\^\(?(\d+)\)?/g,(m,d)=>[...d].map(c=>SUPD[c]).join(''));
+  let o='';for(let i=0;i<e.length;i++){const c=e[i];if((c==='+'||c==='-')&&i>0&&e[i-1]!=='('&&!/[eE]/.test(e[i-1]))o+=c==='-'?' − ':' + ';else o+=c==='-'?'−':c;}
+  return o;
+}
+function stripParens(s){if(s[0]==='('&&s[s.length-1]===')'){let d=0;for(let i=0;i<s.length;i++){if(s[i]==='(')d++;else if(s[i]===')'){d--;if(d===0&&i<s.length-1)return s;}}return s.slice(1,-1);}return s;}
+function splitFrac(e){
+  e=String(e||'').replace(/\s+/g,'');if(!e)return null;let dep=0,idx=-1,cnt=0;
+  for(let i=0;i<e.length;i++){const c=e[i];if(c==='(')dep++;else if(c===')')dep--;else if(dep===0){if(c==='/'){cnt++;idx=i;}else if((c==='+'||c==='-')&&i>0&&e[i-1]!=='^'&&!/[eE]/.test(e[i-1]))return null;}}
+  if(cnt!==1)return null;return [stripParens(e.slice(0,idx)),stripParens(e.slice(idx+1))];
+}
+
+/* ---- geometry ---- */
+function blkDims(n){
+  let w,h;
+  if(n.expr&&n.expr.trim()){const f=splitFrac(n.expr);const L=f?Math.max(prettyExpr(f[0]).length,prettyExpr(f[1]).length):prettyExpr(n.expr).length;w=Math.max(64,L*7.6+30);h=f?60:44;}
+  else{w=Math.max(56,labelLen(n.label)*10.5+32);h=44;}
+  return {w:2*Math.round(w/2),h};
+}
+function outPort(n){
+  const f=n.flip?-1:1;
+  if(n.t==='blk'){const {w}=blkDims(n);return {x:n.x+f*w/2,y:n.y,dx:f};}
+  if(n.t==='sum') return {x:n.x+f*R_SUM,y:n.y,dx:f};
+  if(n.t==='in') return {x:n.x+5*f,y:n.y,dx:f};
+  return null;
+}
+function inPort(n){
+  const f=n.flip?-1:1;
+  if(n.t==='blk'){const {w}=blkDims(n);return {x:n.x-f*w/2,y:n.y,dx:f};}
+  if(n.t==='out') return {x:n.x-6*f,y:n.y,dx:f};
+  return null;
+}
+function srcPoint(A){return A.t==='pick'?{x:A.x,y:A.y}:outPort(A)||{x:A.x,y:A.y};}
+const sg=v=>v<0?-1:1;
+function route(d,w){
+  const A=byId(d,w.a),B=byId(d,w.b);
+  let S,ds=null,T,dt,g1=12,g2=14;
+  if(A.t==='pick'){S={x:A.x,y:A.y};g1=0;}
+  else{const p=outPort(A);S={x:p.x,y:p.y};ds={x:p.dx,y:0};}
+  if(B.t==='blk'||B.t==='out'){const p=inPort(B);T={x:p.x,y:p.y};dt={x:p.dx,y:0};}
+  else if(B.t==='sum'){
+    const dx=B.x-S.x,dy=B.y-S.y;
+    if(Math.abs(dy)<6){if(dx>0)dt={x:1,y:0};else{dt={x:0,y:-1};if(A.t==='pick')ds={x:0,y:1};}}
+    else if(A.t==='pick'&&dx>20)dt={x:1,y:0};
+    else dt={x:0,y:sg(dy)};
+    T={x:B.x-dt.x*R_SUM,y:B.y-dt.y*R_SUM};g2=10;
+  } else {T={x:B.x,y:B.y};g2=0;}
+  if(!ds){const dx=T.x-S.x,dy=T.y-S.y;ds=Math.abs(dy)<6?{x:sg(dx),y:0}:{x:0,y:sg(dy)};}
+  if(!dt){const dx=T.x-S.x,dy=T.y-S.y;if(ds.x)dt=Math.abs(dy)<6?{x:sg(dx),y:0}:{x:0,y:sg(dy)};else dt=Math.abs(dx)<6?{x:0,y:sg(dy)}:{x:sg(dx),y:0};}
+  const P1={x:S.x+ds.x*g1,y:S.y+ds.y*g1},P2={x:T.x-dt.x*g2,y:T.y-dt.y*g2};
+  const bx=w.bendAxis==='x'&&w.bend!=null?w.bend:null, by=w.bendAxis==='y'&&w.bend!=null?w.bend:null;
+  let mid=[],handle=null;
+  if(ds.x&&dt.x){
+    if(ds.x===dt.x&&(P2.x-P1.x)*ds.x>=0){
+      if(Math.abs(P1.y-P2.y)>=1){const mx=bx??(P1.x+P2.x)/2;mid=[{x:mx,y:P1.y},{x:mx,y:P2.y}];handle={x:mx,y:(P1.y+P2.y)/2,axis:'x'};}
+    } else {
+      const ly=by??(Math.abs(P1.y-P2.y)>50?(P1.y+P2.y)/2:Math.max(P1.y,P2.y)+60);
+      mid=[{x:P1.x,y:ly},{x:P2.x,y:ly}];handle={x:(P1.x+P2.x)/2,y:ly,axis:'y'};
+    }
+  } else if(ds.y&&dt.y){
+    if(ds.y===dt.y&&(P2.y-P1.y)*ds.y>=0){
+      if(Math.abs(P1.x-P2.x)>=1){const my=by??(P1.y+P2.y)/2;mid=[{x:P1.x,y:my},{x:P2.x,y:my}];handle={x:(P1.x+P2.x)/2,y:my,axis:'y'};}
+    } else {
+      const ly=by??(ds.y>0?Math.max(P1.y,P2.y)+40:Math.min(P1.y,P2.y)-40);
+      mid=[{x:P1.x,y:ly},{x:P2.x,y:ly}];handle={x:(P1.x+P2.x)/2,y:ly,axis:'y'};
+    }
+  } else if(ds.x&&dt.y) mid=[{x:P2.x,y:P1.y}];
+  else mid=[{x:P1.x,y:P2.y}];
+  const raw=[S,P1,...mid,P2,T],pts=[];
+  for(const p of raw){const q=pts[pts.length-1];if(q&&Math.abs(q.x-p.x)<0.5&&Math.abs(q.y-p.y)<0.5)continue;pts.push(p);}
+  const clean=[pts[0]];
+  for(let i=1;i<pts.length-1;i++){const a=clean[clean.length-1],b=pts[i],c=pts[i+1];const col=(Math.abs(a.x-b.x)<0.5&&Math.abs(b.x-c.x)<0.5)||(Math.abs(a.y-b.y)<0.5&&Math.abs(b.y-c.y)<0.5);if(!col)clean.push(b);}
+  if(pts.length>1)clean.push(pts[pts.length-1]);
+  return {pts:clean,dt,handle};
+}
+
+/* ---- Mason's gain formula ---- */
+function solve(d,inId,outId){
+  const N=d.nodes.length;const idx=new Map(d.nodes.map((n,i)=>[n.id,i]));
+  const adj=d.nodes.map(()=>[]);
+  for(const w of d.wires){const a=idx.get(w.a),b=idx.get(w.b);if(a==null||b==null)continue;const B=d.nodes[b];
+    const g=B.t==='blk'?SP.sym((B.label||'').trim()||'?'):SP.c(B.t==='sum'?(w.sign<0?-1:1):1);adj[a].push({to:b,g,w:w.id});}
+  const s=idx.get(inId),t=idx.get(outId);let work=0;const LIM=300000;
+  const bump=()=>{if(++work>LIM)throw new Error('This diagram has too many loop combinations to expand.');};
+  const paths=[],loops=[];
+  if(s!=null&&t!=null&&s!==t){
+    const vis=new Array(N).fill(false);vis[s]=true;
+    (function dfs(u,g,nodes,edges){bump();if(u===t){paths.push({nodes:[...nodes],edges:[...edges],g,set:new Set(nodes)});return;}
+      for(const e of adj[u]){if(vis[e.to])continue;vis[e.to]=true;nodes.push(e.to);edges.push(e.w);dfs(e.to,SP.mul(g,e.g),nodes,edges);nodes.pop();edges.pop();vis[e.to]=false;}})(s,SP.c(1),[s],[]);
+  }
+  for(let st=0;st<N;st++){
+    const vis=new Array(N).fill(false);
+    (function dfs(u,g,nodes,edges){for(const e of adj[u]){bump();
+      if(e.to===st)loops.push({nodes:[...nodes],edges:[...edges,e.w],g:SP.mul(g,e.g),set:new Set(nodes)});
+      else if(e.to>st&&!vis[e.to]){vis[e.to]=true;nodes.push(e.to);edges.push(e.w);dfs(e.to,SP.mul(g,e.g),nodes,edges);nodes.pop();edges.pop();vis[e.to]=false;}}})(st,SP.c(1),[st],[]);
+  }
+  const touch=(A,B)=>{for(const x of A)if(B.has(x))return true;return false;};
+  function deltaOf(L,collect){
+    let total=SP.c(1);
+    const rec=(start,used,prod,k,list)=>{for(let i=start;i<L.length;i++){const l=L[i];if(touch(l.set,used))continue;bump();
+      const np=SP.mul(prod,l.g);total=SP.add(total,k%2===0?SP.neg(np):np);const nl=[...list,i];if(collect&&nl.length>=2)collect.push(nl);
+      const u=new Set(used);for(const x of l.set)u.add(x);rec(i+1,u,np,k+1,nl);}};
+    rec(0,new Set(),SP.c(1),0,[]);return total;
+  }
+  const combos=[];const delta=deltaOf(loops,combos);
+  const cof=paths.map(p=>{const L=loops.filter(l=>!touch(l.set,p.set));return {loops:L.map(l=>loops.indexOf(l)),d:deltaOf(L)};});
+  let num=SP.c(s!=null&&s===t?1:0);
+  paths.forEach((p,k)=>{num=SP.add(num,SP.mul(p.g,cof[k].d));});
+  const den=s===t?SP.c(1):delta;
+  /* shortcut checks used by practice feedback */
+  let sumP=SP.c(0);paths.forEach(p=>{sumP=SP.add(sumP,p.g);});
+  let firstOrder=SP.c(1);loops.forEach(l=>{firstOrder=SP.add(firstOrder,SP.neg(l.g));});
+  return {num,den,paths,loops,combos,delta,cof,sumP,firstOrder,ids:d.nodes.map(n=>n.id)};
+}
+
+/* ---- numeric: roots, simplification, step response ---- */
+function roots(a){
+  a=PS.trim(a);const out=[];const mx=Math.max(...a.map(Math.abs));if(!(mx>0))return out;
+  while(a.length>1&&Math.abs(a[0])<=1e-12*mx){a=a.slice(1);out.push([0,0]);}
+  const n=a.length-1;if(n<1)return out;const c=a.map(x=>x/a[n]);
+  if(n===1){out.push([-c[0],0]);return out;}
+  if(n===2){const B=c[1],C=c[0],disc=B*B-4*C;if(disc>=0){const sq=Math.sqrt(disc);const r1=(-B-(B>=0?1:-1)*sq)/2;out.push([r1,0],[C/r1,0]);}else{out.push([-B/2,Math.sqrt(-disc)/2],[-B/2,-Math.sqrt(-disc)/2]);}return out;}
+  let rad=0;for(let i=0;i<n;i++)rad=Math.max(rad,Math.pow(Math.abs(c[i]),1/(n-i)));rad=rad||1;
+  const z=[];for(let k=0;k<n;k++){const th=2*Math.PI*k/n+0.37;z.push([rad*Math.cos(th),rad*Math.sin(th)]);}
+  for(let it=0;it<4000;it++){let mxd=0;
+    for(let k=0;k<n;k++){let pr=1,pi=0;const zr=z[k][0],zi=z[k][1];
+      for(let i=n-1;i>=0;i--){const nr=pr*zr-pi*zi+c[i];const ni=pr*zi+pi*zr;pr=nr;pi=ni;}
+      let dr=1,di=0;for(let j=0;j<n;j++){if(j===k)continue;const ar=zr-z[j][0],ai=zi-z[j][1];const nr=dr*ar-di*ai,ni=dr*ai+di*ar;dr=nr;di=ni;}
+      const den=dr*dr+di*di||1e-300;const qr=(pr*dr+pi*di)/den,qi=(pi*dr-pr*di)/den;
+      z[k][0]-=qr;z[k][1]-=qi;const dd=Math.hypot(qr,qi)/(1+Math.hypot(z[k][0],z[k][1]));if(dd>mxd)mxd=dd;}
+    if(mxd<1e-15)break;}
+  for(const r of z){if(Math.abs(r[1])<1e-6*(1+Math.abs(r[0])))r[1]=0;out.push(r);}
+  return out;
+}
+function fromRoots(rs){let re=[1],im=[0];for(const r of rs){const nr=new Array(re.length+1).fill(0),ni=new Array(re.length+1).fill(0);for(let i=0;i<re.length;i++){nr[i+1]+=re[i];ni[i+1]+=im[i];nr[i]+=-r[0]*re[i]+r[1]*im[i];ni[i]+=-r[0]*im[i]-r[1]*re[i];}re=nr;im=ni;}return re;}
+function simplifyTF(r){
+  const n=PS.trim(r.n),d=PS.trim(r.d);
+  if(PS.isZero(n))return {n:[0],d:[1],zeros:[],poles:[],k:0};
+  const zs=roots(n),ps=roots(d);const k=n[n.length-1]/d[d.length-1];const keepZ=[...zs],keepP=[];
+  for(const p of ps){let bi=-1,bd=Infinity;keepZ.forEach((z,i)=>{const dd=Math.hypot(z[0]-p[0],z[1]-p[1]);if(dd<bd){bd=dd;bi=i;}});
+    if(bi>=0&&bd<2e-4*(1+Math.hypot(p[0],p[1])))keepZ.splice(bi,1);else keepP.push(p);}
+  const nn=PS.scale(fromRoots(keepZ),k),dd=fromRoots(keepP);
+  return {n:nn,d:dd,zeros:roots(nn),poles:roots(dd),k};
+}
+function sPolyHTML(a){
+  a=PS.trim(a);const mx=Math.max(...a.map(Math.abs));let s='',first=true;
+  for(let k=a.length-1;k>=0;k--){const c=a[k];if(Math.abs(c)<=1e-10*mx)continue;const neg=c<0,ac=Math.abs(c);
+    const v=k===0?'':k===1?'<i>s</i>':`<i>s</i><sup>${k}</sup>`;const co=(k>0&&Math.abs(ac-1)<1e-9)?'':fmtN(ac);
+    s+=first?(neg?'−':'')+co+v:(neg?' − ':' + ')+co+v;first=false;}
+  return s||'0';
+}
+function sPolyText(a){
+  a=PS.trim(a);const mx=Math.max(...a.map(Math.abs));let s='',first=true;
+  for(let k=a.length-1;k>=0;k--){const c=a[k];if(Math.abs(c)<=1e-10*mx)continue;const neg=c<0,ac=Math.abs(c);
+    const v=k===0?'':k===1?'s':`s^${k}`;const co=(k>0&&Math.abs(ac-1)<1e-9)?'':fmtN(ac)+(k>0?'*':'');
+    s+=first?(neg?'-':'')+co+v:(neg?' - ':' + ')+co+v;first=false;}
+  return s||'0';
+}
+function evalSPtoR(poly,map){
+  let total=RO.num(0);
+  for(const t of poly.values()){let term=RO.num(t.c);for(const k in t.m)term=RO.mul(term,RO.pow(map[k],t.m[k]));total=RO.add(total,term);}
+  return total;
+}
+function stepResponse(n,d,poles){
+  n=PS.trim(n);d=PS.trim(d);const N=d.length-1;if(n.length-1>N)return {improper:true};
+  const dl=d[N];const a=d.map(x=>x/dl);const b=Array.from({length:N+1},(_,i)=>(n[i]||0)/dl);
+  const D0=b[N];const c=a.slice(0,N).map((ai,i)=>b[i]-D0*ai);
+  let T;const re=poles.map(p=>p[0]);const maxAbs=Math.max(1e-9,...poles.map(p=>Math.hypot(p[0],p[1])));
+  const unstable=re.some(r=>r>1e-7),marginal=!unstable&&re.some(r=>Math.abs(r)<=1e-7);
+  if(N===0)T=1;
+  else if(unstable){T=4/Math.max(...re.filter(r=>r>1e-7));}
+  else if(marginal){const im=Math.max(...poles.map(p=>Math.abs(p[1])));T=im>1e-6?6*2*Math.PI/im:10;}
+  else{const slow=Math.min(...re.map(r=>-r));T=6/slow;const ims=poles.map(p=>Math.abs(p[1])).filter(x=>x>1e-6);if(ims.length)T=Math.max(T,Math.min(...ims.map(w=>2.2*Math.PI/w)));}
+  T=Math.min(Math.max(T,0.02),2000);
+  const steps=Math.min(80000,Math.max(2000,Math.ceil(T*maxAbs*2.5)));const h=T/steps;
+  let x=new Array(N).fill(0);const f=x=>{const dx=new Array(N);for(let i=0;i<N-1;i++)dx[i]=x[i+1];let s=1;for(let i=0;i<N;i++)s-=a[i]*x[i];if(N)dx[N-1]=s;return dx;};
+  const yOf=x=>{let y=D0;for(let i=0;i<N;i++)y+=c[i]*x[i];return y;};
+  const ts=[0],ys=[yOf(x)];const every=Math.max(1,Math.floor(steps/500));
+  for(let k=1;k<=steps;k++){
+    if(N){const k1=f(x),x2=x.map((v,i)=>v+h/2*k1[i]),k2=f(x2),x3=x.map((v,i)=>v+h/2*k2[i]),k3=f(x3),x4=x.map((v,i)=>v+h*k3[i]),k4=f(x4);
+      x=x.map((v,i)=>v+h/6*(k1[i]+2*k2[i]+2*k3[i]+k4[i]));}
+    if(k%every===0){const y=yOf(x);if(!isFinite(y)||Math.abs(y)>1e12)break;ts.push(k*h);ys.push(y);}
+  }
+  return {t:ts,y:ys,T,unstable,marginal};
+}
+function stepMetrics(sr,fv){
+  const {t,y}=sr;if(!isFinite(fv)||Math.abs(fv)<1e-12)return null;
+  let ymax=-Infinity;for(const v of y)ymax=Math.max(ymax,fv>0?v:-v);
+  const os=Math.max(0,(ymax-Math.abs(fv))/Math.abs(fv)*100);
+  let t10=null,t90=null;for(let i=0;i<y.length;i++){const r=y[i]/fv;if(t10==null&&r>=0.1)t10=t[i];if(t90==null&&r>=0.9){t90=t[i];break;}}
+  let ts=0;for(let i=y.length-1;i>=0;i--){if(Math.abs(y[i]-fv)>0.02*Math.abs(fv)){ts=t[Math.min(i+1,t.length-1)];break;}}
+  return {os,tr:(t10!=null&&t90!=null)?t90-t10:null,ts};
+}
+/* @@END_CORE */
+
+/* ===== App ===== */
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const store={get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+let toastT;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+
+/* ---- diagram model ---- */
+const newD=()=>({nodes:[],wires:[],seq:1});
+function defaultLabel(d,t){
+  const has=l=>d.nodes.some(n=>n.t===t&&n.label===l);
+  if(t==='blk'){let i=1;while(d.nodes.some(n=>n.t==='blk'&&n.label==='G'+i))i++;return 'G'+i;}
+  if(t==='in'){for(const l of ['R(s)','D(s)','N(s)','U(s)'])if(!has(l))return l;return 'X(s)';}
+  if(t==='out'){for(const l of ['C(s)','Y(s)','B(s)'])if(!has(l))return l;return 'Z(s)';}
+  return '';
+}
+function addNode(d,t,x,y,o={}){const n={id:'n'+d.seq++,t,x,y,label:'',expr:'',flip:false,...o};if(o.label==null)n.label=defaultLabel(d,t);d.nodes.push(n);return n;}
+function addWire(d,a,b,sign=1,bend=null,axis='y'){const w={id:'w'+d.seq++,a:a.id||a,b:b.id||b,sign,bend,bendAxis:bend!=null?axis:null};d.wires.push(w);return w;}
+function build(fn){const d=newD();const api={
+  in:(x,y,label='R(s)')=>addNode(d,'in',x,y,{label}),
+  out:(x,y,label='C(s)')=>addNode(d,'out',x,y,{label}),
+  b:(label,x,y,expr='',flip=false)=>addNode(d,'blk',x,y,{label,expr,flip}),
+  s:(x,y,label='')=>addNode(d,'sum',x,y,{label}),
+  p:(x,y)=>addNode(d,'pick',x,y,{label:''}),
+  w:(a,b,sign=1,bend=null)=>addWire(d,a,b,sign,bend)};fn(api);return d;}
+const clone=d=>JSON.parse(JSON.stringify(d));
+
+/* ---- rendering ---- */
+function nodeSVG(n,o){
+  const cls=['node',n.t];
+  if(o.sel&&o.sel.kind==='node'&&o.sel.id===n.id)cls.push('sel');
+  if(o.hl&&o.hl.nodes.has(n.id))cls.push('hl');
+  if(o.cand===n.id)cls.push('cand');
+  const port=p=>o.interactive&&p?`<circle class="port" data-port="${n.id}" cx="${p.x}" cy="${p.y}" r="5.5"/>`:'';
+  const f=n.flip?-1:1;let s='';
+  if(n.t==='blk'){
+    const {w,h}=blkDims(n);
+    s+=`<rect x="${n.x-w/2}" y="${n.y-h/2}" width="${w}" height="${h}" rx="3"/>`;
+    if(n.expr&&n.expr.trim()){
+      const fr=splitFrac(n.expr);
+      if(fr) s+=`<text class="ex" x="${n.x}" y="${n.y-11}" dy=".35em">${esc(prettyExpr(fr[0]))}</text><line class="fl" x1="${n.x-w/2+12}" x2="${n.x+w/2-12}" y1="${n.y}" y2="${n.y}"/><text class="ex" x="${n.x}" y="${n.y+12}" dy=".35em">${esc(prettyExpr(fr[1]))}</text>`;
+      else s+=`<text class="ex" x="${n.x}" y="${n.y}" dy=".35em">${esc(prettyExpr(n.expr))}</text>`;
+      s+=`<text class="tag" x="${n.x-w/2+1}" y="${n.y-h/2-6}">${symSVG(n.label)}</text>`;
+    } else s+=`<text class="lb" x="${n.x}" y="${n.y}" dy=".33em">${symSVG(n.label)}</text>`;
+    s+=port(outPort(n));
+  } else if(n.t==='sum'){
+    const k=R_SUM*0.7071;
+    s+=`<circle class="ring" cx="${n.x}" cy="${n.y}" r="${R_SUM}"/><path d="M${n.x-k} ${n.y-k}L${n.x+k} ${n.y+k}M${n.x+k} ${n.y-k}L${n.x-k} ${n.y+k}"/>`;
+    if(n.label)s+=`<text class="sl" x="${n.x+f*(R_SUM+6)}" y="${n.y-R_SUM-4}" text-anchor="${f>0?'start':'end'}">${symSVG(n.label)}</text>`;
+    s+=port(outPort(n));
+  } else if(n.t==='pick'){
+    s+=`<circle class="hit" cx="${n.x}" cy="${n.y}" r="11"/><circle class="dot" cx="${n.x}" cy="${n.y}" r="4.2"/>`;
+    if(n.label)s+=`<text class="sl" x="${n.x+6}" y="${n.y-9}">${symSVG(n.label)}</text>`;
+  } else if(n.t==='in'){
+    s+=`<circle class="hit" cx="${n.x}" cy="${n.y}" r="12" fill="transparent"/><circle class="term" cx="${n.x}" cy="${n.y}" r="4.5"/><text class="tl" x="${n.x-11*f}" y="${n.y}" dy=".33em" text-anchor="${f>0?'end':'start'}">${symSVG(n.label)}</text>`;
+    if(o.interactive)s+=`<circle class="port" data-port="${n.id}" cx="${n.x+16*f}" cy="${n.y}" r="5.5"/>`;
+  } else if(n.t==='out'){
+    s+=`<circle class="hit" cx="${n.x}" cy="${n.y}" r="12" fill="transparent"/><circle class="term hollow" cx="${n.x}" cy="${n.y}" r="5"/><text class="tl" x="${n.x+11*f}" y="${n.y}" dy=".33em" text-anchor="${f>0?'start':'end'}">${symSVG(n.label)}</text>`;
+  }
+  return `<g class="${cls.join(' ')}" data-node="${n.id}">${s}</g>`;
+}
+function wireSVG(d,w,o){
+  const A=byId(d,w.a),B=byId(d,w.b);if(!A||!B)return '';
+  const r=route(d,w);const pd='M'+r.pts.map(p=>`${p.x} ${p.y}`).join('L');
+  const sel=o.sel&&o.sel.kind==='wire'&&o.sel.id===w.id, hl=o.hl&&o.hl.wires.has(w.id);
+  const mk=B.t==='pick'?'':` marker-end="url(#${o.pfx}${sel||hl?'arA':'ar'})"`;
+  let s=`<g class="wire${sel?' sel':''}${hl?' hl':''}" data-wire="${w.id}">${o.interactive?`<path class="whit" d="${pd}"/>`:''}<path class="wl" d="${pd}"${mk}/>`;
+  if(B.t==='sum'){
+    const T=r.pts[r.pts.length-1],dt=r.dt;let lx,ly;
+    if(dt.x){lx=T.x-dt.x*9;ly=T.y-8;}else{lx=T.x-11;ly=dt.y>0?T.y-5:T.y+15;}
+    s+=`<text class="sgn ${w.sign<0?'neg':'pos'}"${o.interactive?` data-sign="${w.id}"`:''} x="${lx}" y="${ly}">${w.sign<0?'−':'+'}</text>`;
+    if(o.interactive)s+=`<circle data-sign="${w.id}" cx="${lx}" cy="${ly-5}" r="9" fill="transparent" style="cursor:pointer"/>`;
+  }
+  if(sel&&o.interactive&&r.handle)s+=`<circle class="bend" data-bend="${w.id}" cx="${r.handle.x}" cy="${r.handle.y}" r="5.5"><title>Drag to reroute</title></circle>`;
+  return s+'</g>';
+}
+function diagramSVG(d,o){return d.wires.map(w=>wireSVG(d,w,o)).join('')+d.nodes.map(n=>nodeSVG(n,o)).join('');}
+function bounds(d){
+  let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;const add=(x,y)=>{x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);};
+  for(const n of d.nodes){
+    if(n.t==='blk'){const {w,h}=blkDims(n);add(n.x-w/2,n.y-h/2-(n.expr?20:0));add(n.x+w/2,n.y+h/2);}
+    else if(n.t==='in'||n.t==='out'){const lw=labelLen(n.label)*9.5+14;const f=n.flip?-1:1;const side=(n.t==='in'?-1:1)*f;add(n.x+side*lw,n.y-12);add(n.x-side*8,n.y+12);}
+    else add(n.x-R_SUM-6,n.y-R_SUM-8),add(n.x+R_SUM+6,n.y+R_SUM+6);
+  }
+  for(const w of d.wires){if(!byId(d,w.a)||!byId(d,w.b))continue;for(const p of route(d,w).pts)add(p.x,p.y);}
+  if(x0===Infinity)return {x:0,y:0,w:400,h:300};
+  return {x:x0,y:y0,w:x1-x0,h:y1-y0};
+}
+let mSeq=0;
+function markerDefs(p){return `<defs><marker id="${p}ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path class="mk" d="M0 0.8L10 5L0 9.2z"/></marker><marker id="${p}arA" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path class="mkA" d="M0 0.8L10 5L0 9.2z"/></marker></defs>`;}
+function staticSVG(d,o={}){const p='m'+(++mSeq)+'_';const b=bounds(d),pad=o.pad??18;
+  return `<svg class="mini" viewBox="${b.x-pad} ${b.y-pad} ${b.w+2*pad} ${b.h+2*pad}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(o.label||'Block diagram')}">${markerDefs(p)}${diagramSVG(d,{pfx:p,hl:o.hl})}</svg>`;}
+
+/* ---- example library ---- */
+const EX=[
+{id:'series',title:'Blocks in series',cat:'Basics',lvl:1,desc:'Cascaded blocks multiply. The simplest forward path.',build:b=>{const r=b.in(60,200),g1=b.b('G1',180,200),g2=b.b('G2',310,200),c=b.out(430,200);b.w(r,g1);b.w(g1,g2);b.w(g2,c);}},
+{id:'parallel',title:'Blocks in parallel',cat:'Basics',lvl:1,desc:'A pickoff splits the signal and a summing junction adds it back. Two forward paths, no loops.',build:b=>{const r=b.in(50,200),p=b.p(120,200),g1=b.b('G1',230,140),g2=b.b('G2',230,260),s=b.s(340,200),c=b.out(430,200);b.w(r,p);b.w(p,g1);b.w(p,g2);b.w(g1,s);b.w(g2,s);b.w(s,c);}},
+{id:'unity',title:'Unity negative feedback',cat:'Basics',lvl:1,desc:'The output is fed straight back and subtracted from the reference.',build:b=>{const r=b.in(50,200),s=b.s(130,200,'E(s)'),g=b.b('G',240,200),p=b.p(340,200),c=b.out(420,200);b.w(r,s);b.w(s,g);b.w(g,p);b.w(p,c);b.w(p,s,-1);}},
+{id:'fbH',title:'Feedback through a sensor',cat:'Basics',lvl:1,desc:'The standard closed loop: forward gain G, feedback gain H.',build:b=>{const r=b.in(50,200),s=b.s(130,200),g=b.b('G',240,200),p=b.p(340,200),c=b.out(420,200),h=b.b('H',240,290,'',true);b.w(r,s);b.w(s,g);b.w(g,p);b.w(p,c);b.w(p,h);b.w(h,s,-1);}},
+{id:'posfb',title:'Positive feedback',cat:'Basics',lvl:1,desc:'Same structure, but the loop adds. Watch the sign flip in the denominator.',build:b=>{const r=b.in(50,200),s=b.s(130,200),g=b.b('G',240,200),p=b.p(340,200),c=b.out(420,200),h=b.b('H',240,290,'',true);b.w(r,s);b.w(s,g);b.w(g,p);b.w(p,c);b.w(p,h);b.w(h,s,1);}},
+{id:'minor',title:'Minor loop inside a major loop',cat:'Multi-loop',lvl:2,desc:'An inner rate loop around G₂ nested inside the outer position loop.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),g1=b.b('G1',200,200),s2=b.s(290,200),g2=b.b('G2',380,200),p2=b.p(460,200),g3=b.b('G3',540,200),p3=b.p(620,200),c=b.out(700,200),h1=b.b('H1',380,280,'',true),h2=b.b('H2',380,350,'',true);
+  b.w(r,s1);b.w(s1,g1);b.w(g1,s2);b.w(s2,g2);b.w(g2,p2);b.w(p2,g3);b.w(g3,p3);b.w(p3,c);b.w(p2,h1);b.w(h1,s2,-1);b.w(p3,h2);b.w(h2,s1,-1);}},
+{id:'nontouch',title:'Two non-touching loops',cat:'Multi-loop',lvl:2,desc:'Each loop wraps a different block, so their product appears in Δ.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),g1=b.b('G1',200,200),p1=b.p(280,200),s2=b.s(340,200),g2=b.b('G2',430,200),p2=b.p(510,200),c=b.out(580,200),h1=b.b('H1',195,290,'',true),h2=b.b('H2',425,290,'',true);
+  b.w(r,s1);b.w(s1,g1);b.w(g1,p1);b.w(p1,s2);b.w(s2,g2);b.w(g2,p2);b.w(p2,c);b.w(p1,h1);b.w(h1,s1,-1);b.w(p2,h2);b.w(h2,s2,-1);}},
+{id:'interact',title:'Interacting loops',cat:'Multi-loop',lvl:2,desc:'Two loops share G₂. They touch, so no product term appears.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),g1=b.b('G1',190,200),s2=b.s(280,200),g2=b.b('G2',370,200),pA=b.p(450,200),g3=b.b('G3',530,200),pB=b.p(610,200),c=b.out(690,200),h1=b.b('H1',280,110,'',true),h2=b.b('H2',450,290,'',true);
+  b.w(r,s1);b.w(s1,g1);b.w(g1,s2);b.w(s2,g2);b.w(g2,pA);b.w(pA,g3);b.w(g3,pB);b.w(pB,c);b.w(pA,h1);b.w(h1,s1,-1);b.w(pB,h2);b.w(h2,s2,-1);}},
+{id:'ogata',title:'Three-loop textbook system',cat:'Multi-loop',lvl:3,desc:'One positive loop, one negative loop and an outer unity loop, all touching.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),g1=b.b('G1',190,200),s2=b.s(280,200),g2=b.b('G2',370,200),pA=b.p(450,200),g3=b.b('G3',530,200),pB=b.p(610,200),c=b.out(690,200),h1=b.b('H1',280,110,'',true),h2=b.b('H2',450,290,'',true);
+  b.w(r,s1);b.w(s1,g1);b.w(g1,s2);b.w(s2,g2);b.w(g2,pA);b.w(pA,g3);b.w(g3,pB);b.w(pB,c);b.w(pA,h1);b.w(h1,s1,1);b.w(pB,h2);b.w(h2,s2,-1);b.w(pB,s1,-1,360);}},
+{id:'twopaths',title:'Two forward paths, Δₖ ≠ 1',cat:'Multi-loop',lvl:3,desc:'The lower path does not touch the loop around G₃, so its cofactor keeps that loop.',build:b=>{const r=b.in(30,200),s0=b.s(90,200),p0=b.p(160,200),g1=b.b('G1',260,200),s1=b.s(380,200),g2=b.b('G2',470,200),p1=b.p(550,200),c=b.out(620,200),s3=b.s(230,110),g3=b.b('G3',300,110),p3=b.p(380,110),h2=b.b('H2',305,40,'',true),h1=b.b('H1',320,290,'',true);
+  b.w(r,s0);b.w(s0,p0);b.w(p0,g1);b.w(g1,s1);b.w(s1,g2);b.w(g2,p1);b.w(p1,c);b.w(p0,s3);b.w(s3,g3);b.w(g3,p3);b.w(p3,s1);b.w(p3,h2);b.w(h2,s3,-1);b.w(p1,h1);b.w(h1,s0,-1);}},
+{id:'ff',title:'Feedforward plus feedback',cat:'Multi-loop',lvl:2,desc:'A feedforward path Gf injects the reference directly at the plant input.',build:b=>{const r=b.in(40,200),p0=b.p(100,200),s1=b.s(160,200),gc=b.b('Gc',250,200),s2=b.s(340,200),gp=b.b('Gp',430,200),p=b.p(510,200),c=b.out(580,200),gf=b.b('Gf',220,120);
+  b.w(r,p0);b.w(p0,s1);b.w(s1,gc);b.w(gc,s2);b.w(s2,gp);b.w(gp,p);b.w(p,c);b.w(p0,gf);b.w(gf,s2);b.w(p,s1,-1);}},
+{id:'dist',title:'Disturbance at the plant input',cat:'Disturbance',lvl:2,desc:'Two inputs. Pick D(s) as the input to see how well the loop rejects it.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),gc=b.b('Gc',200,200),s2=b.s(300,200),gp=b.b('Gp',390,200),p=b.p(480,200),c=b.out(550,200),dd=b.in(220,110,'D(s)');
+  b.w(r,s1);b.w(s1,gc);b.w(gc,s2);b.w(dd,s2);b.w(s2,gp);b.w(gp,p);b.w(p,c);b.w(p,s1,-1);}},
+{id:'noise',title:'Sensor noise',cat:'Disturbance',lvl:2,desc:'Noise N(s) enters the feedback path. Its effect on C(s) has the opposite sign of the reference.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),g=b.b('G',220,200),p=b.p(320,200),c=b.out(400,200),h=b.b('H',220,290,'',true),s2=b.s(320,290),n=b.in(400,350,'N(s)');n.flip=true;s2.flip=true;
+  b.w(r,s1);b.w(s1,g);b.w(g,p);b.w(p,c);b.w(p,s2);b.w(n,s2);b.w(s2,h);b.w(h,s1,-1);}},
+{id:'servo2',title:'Second-order servo',cat:'Numeric',lvl:1,desc:'G = 4/(s(s+2)) with unity feedback gives ωₙ = 2 rad/s and ζ = 0.5.',build:b=>{const r=b.in(40,200),s=b.s(110,200),g=b.b('G',240,200,'4/(s(s+2))'),p=b.p(360,200),c=b.out(430,200);b.w(r,s);b.w(s,g);b.w(g,p);b.w(p,c);b.w(p,s,-1);}},
+{id:'lead',title:'Lead-compensated loop with sensor lag',cat:'Numeric',lvl:2,desc:'A lead compensator, a type-1 plant and a first-order sensor.',build:b=>{const r=b.in(40,200),s=b.s(110,200),gc=b.b('Gc',225,200,'20(s+1)/(s+10)'),gp=b.b('Gp',375,200,'1/(s(s+2))'),p=b.p(475,200),c=b.out(545,200),h=b.b('H',300,300,'1/(0.05s+1)',true);
+  b.w(r,s);b.w(s,gc);b.w(gc,gp);b.w(gp,p);b.w(p,c);b.w(p,h);b.w(h,s,-1);}},
+{id:'pid',title:'PID position loop',cat:'Numeric',lvl:2,desc:'A PID controller on a motor model 1/(s(0.5s+1)).',build:b=>{const r=b.in(40,200),s=b.s(110,200),gc=b.b('Gc',250,200,'(0.3s^2+2s+1)/s'),gp=b.b('Gp',420,200,'1/(s(0.5s+1))'),p=b.p(520,200),c=b.out(590,200);b.w(r,s);b.w(s,gc);b.w(gc,gp);b.w(gp,p);b.w(p,c);b.w(p,s,-1);}},
+{id:'cascade',title:'Cascade control',cat:'Numeric',lvl:3,desc:'A fast inner loop around Gp2 inside a slower outer loop.',build:b=>{const r=b.in(40,200),s1=b.s(110,200),c1=b.b('Gc1',190,200,'4'),s2=b.s(280,200),c2=b.b('Gc2',360,200,'10'),p2=b.b('Gp2',460,200,'1/(s+5)'),pin=b.p(545,200),p1=b.b('Gp1',625,200,'1/(s+1)'),pout=b.p(710,200),c=b.out(780,200);
+  b.w(r,s1);b.w(s1,c1);b.w(c1,s2);b.w(s2,c2);b.w(c2,p2);b.w(p2,pin);b.w(pin,p1);b.w(p1,pout);b.w(pout,c);b.w(pin,s2,-1,270);b.w(pout,s1,-1,330);}},
+{id:'distnum',title:'Disturbance rejection with PI control',cat:'Numeric',lvl:2,desc:'Integral action drives the steady-state effect of D(s) to zero. Switch the input to D(s).',build:b=>{const r=b.in(40,200),s1=b.s(110,200),gc=b.b('Gc',220,200,'5(s+1)/s'),s2=b.s(330,200),gp=b.b('Gp',430,200,'1/(s+2)'),p=b.p(520,200),c=b.out(590,200),dd=b.in(250,110,'D(s)');
+  b.w(r,s1);b.w(s1,gc);b.w(gc,s2);b.w(dd,s2);b.w(s2,gp);b.w(gp,p);b.w(p,c);b.w(p,s1,-1);}},
+];
+EX.forEach(e=>{e.d=build(e.build);});
+
+/* ---- editor state ---- */
+let D=newD(), sel=null, tool='select', drag=null, hl=null, hlPinned=false;
+let ioIn=null, ioOut=null;
+let view={tx:0,ty:0,k:1};
+const undoStack=[],redoStack=[];
+const cv=$('#cv'),world=$('#world'),content=$('#content'),overlay=$('#overlay');
+function snapshot(){undoStack.push(JSON.stringify(D));if(undoStack.length>150)undoStack.shift();redoStack.length=0;updUndo();}
+function undo(){if(!undoStack.length)return;redoStack.push(JSON.stringify(D));D=JSON.parse(undoStack.pop());sel=null;changed();}
+function redo(){if(!redoStack.length)return;undoStack.push(JSON.stringify(D));D=JSON.parse(redoStack.pop());sel=null;changed();}
+function updUndo(){$('#bUndo').disabled=!undoStack.length;$('#bRedo').disabled=!redoStack.length;}
+function applyView(){world.setAttribute('transform',`translate(${view.tx} ${view.ty}) scale(${view.k})`);}
+function toWorld(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left-view.tx)/view.k,y:(e.clientY-r.top-view.ty)/view.k};}
+function fit(){
+  const r=cv.getBoundingClientRect();if(r.width<10)return;const b=bounds(D);const pad=50;
+  const k=Math.min(1.5,Math.max(0.3,Math.min(r.width/(b.w+2*pad),(r.height-30)/(b.h+2*pad))));
+  view.k=k;view.tx=r.width/2-(b.x+b.w/2)*k;view.ty=(r.height-30)/2-(b.y+b.h/2)*k;applyView();
+}
+function zoomAt(f,cx,cy){const r=cv.getBoundingClientRect();if(cx==null){cx=r.width/2;cy=r.height/2;}const k=Math.min(3,Math.max(0.25,view.k*f));const wx=(cx-view.tx)/view.k,wy=(cy-view.ty)/view.k;view.k=k;view.tx=cx-wx*k;view.ty=cy-wy*k;applyView();}
+
+function renderCanvas(){
+  content.innerHTML=diagramSVG(D,{interactive:true,sel,hl,pfx:'e_',cand:drag&&drag.k==='wire'?drag.cand:null});
+  let ov='';
+  if(drag&&drag.k==='wire'&&drag.p){const A=byId(D,drag.from);const s=srcPoint(A);ov=`<path class="tmp" d="M${s.x} ${s.y}L${drag.p.x} ${drag.p.y}"/><circle cx="${drag.p.x}" cy="${drag.p.y}" r="3" fill="var(--accent)"/>`;}
+  overlay.innerHTML=ov;
+  cv.classList.toggle('wiring',tool==='wire');
+}
+let resT;
+function changed(opts={}){
+  renderCanvas();renderInspector();updUndo();
+  clearTimeout(resT);if(opts.lazy)resT=setTimeout(renderResult,160);else renderResult();
+  store.set('bdb-diagram',D);
+}
+function nodeAt(p,exclude){
+  for(let i=D.nodes.length-1;i>=0;i--){const n=D.nodes[i];if(n.id===exclude)continue;
+    if(n.t==='blk'){const {w,h}=blkDims(n);if(Math.abs(p.x-n.x)<=w/2+8&&Math.abs(p.y-n.y)<=h/2+8)return n;}
+    else{const r=n.t==='sum'?R_SUM+9:n.t==='pick'?11:15;if(Math.hypot(p.x-n.x,p.y-n.y)<=r)return n;}}
+  return null;
+}
+function nameOf(n){if(!n)return '';if(n.t==='blk'||n.t==='in'||n.t==='out')return n.label||'block';if(n.t==='sum')return n.label||'summing junction';return n.label||'pickoff';}
+function connect(a,b,branched=false){
+  const A=byId(D,a),B=byId(D,b);
+  const fail=msg=>{if(msg)toast(msg);if(branched){D=JSON.parse(undoStack.pop());}changed();};
+  if(!A||!B||a===b)return fail();
+  if(B.t==='in')return fail('An input only sends a signal. Connect into a block, junction, pickoff or output.');
+  if(A.t==='out')return fail('An output only receives a signal.');
+  if(D.wires.some(w=>w.a===a&&w.b===b))return fail();
+  if(!branched)snapshot();
+  if(B.t!=='sum'){const old=D.wires.filter(w=>w.b===b);if(old.length){D.wires=D.wires.filter(w=>w.b!==b);toast(`Replaced the previous input to ${nameOf(B)}.`);}}
+  const nIn=D.wires.filter(w=>w.b===b).length;const sign=B.t==='sum'&&nIn>0?-1:1;
+  const w=addWire(D,a,b,sign);sel={kind:'wire',id:w.id};
+  if(B.t==='sum'&&nIn>0)toast('This input subtracts (−). Click the sign on the sheet to make it +.');
+  changed();
+}
+function branchWire(w,p){
+  const r=route(D,w);let best=null,bd=Infinity;
+  for(let i=0;i<r.pts.length-1;i++){const a=r.pts[i],b=r.pts[i+1];const vx=b.x-a.x,vy=b.y-a.y;const L=vx*vx+vy*vy||1;let t=((p.x-a.x)*vx+(p.y-a.y)*vy)/L;t=Math.max(0,Math.min(1,t));const q={x:a.x+t*vx,y:a.y+t*vy};const dd=Math.hypot(q.x-p.x,q.y-p.y);if(dd<bd){bd=dd;best={q,horiz:Math.abs(vy)<0.5,a,b};}}
+  const q=best.q;if(best.horiz)q.x=snapv(q.x);else q.y=snapv(q.y);
+  const pk=addNode(D,'pick',q.x,q.y,{label:''});
+  const nw={id:'w'+D.seq++,a:pk.id,b:w.b,sign:w.sign,bend:null,bendAxis:null};
+  w.b=pk.id;w.sign=1;w.bend=null;w.bendAxis=null;D.wires.push(nw);return pk;
+}
+function deleteSel(){
+  if(!sel)return;snapshot();
+  if(sel.kind==='wire')D.wires=D.wires.filter(w=>w.id!==sel.id);
+  else{const n=byId(D,sel.id);if(!n){sel=null;return;}
+    if(n.t==='pick'){const ins=D.wires.filter(w=>w.b===n.id),outs=D.wires.filter(w=>w.a===n.id);
+      if(ins.length===1&&outs.length===1){outs[0].a=ins[0].a;outs[0].bend=null;outs[0].bendAxis=null;D.wires=D.wires.filter(w=>w!==ins[0]);D.nodes=D.nodes.filter(x=>x!==n);sel=null;changed();return;}}
+    D.wires=D.wires.filter(w=>w.a!==n.id&&w.b!==n.id);D.nodes=D.nodes.filter(x=>x!==n);}
+  sel=null;changed();
+}
+function flipSel(){if(!sel||sel.kind!=='node')return toast('Select a block, junction or terminal to flip it.');const n=byId(D,sel.id);if(n.t==='pick')return;snapshot();n.flip=!n.flip;D.wires.forEach(w=>{if(w.a===n.id||w.b===n.id){w.bend=null;w.bendAxis=null;}});changed();}
+function dupSel(){if(!sel||sel.kind!=='node')return;const n=byId(D,sel.id);snapshot();const c=addNode(D,n.t,n.x+40,n.y+60,{label:n.t==='blk'?null:n.label,expr:n.expr,flip:n.flip});if(n.t==='blk'&&c.label==null)c.label=defaultLabel(D,'blk');sel={kind:'node',id:c.id};changed();}
+function addAt(t,p){
+  snapshot();
+  if(!p){const r=cv.getBoundingClientRect();const k=D.nodes.length%6;p={x:(r.width/2-view.tx)/view.k+k*20-50,y:(r.height/2-view.ty)/view.k+k*20-50};}
+  const n=addNode(D,t,snapv(p.x),snapv(p.y));sel={kind:'node',id:n.id};changed();
+  if(t==='blk')setTimeout(()=>{const i=$('#fLabel');if(i&&matchMedia('(hover:hover)').matches)i.select();},0);
+}
+function setTool(t){tool=t;$$('[data-tool]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tool===t)));$('#modePill').hidden=t!=='wire';renderCanvas();}
+
+/* pointer handling */
+const pointers=new Map();
+cv.addEventListener('pointerdown',e=>{
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size===2){const [a,b]=[...pointers.values()];drag={k:'pinch',d0:Math.hypot(a.x-b.x,a.y-b.y),k0:view.k,tx:view.tx,ty:view.ty,mx:(a.x+b.x)/2,my:(a.y+b.y)/2};return;}
+  if(e.pointerType==='mouse'&&e.button===1){drag={k:'pan',x0:e.clientX,y0:e.clientY,tx:view.tx,ty:view.ty,moved:true};cv.setPointerCapture(e.pointerId);return;}
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  const p=toWorld(e),t=e.target;
+  const sgE=t.closest('[data-sign]'),pt=t.closest('[data-port]'),bd=t.closest('[data-bend]'),nd=t.closest('[data-node]'),wr=t.closest('[data-wire]');
+  try{cv.setPointerCapture(e.pointerId);}catch(_){}
+  if(sgE){const w=D.wires.find(x=>x.id===sgE.dataset.sign);if(w){snapshot();w.sign=-w.sign;sel={kind:'wire',id:w.id};changed();}drag=null;return;}
+  if(bd){drag={k:'bend',id:bd.dataset.bend,moved:false};return;}
+  if(pt){drag={k:'wire',from:pt.dataset.port,p};renderCanvas();return;}
+  if(nd){const n=byId(D,nd.dataset.node);
+    if((tool==='wire'||e.shiftKey)&&n.t!=='out'){drag={k:'wire',from:n.id,p};renderCanvas();return;}
+    sel={kind:'node',id:n.id};drag={k:'move',id:n.id,ox:p.x-n.x,oy:p.y-n.y,moved:false};renderCanvas();renderInspector();return;}
+  if(wr){sel={kind:'wire',id:wr.dataset.wire};drag={k:'wpress',id:wr.dataset.wire,p0:p};renderCanvas();renderInspector();return;}
+  drag={k:'pan',x0:e.clientX,y0:e.clientY,tx:view.tx,ty:view.ty,moved:false};
+});
+cv.addEventListener('pointermove',e=>{
+  if(pointers.has(e.pointerId))pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(!drag)return;const p=toWorld(e);
+  switch(drag.k){
+    case 'pinch':{if(pointers.size<2)return;const [a,b]=[...pointers.values()];const dd=Math.hypot(a.x-b.x,a.y-b.y);const r=cv.getBoundingClientRect();const k=Math.min(3,Math.max(0.25,drag.k0*dd/drag.d0));const cx=drag.mx-r.left,cy=drag.my-r.top;const wx=(cx-drag.tx)/drag.k0,wy=(cy-drag.ty)/drag.k0;const mx=(a.x+b.x)/2-r.left,my=(a.y+b.y)/2-r.top;view.k=k;view.tx=mx-wx*k;view.ty=my-wy*k;applyView();break;}
+    case 'pan':{const dx=e.clientX-drag.x0,dy=e.clientY-drag.y0;if(Math.abs(dx)+Math.abs(dy)>3)drag.moved=true;view.tx=drag.tx+dx;view.ty=drag.ty+dy;applyView();break;}
+    case 'move':{const n=byId(D,drag.id);const nx=snapv(p.x-drag.ox),ny=snapv(p.y-drag.oy);if(nx===n.x&&ny===n.y)break;if(!drag.moved){snapshot();drag.moved=true;}n.x=nx;n.y=ny;renderCanvas();break;}
+    case 'bend':{const w=D.wires.find(x=>x.id===drag.id);const r=route(D,w);if(!r.handle)break;if(!drag.moved){snapshot();drag.moved=true;}w.bendAxis=r.handle.axis;w.bend=snapv(r.handle.axis==='x'?p.x:p.y);renderCanvas();break;}
+    case 'wire':{drag.p=p;const c=nodeAt(p,drag.from);drag.cand=c&&c.t!=='in'?c.id:null;renderCanvas();break;}
+    case 'wpress':{if(Math.hypot(p.x-drag.p0.x,p.y-drag.p0.y)>7){const w=D.wires.find(x=>x.id===drag.id);snapshot();const pk=branchWire(w,drag.p0);sel=null;drag={k:'wire',from:pk.id,p,branched:true};renderCanvas();}break;}
+  }
+});
+function endPointer(e){
+  pointers.delete(e.pointerId);
+  if(!drag)return;const d=drag;drag=null;
+  if(d.k==='pinch'){if(pointers.size===0)drag=null;return;}
+  const p=toWorld(e);
+  if(d.k==='wire'){
+    const tgt=nodeAt(p,d.from);const A=byId(D,d.from);
+    if(tgt){connect(d.from,tgt.id,!!d.branched);return;}
+    const sp=srcPoint(A);
+    if(Math.hypot(p.x-sp.x,p.y-sp.y)<34){if(d.branched)D=JSON.parse(undoStack.pop());changed();return;}
+    if(!d.branched)snapshot();
+    const back=p.x<sp.x-10;const n=addNode(D,'blk',snapv(p.x),snapv(p.y),{flip:back});addWire(D,d.from,n.id,1);sel={kind:'node',id:n.id};changed();
+    toast(`Added ${n.label}. Rename it or give it a transfer function on the right.`);
+    return;
+  }
+  if(d.k==='move'){if(d.moved)changed();else{renderCanvas();renderInspector();}return;}
+  if(d.k==='bend'){changed();return;}
+  if(d.k==='pan'&&!d.moved){sel=null;renderCanvas();renderInspector();}
+}
+cv.addEventListener('pointerup',endPointer);
+cv.addEventListener('pointercancel',e=>{pointers.delete(e.pointerId);drag=null;renderCanvas();});
+cv.addEventListener('wheel',e=>{e.preventDefault();const r=cv.getBoundingClientRect();const cx=e.clientX-r.left,cy=e.clientY-r.top;
+  if(e.ctrlKey){zoomAt(Math.exp(-e.deltaY*0.01),cx,cy);return;}
+  if(e.shiftKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)*0.5){view.tx-=e.shiftKey?e.deltaY:e.deltaX;if(!e.shiftKey)view.ty-=e.deltaY;applyView();return;}
+  zoomAt(Math.exp(-e.deltaY*0.0015*(e.deltaMode?33:1)),cx,cy);},{passive:false});
+cv.addEventListener('dblclick',e=>{const nd=e.target.closest('[data-node]');if(nd){sel={kind:'node',id:nd.dataset.node};renderCanvas();renderInspector();const i=$('#fExpr')||$('#fLabel');if(i)i.focus();}});
+
+/* palette */
+$$('[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
+$$('[data-add]').forEach(b=>{
+  b.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;e.preventDefault();const st={t:b.dataset.add,x0:e.clientX,y0:e.clientY,moved:false};const g=$('#ghost');
+    const mv=ev=>{if(!st.moved&&Math.hypot(ev.clientX-st.x0,ev.clientY-st.y0)>6){st.moved=true;g.hidden=false;}if(st.moved){g.style.left=ev.clientX+'px';g.style.top=ev.clientY+'px';}};
+    const up=ev=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);g.hidden=true;
+      if(!st.moved){addAt(st.t);return;}const r=cv.getBoundingClientRect();if(ev.clientX>=r.left&&ev.clientX<=r.right&&ev.clientY>=r.top&&ev.clientY<=r.bottom)addAt(st.t,toWorld(ev));};
+    window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);});
+});
+$('#bUndo').onclick=undo;$('#bRedo').onclick=redo;$('#bDel').onclick=()=>sel?deleteSel():toast('Select something to delete.');$('#bFlip').onclick=flipSel;
+$('#bClear').onclick=()=>{snapshot();D=newD();addNode(D,'in',80,200);addNode(D,'out',520,200);sel=null;ioIn=ioOut=null;changed();fit();toast('Blank sheet. Undo brings the old diagram back.');};
+$('#zIn').onclick=()=>zoomAt(1.2);$('#zOut').onclick=()=>zoomAt(1/1.2);$('#zFit').onclick=fit;
+document.addEventListener('keydown',e=>{
+  if(currentTab!=='editor')return;const tg=e.target;if(tg.matches('input,textarea,select'))return;
+  const mod=e.ctrlKey||e.metaKey;const k=e.key.toLowerCase();
+  if(mod&&k==='z'){e.preventDefault();e.shiftKey?redo():undo();return;}
+  if(mod&&k==='y'){e.preventDefault();redo();return;}
+  if(mod&&k==='d'){e.preventDefault();dupSel();return;}
+  if(mod)return;
+  if(k==='delete'||k==='backspace'){e.preventDefault();deleteSel();}
+  else if(k==='v')setTool('select');else if(k==='w')setTool('wire');
+  else if(k==='b')addAt('blk');else if(k==='s')addAt('sum');else if(k==='p')addAt('pick');
+  else if(k==='r')flipSel();else if(k==='f')fit();
+  else if(k==='escape'){sel=null;drag=null;setTool('select');renderInspector();}
+});
+
+/* ---- inspector ---- */
+function exprStatus(expr){
+  if(!expr.trim())return '<span class="muted">Optional. Add one to get poles and a step response.</span>';
+  try{const r=simplifyTF(parseS(expr));const deg=PS.trim(r.d).length-1,ndeg=PS.trim(r.n).length-1;
+    return `<span class="ok">✓ ${ndeg>deg?'Improper':deg===0?'Static gain':'Order '+deg} · ${fracHTML(sPolyHTML(r.n),sPolyHTML(r.d))}</span>`;}
+  catch(err){return `<span class="bad">${esc(err.message)}</span>`;}
+}
+function renderInspector(){
+  const el=$('#insp');
+  if(!sel){
+    const c=t=>D.nodes.filter(n=>n.t===t).length;
+    el.innerHTML=`<h3>Selection</h3><p class="muted" style="margin:0 0 10px">Nothing selected. Click a part of the diagram to edit it, or add parts from the rail.</p>
+    <div class="chips"><span class="chip">${c('blk')} blocks</span><span class="chip">${c('sum')} junctions</span><span class="chip">${c('pick')} pickoffs</span><span class="chip">${D.wires.length} wires</span></div>
+    <div class="keys"><span class="kbd">B S P</span><span>add block, sum, pickoff</span><span class="kbd">W</span><span>wire mode (or hold Shift)</span><span class="kbd">R</span><span>flip selected part</span><span class="kbd">Del</span><span>delete selected</span><span class="kbd">Ctrl Z</span><span>undo</span><span class="kbd">Ctrl D</span><span>duplicate</span></div>`;
+    return;
+  }
+  if(sel.kind==='wire'){
+    const w=D.wires.find(x=>x.id===sel.id);if(!w){sel=null;return renderInspector();}
+    const A=byId(D,w.a),B=byId(D,w.b);
+    el.innerHTML=`<h3>Wire <span class="kind">${symHTML(nameOf(A))} → ${symHTML(nameOf(B))}</span></h3>
+      ${B.t==='sum'?`<div class="signrow" style="border-top:0"><span>Sign at the junction</span><button class="signbtn ${w.sign<0?'neg':'pos'}" id="wSign">${w.sign<0?'−':'+'}</button></div>`:''}
+      <p class="muted" style="margin:6px 0 12px;font-size:12.5px">Drag the orange handle on the wire to reroute it. Drag anywhere along the wire to branch a new signal off it.</p>
+      <div class="btns"><button class="btn sm" id="wReset">Reset route</button><button class="btn sm danger" id="wDel">Delete wire</button></div>`;
+    const sb=$('#wSign');if(sb)sb.onclick=()=>{snapshot();w.sign=-w.sign;changed();};
+    $('#wReset').onclick=()=>{snapshot();w.bend=null;w.bendAxis=null;changed();};$('#wDel').onclick=deleteSel;return;
+  }
+  const n=byId(D,sel.id);if(!n){sel=null;return renderInspector();}
+  const kinds={blk:'Block',sum:'Summing junction',pick:'Pickoff point',in:'Input',out:'Output'};
+  let h=`<h3>${kinds[n.t]}</h3>`;
+  if(n.t==='blk'){
+    h+=`<div class="field"><label for="fLabel">Name (symbol used in the formula)</label><input id="fLabel" value="${esc(n.label)}" maxlength="12" autocomplete="off" spellcheck="false"></div>
+      <div class="field"><label for="fExpr">Transfer function in <i>s</i></label><input id="fExpr" class="code" value="${esc(n.expr||'')}" placeholder="e.g. 10/(s(s+2))" autocomplete="off" spellcheck="false"><div class="note" id="fExprNote">${exprStatus(n.expr||'')}</div></div>`;
+  } else if(n.t==='in'||n.t==='out'||n.t==='sum'||n.t==='pick'){
+    h+=`<div class="field"><label for="fLabel">${n.t==='sum'||n.t==='pick'?'Signal name (optional, e.g. E(s))':'Signal name'}</label><input id="fLabel" value="${esc(n.label)}" maxlength="12" autocomplete="off" spellcheck="false"></div>`;
+  }
+  if(n.t==='sum'){
+    const ins=D.wires.filter(w=>w.b===n.id);
+    h+=`<div style="margin-bottom:12px"><div class="field" style="margin:0"><label>Inputs and signs</label></div>${ins.length?ins.map(w=>`<div class="signrow"><span>from ${symHTML(nameOf(byId(D,w.a)))}</span><button class="signbtn ${w.sign<0?'neg':'pos'}" data-ws="${w.id}">${w.sign<0?'−':'+'}</button></div>`).join(''):'<p class="muted" style="margin:4px 0">No inputs yet.</p>'}</div>`;
+  }
+  h+=`<div class="btns">${n.t!=='pick'?'<button class="btn sm" id="nFlip">Flip direction</button>':''}<button class="btn sm" id="nDup">Duplicate</button><button class="btn sm danger" id="nDel">Delete</button></div>`;
+  el.innerHTML=h;
+  const fl=$('#fLabel');if(fl){fl.addEventListener('focus',snapshot,{once:true});fl.addEventListener('input',()=>{n.label=fl.value;renderCanvas();clearTimeout(resT);resT=setTimeout(renderResult,200);store.set('bdb-diagram',D);});}
+  const fe=$('#fExpr');if(fe){fe.addEventListener('focus',snapshot,{once:true});fe.addEventListener('input',()=>{n.expr=fe.value;renderCanvas();clearTimeout(resT);resT=setTimeout(renderResult,200);store.set('bdb-diagram',D);$('#fExprNote').innerHTML=exprStatus(n.expr);});}
+  $$('[data-ws]').forEach(b=>b.onclick=()=>{const w=D.wires.find(x=>x.id===b.dataset.ws);snapshot();w.sign=-w.sign;changed();});
+  const fb=$('#nFlip');if(fb)fb.onclick=flipSel;$('#nDup').onclick=dupSel;$('#nDel').onclick=deleteSel;
+}
+function keepFocus(id){const el=$('#'+id);if(el&&document.activeElement!==el){const v=el.value;el.focus();el.setSelectionRange(v.length,v.length);}}
+/* the label input re-renders the inspector via changed(); keep it lightweight instead */
+
+/* ---- result ---- */
+let lastSolve=null;
+function ioOptions(){
+  const ins=D.nodes.filter(n=>n.t==='in');
+  const outs=[...D.nodes.filter(n=>n.t==='out'),...D.nodes.filter(n=>n.t==='sum'&&n.label),...D.nodes.filter(n=>n.t==='pick'&&n.label)];
+  return {ins,outs};
+}
+function renderResult(){
+  const el=$('#result');const {ins,outs}=ioOptions();
+  if(!ins.some(n=>n.id===ioIn))ioIn=ins[0]?.id||null;
+  if(!outs.some(n=>n.id===ioOut))ioOut=outs[0]?.id||null;
+  if(!ioIn||!ioOut){lastSolve=null;el.innerHTML=`<h3>Transfer function</h3><p class="muted" style="margin:0">Add an <b>Input</b> and an <b>Output</b> terminal to compute the transfer function between them.</p>`;return;}
+  const inN=byId(D,ioIn),outN=byId(D,ioOut);
+  let r;try{r=solve(D,ioIn,ioOut);}catch(err){lastSolve=null;el.innerHTML=`<h3>Transfer function</h3><p class="bad">${esc(err.message)}</p>`;return;}
+  lastSolve=r;
+  const sel1=`<select id="ioIn" aria-label="Input signal">${ins.map(n=>`<option value="${n.id}"${n.id===ioIn?' selected':''}>${esc(n.label)}</option>`).join('')}</select>`;
+  const sel2=`<select id="ioOut" aria-label="Output signal">${outs.map(n=>`<option value="${n.id}"${n.id===ioOut?' selected':''}>${esc(n.label)}</option>`).join('')}</select>`;
+  const lhs=fracHTML(symHTML(outN.label||'Y'),symHTML(inN.label||'X'));
+  const body=SP.isOne(r.den)?spHTML(r.num):fracHTML(spHTML(r.num),spHTML(r.den));
+  const warns=[];
+  D.nodes.forEach(n=>{const i=D.wires.filter(w=>w.b===n.id).length,o=D.wires.filter(w=>w.a===n.id).length;
+    if(n.t==='blk'&&!i)warns.push(`${n.label} has no input.`);if(n.t==='blk'&&!o)warns.push(`${n.label} output is not connected.`);
+    if(n.t==='sum'&&!i)warns.push('A summing junction has no inputs.');if(n.t==='sum'&&!o)warns.push('A summing junction output is not connected.');
+    if(n.t==='pick'&&!i)warns.push('A pickoff point has no input.');});
+  const labs={};D.nodes.filter(n=>n.t==='blk').forEach(n=>{const k=n.label.trim();if(labs[k]!=null&&labs[k]!==(n.expr||'').trim())warns.push(`Two blocks are named ${k} with different transfer functions; they are treated as the same symbol.`);labs[k]=(n.expr||'').trim();});
+  if(!r.paths.length)warns.unshift(`No forward path from ${inN.label} to ${outN.label}.`);
+  let h=`<h3>Transfer function</h3><div class="io">${sel1}<span>→</span>${sel2}</div>
+    <div class="tf"><span class="lhs">${lhs} =</span>${body}</div>
+    <div class="btns" style="margin-top:8px"><button class="btn sm" id="cpTF">Copy as text</button></div>
+    ${warns.length?`<ul class="warns">${warns.slice(0,5).map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}`;
+  h+=masonHTML(r,true);
+  h+=numericHTML(r);
+  el.innerHTML=h;
+  $('#ioIn').onchange=e=>{ioIn=e.target.value;renderResult();};
+  $('#ioOut').onchange=e=>{ioOut=e.target.value;renderResult();};
+  $('#cpTF').onclick=()=>copyText(`(${spText(r.num)}) / (${spText(r.den)})`,'Transfer function copied.');
+  const det=el.querySelector('details.mason');if(det){det.open=!!store.get('bdb-mason-open');det.addEventListener('toggle',()=>store.set('bdb-mason-open',det.open));}
+}
+function masonHTML(r,interactive){
+  const sub=i=>`<sub>${i}</sub>`;
+  const P=r.paths.map((p,k)=>`<li data-hl="p:${k}"><span class="tagk">P${sub(k+1)}</span><span>= ${spHTML(p.g)}</span><span class="meta">Δ${sub(k+1)} = ${spHTML(r.cof[k].d)}</span></li>`).join('')||'<li class="muted">None</li>';
+  const L=r.loops.map((l,k)=>`<li data-hl="l:${k}"><span class="tagk">L${sub(k+1)}</span><span>= ${spHTML(l.g)}</span></li>`).join('')||'<li class="muted">No loops</li>';
+  const C=r.combos.slice(0,24).map(c=>`<li data-hl="c:${c.join(',')}"><span>${c.map(i=>`<i>L</i>${sub(i+1)}`).join('')}</span><span class="meta">= ${spHTML(c.reduce((a,i)=>SP.mul(a,r.loops[i].g),SP.c(1)))}</span></li>`).join('')||'<li class="muted">Every pair of loops touches</li>';
+  return `<details class="mason"${interactive?'':' open'}><summary>Mason’s rule, step by step</summary><div class="body">
+   <p class="muted" style="margin:6px 0 0;font-size:12.5px">Hover or tap a line to light it up on the diagram.</p>
+   <h4>Forward paths</h4><ul>${P}</ul><h4>Loops</h4><ul>${L}</ul><h4>Non-touching loop groups</h4><ul>${C}</ul>
+   <h4>Determinant</h4><div class="mth" style="white-space:normal">Δ = ${spHTML(r.delta)}</div></div></details>`;
+}
+function hlFrom(r,key){
+  if(!r||!key)return null;const [t,v]=key.split(':');const nodes=new Set(),wires=new Set();
+  const addIt=it=>{it.nodes.forEach(i=>nodes.add(r.ids[i]));it.edges.forEach(w=>wires.add(w));};
+  if(t==='p')addIt(r.paths[+v]);else if(t==='l')addIt(r.loops[+v]);else v.split(',').forEach(i=>addIt(r.loops[+i]));
+  return {nodes,wires};
+}
+$('#result').addEventListener('pointerover',e=>{const li=e.target.closest('[data-hl]');if(!li||hlPinned)return;hl=hlFrom(lastSolve,li.dataset.hl);renderCanvas();});
+$('#result').addEventListener('pointerout',e=>{const li=e.target.closest('[data-hl]');if(!li||hlPinned)return;hl=null;renderCanvas();});
+$('#result').addEventListener('click',e=>{const li=e.target.closest('[data-hl]');if(!li)return;const on=li.classList.contains('on');$$('#result li.on').forEach(x=>x.classList.remove('on'));
+  if(on){hlPinned=false;hl=null;}else{li.classList.add('on');hlPinned=true;hl=hlFrom(lastSolve,li.dataset.hl);}renderCanvas();});
+
+function numericHTML(r){
+  const syms=[...SP.syms(r.den,SP.syms(r.num))];
+  if(!r.paths.length)return '';
+  const map={},missing=[];
+  for(const s of syms){const b=D.nodes.find(n=>n.t==='blk'&&n.label.trim()===s&&n.expr&&n.expr.trim());if(!b){missing.push(s);continue;}try{map[s]=parseS(b.expr);}catch(err){missing.push(s);}}
+  let h=`<h3 style="margin-top:20px">Numeric analysis</h3>`;
+  if(missing.length)return h+`<p class="muted" style="margin:0;font-size:13px">Give ${missing.slice(0,6).map(m=>symHTML(m)).join(', ')}${missing.length>6?'…':''} a transfer function in <i>s</i> to see the simplified result, poles and the step response.</p>`;
+  let st;try{st=simplifyTF(RO.div(evalSPtoR(r.num,map),evalSPtoR(r.den,map)));}catch(err){return h+`<p class="bad">${esc(err.message)}</p>`;}
+  const poles=st.poles,zeros=st.zeros;
+  const re=poles.map(p=>p[0]);const unstable=re.some(x=>x>1e-7),marginal=!unstable&&re.some(x=>Math.abs(x)<=1e-7);
+  const badge=unstable?'<span class="badge unstable">Unstable</span>':marginal?'<span class="badge marginal">Marginally stable</span>':'<span class="badge stable">Stable</span>';
+  const tfBody=PS.trim(st.d).length===1?sPolyHTML(PS.scale(st.n,1/st.d[0])):fracHTML(sPolyHTML(st.n),sPolyHTML(st.d));
+  h+=`<div class="tf" style="font-size:17px"><span class="lhs"><i>T</i>(<i>s</i>) =</span>${tfBody}</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap">${badge}<span class="muted" style="font-size:12.5px">${poles.length} pole${poles.length===1?'':'s'}, ${zeros.length} zero${zeros.length===1?'':'s'}</span></div>
+    <div style="margin-top:8px;font-size:13px"><span class="muted">Poles </span><span class="chips" style="display:inline-flex">${cplxList(poles)||'<span class="chip">none</span>'}</span></div>
+    ${zeros.length?`<div style="margin-top:6px;font-size:13px"><span class="muted">Zeros </span><span class="chips" style="display:inline-flex">${cplxList(zeros)}</span></div>`:''}`;
+  const sr=stepResponse(st.n,st.d,poles);
+  if(sr.improper)return h+'<p class="muted">More zeros than poles, so this transfer function is improper and has no step response.</p>'+`<div class="plots"><div class="plot"><h5>Pole–zero map</h5>${pzSVG(poles,zeros)}</div></div>`;
+  const d0=PS.val(st.d,0),fv=Math.abs(d0)>1e-12?PS.val(st.n,0)/d0:NaN;
+  const m=!unstable&&!marginal?stepMetrics(sr,fv):null;
+  if(m)h+=`<div class="metrics"><div><span>Steady-state value</span><b>${fmtN(fv)}</b></div><div><span>Overshoot</span><b>${m.os<0.05?'0':m.os.toFixed(1)} %</b></div><div><span>Rise time 10–90 %</span><b>${m.tr!=null?fmtN(m.tr)+' s':'—'}</b></div><div><span>Settling time 2 %</span><b>${fmtN(m.ts)} s</b></div></div>`;
+  h+=`<div class="plots"><div class="plot"><h5>Unit step response</h5>${stepSVG(sr,m?fv:null)}</div><div class="plot"><h5>Pole–zero map</h5>${pzSVG(poles,zeros)}</div></div>`;
+  return h;
+}
+function cplxList(rs){const out=[];for(const r of rs){if(r[1]<0)continue;out.push(`<span class="chip">${r[1]>0?`${fmtN(r[0])} ± ${fmtN(r[1])}j`:fmtN(r[0])}</span>`);}return out.join('');}
+function niceStep(span,n){const raw=span/n;const p=Math.pow(10,Math.floor(Math.log10(raw)));const f=raw/p;return (f<1.5?1:f<3?2:f<7?5:10)*p;}
+function ticks(a,b,n){if(b-a<1e-12){b=a+1;}const st=niceStep(b-a,n);const out=[];for(let v=Math.ceil(a/st)*st;v<=b+st*1e-6;v+=st)out.push(+v.toPrecision(12));return out;}
+function stepSVG(sr,fv){
+  const W=340,H=180,l=42,rr=10,t=10,b=24;const {t:ts,y}=sr;
+  let y0=Math.min(0,...y),y1=Math.max(...y,fv??-Infinity);if(y1-y0<1e-9)y1=y0+1;const pad=(y1-y0)*0.08;y0-=y0<0?pad:0;y1+=pad;
+  const X=v=>l+(v/sr.t[ts.length-1])*(W-l-rr),Y=v=>t+(1-(v-y0)/(y1-y0))*(H-t-b);
+  let g='';for(const v of ticks(y0,y1,4)){g+=`<line class="ax" x1="${l}" x2="${W-rr}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tk" x="${l-5}" y="${Y(v)+3}" text-anchor="end">${fmtN(v)}</text>`;}
+  for(const v of ticks(0,ts[ts.length-1],5)){g+=`<text class="tk" x="${X(v)}" y="${H-8}" text-anchor="middle">${fmtN(v)}</text>`;}
+  g+=`<text class="tk" x="${W-rr}" y="${H-8}" text-anchor="end" dx="0">t (s)</text>`;
+  if(fv!=null)g+=`<line class="fvline" x1="${l}" x2="${W-rr}" y1="${Y(fv)}" y2="${Y(fv)}"/>`;
+  g+=`<line class="axz" x1="${l}" x2="${l}" y1="${t}" y2="${H-b}"/><line class="axz" x1="${l}" x2="${W-rr}" y1="${Y(Math.max(y0,Math.min(0,y1)))}" y2="${Y(Math.max(y0,Math.min(0,y1)))}"/>`;
+  const d='M'+ts.map((v,i)=>`${X(v).toFixed(1)} ${Y(y[i]).toFixed(1)}`).join('L');
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Unit step response">${g}<path class="curve" d="${d}"/></svg>`;
+}
+function pzSVG(poles,zeros){
+  const W=340,H=200,cx0=W/2;const all=[...poles,...zeros];let R=Math.max(1,...all.map(p=>Math.max(Math.abs(p[0]),Math.abs(p[1]))))*1.2;
+  const sx=(W/2-20)/R,sy=(H/2-16)/R,s=Math.min(sx,sy);const X=v=>cx0+v*s,Y=v=>H/2-v*s;
+  const tk=niceStep(R,3);let g=`<rect class="rhp" x="${cx0}" y="0" width="${W/2}" height="${H}"/><line class="axz" x1="0" x2="${W}" y1="${H/2}" y2="${H/2}"/><line class="axz" x1="${cx0}" x2="${cx0}" y1="0" y2="${H}"/>`;
+  for(let v=tk;v<R;v+=tk){g+=`<line class="ax" x1="${X(-v)}" x2="${X(-v)}" y1="${H/2-3}" y2="${H/2+3}"/><text class="tk" x="${X(-v)}" y="${H/2+13}" text-anchor="middle">${fmtN(-v)}</text><text class="tk" x="${X(v)}" y="${H/2+13}" text-anchor="middle">${fmtN(v)}</text>`;}
+  g+=`<text class="tk" x="${W-6}" y="${H/2-5}" text-anchor="end">Re</text><text class="tk" x="${cx0+5}" y="11">Im</text>`;
+  for(const z of zeros)g+=`<circle class="zero" cx="${X(z[0])}" cy="${Y(z[1])}" r="4.5"/>`;
+  for(const p of poles){const x=X(p[0]),y=Y(p[1]);g+=`<path class="pole" d="M${x-4.5} ${y-4.5}L${x+4.5} ${y+4.5}M${x+4.5} ${y-4.5}L${x-4.5} ${y+4.5}"/>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Pole-zero map">${g}</svg>`;
+}
+function copyText(txt,msg){
+  const done=()=>toast(msg);
+  try{navigator.clipboard.writeText(txt).then(done,()=>fallbackCopy(txt,msg));}catch(e){fallbackCopy(txt,msg);}
+}
+function fallbackCopy(txt,msg){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){}ta.remove();toast(ok?msg:'Copy was blocked. Select the text and copy it manually.');}
+
+/* ---- file section ---- */
+function renderFile(){
+  $('#filesec').innerHTML=`<h3>Diagram file</h3><p class="muted" style="margin:0 0 10px;font-size:12.5px">Your sheet saves automatically in this browser. Copy it as JSON to keep or share, then paste it back to restore.</p>
+  <div class="btns"><button class="btn sm" id="cpJson">Copy JSON</button><button class="btn sm" id="cpSvg">Copy SVG</button><button class="btn sm" id="tgImp">Paste JSON…</button></div>
+  <div id="impBox" hidden style="margin-top:10px"><textarea id="impTa" rows="5" placeholder='{"nodes":[…],"wires":[…]}'></textarea><div class="btns" style="margin-top:6px"><button class="btn sm primary" id="doImp">Load diagram</button></div></div>`;
+  $('#cpJson').onclick=()=>copyText(JSON.stringify(D),'Diagram JSON copied.');
+  $('#cpSvg').onclick=()=>{const s=staticSVG(D,{pad:24}).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" ');const css=`<style>.wl{fill:none;stroke:#132030;stroke-width:1.6}.mk{fill:#132030}rect,.ring,.hollow{fill:#fff;stroke:#132030;stroke-width:1.6}path{stroke:#132030}.dot,.term{fill:#132030}.lb,.tl,.tag,.sl{font-family:'STIX Two Text',serif;fill:#132030}.lb{font-size:20px;text-anchor:middle}.tl{font-size:17px}.mi{font-style:italic}.sb{font-size:70%}.ex{font-family:monospace;font-size:13px;text-anchor:middle}.sgn{font-family:monospace;font-size:15px;font-weight:600;text-anchor:middle}.pos{fill:#1D7A51}.neg{fill:#BF3127}.hit{fill:none}</style>`;copyText(s.replace(/(<svg[^>]*>)/,'$1'+css),'SVG copied. Paste it into a file or a drawing tool.');};
+  $('#tgImp').onclick=()=>{$('#impBox').hidden=!$('#impBox').hidden;};
+  $('#doImp').onclick=()=>{try{const d=JSON.parse($('#impTa').value);if(!Array.isArray(d.nodes)||!Array.isArray(d.wires))throw 0;snapshot();D=d;D.seq=D.seq||(D.nodes.length+D.wires.length+10);sel=null;ioIn=ioOut=null;changed();fit();toast('Diagram loaded.');$('#impBox').hidden=true;}catch(e){toast('That is not a diagram JSON. Copy one with “Copy JSON” first.');}};
+}
+
+/* ---- loading ---- */
+function loadDiagram(d,msg){snapshot();D=clone(d);sel=null;hl=null;hlPinned=false;ioIn=ioOut=null;changed();requestAnimationFrame(fit);if(msg)toast(msg);}
+
+/* ---- tabs ---- */
+let currentTab='editor';
+function showTab(t){
+  currentTab=t;$$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t)));
+  $$('main > .tab').forEach(s=>s.hidden=s.id!=='tab-'+t);
+  try{history.replaceState(null,'','#'+t);}catch(e){}
+  if(t==='editor')requestAnimationFrame(()=>{if(!view.fitted){fit();view.fitted=true;}});
+  if(t==='practice'&&!prob)newProblem();
+  store.set('bdb-tab',t);
+}
+$$('nav.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+
+/* ---- examples page ---- */
+let exFilter='All';
+function renderExamples(){
+  const cats=['All',...new Set(EX.map(e=>e.cat))];
+  $('#filters').innerHTML=cats.map(c=>`<button aria-pressed="${c===exFilter}" data-f="${c}">${c}</button>`).join('');
+  $$('#filters button').forEach(b=>b.onclick=()=>{exFilter=b.dataset.f;renderExamples();});
+  $('#exGrid').innerHTML=EX.filter(e=>exFilter==='All'||e.cat===exFilter).map(e=>{
+    const ins=e.d.nodes.filter(n=>n.t==='in'),outs=e.d.nodes.filter(n=>n.t==='out');
+    return `<article class="card"><div class="pv">${staticSVG(e.d,{label:e.title})}</div><div class="cb">
+      <div class="meta-row"><span>${e.cat.toUpperCase()}</span><span class="lvl" title="Difficulty">${[1,2,3].map(i=>`<i class="${i<=e.lvl?'on':''}"></i>`).join('')}</span><span>${e.d.nodes.filter(n=>n.t==='blk').length} blocks</span></div>
+      <h4>${esc(e.title)}</h4><p>${esc(e.desc)}</p>
+      <div class="btns"><button class="btn sm primary" data-open="${e.id}">Open in editor</button><button class="btn sm" data-prac="${e.id}">Solve it yourself</button></div></div></article>`;}).join('');
+  $$('[data-open]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.open);loadDiagram(e.d,`Loaded “${e.title}”. Undo returns to your previous sheet.`);showTab('editor');requestAnimationFrame(fit);});
+  $$('[data-prac]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.prac);setProblem(clone(e.d),null,e.title);showTab('practice');});
+}
+
+/* ---- rules page ---- */
+const RULES=[
+ {t:'Series blocks',a:b=>{const x=b.in(30,100,'X'),g1=b.b('G1',120,100),g2=b.b('G2',220,100),y=b.out(300,100,'Y');b.w(x,g1);b.w(g1,g2);b.w(g2,y);},z:b=>{const x=b.in(30,100,'X'),g=b.b('G1G2',140,100),y=b.out(250,100,'Y');b.w(x,g);b.w(g,y);},eq:'<i>Y</i> = <i>G</i><sub>1</sub><i>G</i><sub>2</sub> <i>X</i>',p:'Blocks in a chain multiply. Order does not matter for single-input, single-output blocks.'},
+ {t:'Parallel blocks',a:b=>{const x=b.in(30,100,'X'),p=b.p(80,100),g1=b.b('G1',170,50),g2=b.b('G2',170,150),s=b.s(260,100),y=b.out(320,100,'Y');b.w(x,p);b.w(p,g1);b.w(p,g2);b.w(g1,s);b.w(g2,s,-1);b.w(s,y);},z:b=>{const x=b.in(30,100,'X'),g=b.b('G1−G2',150,100),y=b.out(270,100,'Y');b.w(x,g);b.w(g,y);},eq:'<i>Y</i> = (<i>G</i><sub>1</sub> ± <i>G</i><sub>2</sub>) <i>X</i>',p:'Branches that split at a pickoff and meet at a junction add, each with the sign it enters with.'},
+ {t:'Feedback loop',a:b=>{const x=b.in(30,100,'X'),s=b.s(90,100),g=b.b('G',180,100),p=b.p(260,100),y=b.out(320,100,'Y'),h=b.b('H',180,170,'',true);b.w(x,s);b.w(s,g);b.w(g,p);b.w(p,y);b.w(p,h);b.w(h,s,-1);},z:b=>{const x=b.in(30,100,'X'),g=b.b('G/(1+GH)',160,100),y=b.out(290,100,'Y');b.w(x,g);b.w(g,y);},eq:'<i>Y</i> = <i>G</i> / (1 ± <i>GH</i>) · <i>X</i>',p:'Use + in the denominator for negative feedback and − for positive feedback.'},
+ {t:'Move a summing point past a block',a:b=>{const x=b.in(30,100,'X1'),s=b.s(100,100),g=b.b('G',190,100),y=b.out(270,100,'Y'),x2=b.in(50,40,'X2');b.w(x,s);b.w(x2,s);b.w(s,g);b.w(g,y);},z:b=>{const x=b.in(30,100,'X1'),g=b.b('G',120,100),s=b.s(220,100),y=b.out(290,100,'Y'),x2=b.in(70,40,'X2'),g2=b.b('G',140,40);b.w(x,g);b.w(g,s);b.w(s,y);b.w(x2,g2);b.w(g2,s);},eq:'<i>Y</i> = <i>G</i>(<i>X</i><sub>1</sub> ± <i>X</i><sub>2</sub>)',p:'Moving the junction downstream multiplies the side input by the same block.'},
+ {t:'Move a summing point ahead of a block',a:b=>{const x=b.in(30,100,'X1'),g=b.b('G',110,100),s=b.s(200,100),y=b.out(270,100,'Y'),x2=b.in(140,40,'X2');b.w(x,g);b.w(g,s);b.w(x2,s);b.w(s,y);},z:b=>{const x=b.in(20,100,'X1'),s=b.s(150,100),g=b.b('G',240,100),y=b.out(320,100,'Y'),x2=b.in(20,40,'X2'),gi=b.b('1/G',90,40);b.w(x,s);b.w(s,g);b.w(g,y);b.w(x2,gi);b.w(gi,s);},eq:'<i>Y</i> = <i>GX</i><sub>1</sub> ± <i>X</i><sub>2</sub>',p:'Moving the junction upstream divides the side input by the block.'},
+ {t:'Move a pickoff point ahead of a block',a:b=>{const x=b.in(30,100,'X'),g=b.b('G',120,100),p=b.p(210,100),y=b.out(290,100,'Y'),y2=b.out(290,160,'Y');b.w(x,g);b.w(g,p);b.w(p,y);b.w(p,y2);},z:b=>{const x=b.in(30,100,'X'),p=b.p(90,100),g=b.b('G',180,100),y=b.out(280,100,'Y'),g2=b.b('G',180,160),y2=b.out(280,160,'Y');b.w(x,p);b.w(p,g);b.w(g,y);b.w(p,g2);b.w(g2,y2);},eq:'The branch gains a copy of <i>G</i>',p:'The branch now taps the signal before G, so it needs its own copy of G.'},
+ {t:'Move a pickoff point past a block',a:b=>{const x=b.in(30,100,'X'),p=b.p(90,100),g=b.b('G',180,100),y=b.out(280,100,'Y'),y2=b.out(280,160,'X');b.w(x,p);b.w(p,g);b.w(g,y);b.w(p,y2);},z:b=>{const x=b.in(30,100,'X'),g=b.b('G',120,100),p=b.p(210,100),y=b.out(310,100,'Y'),gi=b.b('1/G',280,160),y2=b.out(360,160,'X');b.w(x,g);b.w(g,p);b.w(p,y);b.w(p,gi);b.w(gi,y2);},eq:'The branch gains 1/<i>G</i>',p:'The branch now taps the signal after G, so it must undo it.'},
+ {t:'Error signal of a unity loop',a:b=>{const x=b.in(30,100,'R'),s=b.s(90,100,'E'),g=b.b('G',190,100),p=b.p(270,100),y=b.out(330,100,'C');b.w(x,s);b.w(s,g);b.w(g,p);b.w(p,y);b.w(p,s,-1);},z:b=>{const x=b.in(30,100,'R'),g=b.b('1/(1+G)',150,100),y=b.out(270,100,'E');b.w(x,g);b.w(g,y);},eq:'<i>E</i> = <i>R</i> / (1 + <i>G</i>)',p:'In the editor, name a junction (for example E(s)) and it appears as an output you can choose.'},
+];
+function renderRules(){
+  $('#rulesGrid').innerHTML=RULES.map(r=>{const a=build(r.a),z=build(r.z);
+    return `<article class="rule"><h4>${esc(r.t)}</h4><div class="pair">${staticSVG(a,{pad:14,label:r.t+' before'})}<span class="arrow">⇒</span>${staticSVG(z,{pad:14,label:r.t+' after'})}</div><div class="eq">${r.eq}</div><p>${esc(r.p)}</p></article>`;}).join('')+
+  `<article class="rule wide"><h4>Mason’s gain formula</h4>
+   <div class="mason-big"><span><i>T</i> =</span>${fracHTML('<span>Σ<sub style="font-size:.55em"><i>k</i></sub> <i>P</i><sub><i>k</i></sub> Δ<sub><i>k</i></sub></span>','Δ')}<span style="margin-left:18px">Δ = 1 − Σ<i>L</i><sub><i>i</i></sub> + Σ<i>L</i><sub><i>i</i></sub><i>L</i><sub><i>j</i></sub> − Σ<i>L</i><sub><i>i</i></sub><i>L</i><sub><i>j</i></sub><i>L</i><sub><i>k</i></sub> + …</span></div>
+   <dl class="deflist"><dt><i>P</i><sub><i>k</i></sub></dt><dd>Gain of the k-th forward path: the product of the blocks and signs along a route from input to output that visits no node twice.</dd>
+   <dt><i>L</i><sub><i>i</i></sub></dt><dd>Gain of each loop, including the sign at the junction where it closes. A negative feedback loop has a negative gain.</dd>
+   <dt>Σ<i>L</i><sub><i>i</i></sub><i>L</i><sub><i>j</i></sub></dt><dd>Sum over every pair of loops that share no node (non-touching). Then triples, and so on, with alternating signs.</dd>
+   <dt>Δ<sub><i>k</i></sub></dt><dd>Δ computed using only the loops that do not touch path k. If every loop touches the path, Δ<sub><i>k</i></sub> = 1.</dd></dl>
+   <p>Try it: open “Two forward paths, Δₖ ≠ 1” from the examples and expand <b>Mason’s rule, step by step</b>. Hover any path or loop to see it on the diagram.</p></article>`;
+}
+
+/* ---- practice ---- */
+let prob=null,prLevel=store.get('bdb-level')||'medium',prCount=0;
+const score=Object.assign({right:0,tries:0,streak:0,best:0},store.get('bdb-score')||{});
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function genProblem(level){
+  for(let attempt=0;attempt<80;attempt++){
+    const n=level==='easy'?ri(2,3):ri(3,4);
+    const want=level==='easy'?1:level==='medium'?2:ri(2,3);
+    const loops=[],side={};let tries=0;
+    while(loops.length<want&&tries++<60){const i=ri(1,n),j=ri(i,n);if(loops.some(l=>l.i===i&&l.j===j))continue;const s=side[i]||(side[i]={});const where=!s.bottom?'bottom':!s.top?'top':null;if(!where)continue;
+      const unity=where==='bottom'&&Math.random()<(level==='easy'?0.35:0.25);const sign=(level!=='easy'&&Math.random()<0.2)?1:-1;s[where]=true;loops.push({i,j,where,unity,sign});}
+    if(loops.length<want)continue;
+    let ff=null;
+    if((level==='hard'&&Math.random()<0.65)||(level==='medium'&&Math.random()<0.25)){const j=ri(0,n-1),k=ri(j+2,n+1);const s=side[k]||(side[k]={});if(!s.top){s.top=true;ff={j,k};}}
+    if(level==='hard'&&loops.length+(ff?1:0)<3)continue;
+    if(level==='easy'&&loops[0].i===loops[0].j&&n===2&&Math.random()<0.5)continue;
+    return buildGen(n,loops,ff,level);
+  }
+  return clone(EX.find(e=>e.id==='fbH').d);
+}
+function buildGen(n,loops,ff,level){
+  const d=newD();const Y=200;let x=40;let prev=addNode(d,'in',x,Y,{label:'R(s)'});x+=46;
+  const needSum=new Set(loops.map(l=>l.i));if(ff)needSum.add(ff.k);
+  const needPick=new Set(loops.map(l=>l.j));if(ff)needPick.add(ff.j);
+  const sums={},picks={};const chain=nd=>{addWire(d,prev,nd,1);prev=nd;};
+  if(needPick.has(0)){x+=14;picks[0]=addNode(d,'pick',x,Y,{label:''});chain(picks[0]);x+=40;}
+  for(let i=1;i<=n;i++){
+    if(needSum.has(i)){x+=24;sums[i]=addNode(d,'sum',x,Y,{label:''});chain(sums[i]);x+=40;}
+    x+=38;const b=addNode(d,'blk',x,Y,{label:'G'+i});chain(b);x+=58;
+    if(needPick.has(i)){picks[i]=addNode(d,'pick',x,Y,{label:''});chain(picks[i]);x+=10;}
+  }
+  if(needSum.has(n+1)){x+=24;sums[n+1]=addNode(d,'sum',x,Y,{label:''});chain(sums[n+1]);x+=30;}
+  x+=50;const out=addNode(d,'out',x,Y,{label:'C(s)'});chain(out);
+  const items=loops.map(l=>({...l,x0:sums[l.i].x,x1:picks[l.j].x,side:l.where}));
+  if(ff)items.push({ff:true,x0:picks[ff.j].x,x1:sums[ff.k].x,side:'top'});
+  const lev={top:[],bottom:[]};
+  [...items].sort((a,b)=>(a.x1-a.x0)-(b.x1-b.x0)).forEach(it=>{let L=1;while(lev[it.side].some(o=>o.L===L&&!(o.x1+10<it.x0||it.x1+10<o.x0)))L++;it.L=L;lev[it.side].push(it);});
+  let hk=1;
+  for(const it of items){
+    const rowY=it.side==='bottom'?Y+75*it.L+(it.L>1?5:0):Y-80*it.L;
+    if(!it.ff&&it.unity){addWire(d,picks[it.j],sums[it.i],it.sign,rowY,'y');continue;}
+    const verts=items.filter(o=>o!==it&&o.side===it.side&&o.L>it.L).flatMap(o=>[o.x0,o.x1]);
+    let hx=snapv((it.x0+it.x1)/2);const half=it.ff?28:28;
+    for(let k=0;k<12&&verts.some(v=>Math.abs(v-hx)<half+14);k++)hx=snapv(hx+(k%2?-1:1)*(k+1)*10);
+    if(it.ff){const g=addNode(d,'blk',hx,rowY,{label:'G'+(n+1)});addWire(d,picks[ff.j],g,1);addWire(d,g,sums[ff.k],1);}
+    else{const h=addNode(d,'blk',hx,rowY,{label:'H'+(hk++),flip:true});addWire(d,picks[it.j],h,1);addWire(d,h,sums[it.i],it.sign);}
+  }
+  let outId=out.id,ask='C';
+  if(level!=='easy'&&sums[1]&&Math.random()<0.2){sums[1].label='E(s)';outId=sums[1].id;ask='E';}
+  d._out=outId;return d;
+}
+function setProblem(d,level,title){
+  const inN=d.nodes.find(n=>n.t==='in');const outId=d._out||d.nodes.find(n=>n.t==='out')?.id;
+  const r=solve(d,inN.id,outId);const syms=[...new Set(d.nodes.filter(n=>n.t==='blk').map(n=>n.label.trim()))];
+  prob={d,inId:inN.id,outId,r,syms,hint:0,done:false,revealed:false,title};
+  prCount++;$('#prNum').textContent=title?`From the library · ${title}`:`Problem ${prCount} · ${level||prLevel}`;
+  const outN=byId(d,outId);
+  $('#prQ').innerHTML=`Find ${fracHTML(symHTML(outN.label),symHTML(inN.label))} for the diagram. <span class="muted" style="font-size:13px">Blocks: ${syms.map(s=>symHTML(s)).join(', ')}</span>`;
+  $('#ansIn').value='';$('#ansPrev').innerHTML='<span class="muted" style="font-family:var(--sans);font-size:13px">Your answer will be typeset here.</span>';
+  $('#prFb').innerHTML='';$('#prHints').innerHTML='';drawProblem(null);renderScore();
+}
+function newProblem(){setProblem(genProblem(prLevel),prLevel);}
+function drawProblem(h){$('#prSvg').innerHTML=staticSVG(prob.d,{hl:h,pad:20,label:'Practice diagram'});}
+function renderScore(){$('#prScore').innerHTML=`<div><b>${score.right}</b>solved</div><div><b>${score.tries?Math.round(100*score.right/score.tries):0}%</b>first-try accuracy</div><div><b>${score.streak}</b>streak</div><div><b>${score.best}</b>best streak</div>`;}
+function previewAns(txt){
+  if(!txt.trim()){$('#ansPrev').innerHTML='<span class="muted" style="font-family:var(--sans);font-size:13px">Your answer will be typeset here.</span>';return;}
+  try{const vals={};prob.syms.forEach(s=>vals[s]=1.3);parseSym(txt,prob.syms,vals);
+    const id=symIdent(prob.syms);let s=txt.replace(/\s+/g,''),out='';
+    for(let i=0;i<s.length;){const m=id(s,i);if(m){out+=symHTML(m.name);i+=m.len;continue;}const c=s[i];out+=c==='*'?'':c==='-'?' − ':c==='+'?' + ':c==='/'?' / ':esc(c);i++;}
+    $('#ansPrev').innerHTML=out;}
+  catch(err){$('#ansPrev').innerHTML=`<span class="bad" style="font-family:var(--sans);font-size:13px">${esc(err.message)}</span>`;}
+}
+function equalTo(txt,nP,dP){
+  for(let t=0;t<6;t++){const vals={};prob.syms.forEach(s=>vals[s]=0.25+Math.random()*1.6);const want=SP.evalN(nP,vals)/SP.evalN(dP,vals);if(!isFinite(want)||Math.abs(SP.evalN(dP,vals))<1e-3){t--;continue;}
+    const got=parseSym(txt,prob.syms,vals);if(!isFinite(got)||Math.abs(got-want)>1e-7*Math.max(1,Math.abs(want)))return false;}
+  return true;
+}
+function checkAnswer(){
+  const txt=$('#ansIn').value;if(!txt.trim()){$('#ansIn').focus();return;}
+  const r=prob.r;let ok;try{ok=equalTo(txt,r.num,r.den);}catch(err){$('#prFb').innerHTML=`<div class="fb miss"><b>Can’t read that.</b> ${esc(err.message)}</div>`;return;}
+  const first=!prob.done&&!prob.tried&&!prob.revealed;
+  if(ok){
+    if(!prob.done){if(first){score.tries++;score.right++;score.streak++;score.best=Math.max(score.best,score.streak);}else if(!prob.revealed){score.right++;}}
+    prob.done=true;store.set('bdb-score',score);renderScore();
+    $('#prFb').innerHTML=`<div class="fb good"><b>Correct.</b> ${fracHTML(spHTML(r.num),spHTML(r.den))}<br><span style="font-size:13px">${r.paths.length} forward path${r.paths.length>1?'s':''}, ${r.loops.length} loop${r.loops.length===1?'':'s'}${r.combos.length?`, ${r.combos.length} non-touching group${r.combos.length>1?'s':''}`:''}.</span></div>`;
+    return;
+  }
+  if(first){score.tries++;score.streak=0;store.set('bdb-score',score);renderScore();}
+  prob.tried=true;
+  let tip='Check each loop’s sign and whether you included every forward path. A hint can help.';
+  try{
+    const anyCof=r.cof.some(c=>!SP.isOne(c.d));
+    if(anyCof&&equalTo(txt,r.sumP,r.den))tip='Close. Your Δ is right, but some loops do not touch a forward path, so that path’s cofactor Δₖ is not 1.';
+    else if(r.combos.length&&equalTo(txt,r.num,r.firstOrder))tip='Close. Δ also needs products of non-touching loops, added with a + sign.';
+    else if(equalTo(txt,r.den,r.num))tip='That is upside down: the forward paths go on top, Δ goes underneath.';
+    else{let flipped=SP.c(1);r.loops.forEach(l=>{flipped=SP.add(flipped,l.g);});if(!r.combos.length&&equalTo(txt,r.num,flipped))tip='Close. Check the loop signs: a negative-feedback loop has a negative gain, so it appears as + in Δ = 1 − ΣL.';}
+  }catch(e){}
+  $('#prFb').innerHTML=`<div class="fb miss"><b>Not equal yet.</b> ${esc(tip)}</div>`;
+}
+function giveHint(){
+  const r=prob.r;const k=prob.hint++;const sub=i=>`<sub>${i}</sub>`;let h='';
+  if(k===0)h=`<div class="hint"><b>Forward paths.</b> There ${r.paths.length===1?'is 1 path':`are ${r.paths.length} paths`} from input to output. Hover to highlight.<ul>${r.paths.map((p,i)=>`<li data-ph="p:${i}"><i>P</i>${sub(i+1)} = ${spHTML(p.g)}</li>`).join('')}</ul></div>`;
+  else if(k===1)h=`<div class="hint"><b>Loops.</b> ${r.loops.length} loop${r.loops.length===1?'':'s'}, gains include the junction sign.<ul>${r.loops.map((l,i)=>`<li data-ph="l:${i}"><i>L</i>${sub(i+1)} = ${spHTML(l.g)}</li>`).join('')||'<li>No loops.</li>'}</ul></div>`;
+  else if(k===2)h=`<div class="hint"><b>Non-touching loops and Δ.</b> ${r.combos.length?`Groups that share no node: ${r.combos.map(c=>c.map(i=>`<i>L</i>${sub(i+1)}`).join('')).join(', ')}.`:'Every pair of loops touches.'}<div class="mth" style="margin-top:6px;white-space:normal">Δ = ${spHTML(r.delta)}</div>${r.cof.some(c=>!SP.isOne(c.d))?`<div style="margin-top:6px">${r.cof.map((c,i)=>`Δ${sub(i+1)} = ${spHTML(c.d)}`).join(' · ')}</div>`:'<div style="margin-top:6px">Every loop touches every path, so each Δₖ = 1.</div>'}</div>`;
+  else{revealAns();return;}
+  $('#prHints').insertAdjacentHTML('beforeend',h);
+}
+function revealAns(){
+  const r=prob.r;if(!prob.done&&!prob.tried&&!prob.revealed){score.tries++;score.streak=0;store.set('bdb-score',score);renderScore();}
+  prob.revealed=true;prob.hint=4;
+  $('#prFb').innerHTML=`<div class="fb info"><b>Solution.</b><div class="tf" style="margin-top:8px;font-size:17px">${fracHTML(spHTML(r.num),spHTML(r.den))}</div><div style="margin-top:6px;font-family:var(--mono);font-size:12px;color:var(--ink-3);overflow-x:auto">${esc(`(${spText(r.num)}) / (${spText(r.den)})`)}</div></div>`;
+}
+$('#ansIn').addEventListener('input',e=>previewAns(e.target.value));
+$('#ansIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();checkAnswer();}});
+$('#prCheck').onclick=checkAnswer;$('#prHint').onclick=giveHint;$('#prReveal').onclick=revealAns;$('#prNext').onclick=newProblem;
+$('#prOpen').onclick=()=>{const d=clone(prob.d);delete d._out;loadDiagram(d,'Practice diagram loaded into the editor.');ioOut=prob.outId;renderResult();showTab('editor');requestAnimationFrame(fit);};
+$$('#prLevel button').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.lv===prLevel));b.onclick=()=>{prLevel=b.dataset.lv;store.set('bdb-level',prLevel);$$('#prLevel button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));newProblem();};});
+$('#prHints').addEventListener('pointerover',e=>{const li=e.target.closest('[data-ph]');if(li)drawProblem(hlFrom({...prob.r,ids:prob.d.nodes.map(n=>n.id)},li.dataset.ph));});
+$('#prHints').addEventListener('pointerout',e=>{if(e.target.closest('[data-ph]'))drawProblem(null);});
+
+/* ---- theme ---- */
+$('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',nx);store.set('bdb-theme',nx);};
+const th=store.get('bdb-theme');if(th)document.documentElement.setAttribute('data-theme',th);
+
+/* ---- boot ---- */
+(function boot(){
+  const saved=store.get('bdb-diagram');
+  if(saved&&Array.isArray(saved.nodes)&&saved.nodes.length)D=saved;else D=clone(EX.find(e=>e.id==='lead').d);
+  renderExamples();renderRules();renderFile();renderCanvas();renderInspector();renderResult();updUndo();
+  const h=(location.hash||'').slice(1);const start=['editor','examples','practice','rules'].includes(h)?h:'editor';
+  showTab(start);
+  requestAnimationFrame(()=>{fit();view.fitted=true;});
+  window.addEventListener('resize',()=>{if(currentTab==='editor'&&!drag)fit();});
+})();
+
+</script>
+
+</body></html>
