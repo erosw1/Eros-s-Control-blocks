@@ -14,18 +14,21 @@
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --math:"STIX Two Text","Cambria Math","Times New Roman",serif;
+  --c1:#C2560B; --c2:#2563A6; --c3:#0F7C86; --c4:#7A3FB0; --c5:#B0306A;
   --r:6px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#0C1218; --sheet:#111A22; --panel:#16202A; --ink:#E2E9F0; --ink-2:#9DABBA; --ink-3:#6E7C8B;
   --rule:#26323F; --grid:#18222C; --grid-major:#202C38; --block:#16202A;
   --accent:#FF9548; --accent-soft:#3A2312; --accent-ink:#1A0E05;
-  --pos:#4CC38A; --neg:#FF6F62; --warn:#E3B341; color-scheme:dark}}
+  --pos:#4CC38A; --neg:#FF6F62; --warn:#E3B341;
+  --c1:#FF9548; --c2:#6AA9F2; --c3:#3FC7C7; --c4:#B48CF2; --c5:#F27BB0; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0C1218; --sheet:#111A22; --panel:#16202A; --ink:#E2E9F0; --ink-2:#9DABBA; --ink-3:#6E7C8B;
   --rule:#26323F; --grid:#18222C; --grid-major:#202C38; --block:#16202A;
   --accent:#FF9548; --accent-soft:#3A2312; --accent-ink:#1A0E05;
-  --pos:#4CC38A; --neg:#FF6F62; --warn:#E3B341; color-scheme:dark}
+  --pos:#4CC38A; --neg:#FF6F62; --warn:#E3B341;
+  --c1:#FF9548; --c2:#6AA9F2; --c3:#3FC7C7; --c4:#B48CF2; --c5:#F27BB0; color-scheme:dark}
 html,body{height:100%}
 body{background:var(--paper);color:var(--ink);font:14px/1.5 var(--sans)}
 *{box-sizing:border-box}
@@ -237,6 +240,73 @@ svg.wiring .node{cursor:crosshair}
 .deflist dt{font-family:var(--math);font-size:16px;color:var(--ink)}
 .deflist dd{margin:0}
 
+
+/* ---------- simulate ---------- */
+.simwrap{display:grid;grid-template-columns:350px minmax(0,1fr);height:100%;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);overflow:hidden}
+.simside{background:var(--panel);border-right:1px solid var(--rule);overflow-y:auto;min-width:0}
+.simmain{display:flex;flex-direction:column;min-width:0;min-height:0}
+.simbar{display:flex;gap:8px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--rule);flex-wrap:wrap;background:var(--panel)}
+#simView{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px;min-height:0}
+.simthumb{background:var(--sheet);border:1px solid var(--rule);border-radius:5px;height:130px;padding:4px}
+.simthumb svg{width:100%;height:100%}
+.pcard{background:var(--panel);border:1px solid var(--rule);border-radius:var(--r);padding:12px 14px;min-width:0}
+.pcard.empty h4{margin:0 0 6px;font-family:var(--display);font-size:18px}
+.pcard.empty p{margin:0 0 12px;color:var(--ink-2);max-width:62ch}
+.phead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.phead h5{margin:0;font-family:var(--display);font-size:15px;font-weight:600;letter-spacing:.01em;margin-right:auto}
+.plabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:8px 0 2px}
+.pbox{position:relative;min-width:0}
+.pbox svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.pframe{fill:none;stroke:var(--rule)}
+.gM{stroke:var(--grid-major);stroke-width:1} .gm{stroke:var(--grid);stroke-width:1}
+.crit{stroke:var(--ink-3);stroke-width:1;stroke-dasharray:4 4}
+.bwl{stroke:var(--c1);stroke-width:1;stroke-dasharray:2 3}
+.ucirc{stroke:var(--ink-3);stroke-width:1;stroke-dasharray:3 4}
+.hl{stroke:var(--ink-2);stroke-width:1}
+.axl{font-size:10.5px}
+.ptx{font-family:var(--mono);font-size:11.5px;font-weight:600;paint-order:stroke;stroke:var(--panel);stroke-width:3px}
+.ptip{position:absolute;pointer-events:none;background:var(--ink);color:var(--sheet);font:12px/1.45 var(--mono);padding:6px 9px;border-radius:4px;white-space:nowrap;z-index:3;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.ptip .tx{opacity:.75;margin-bottom:2px}
+.ptip b{font-weight:600}
+.ptip .muted2{opacity:.65;margin-top:3px}
+.tdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);margin-bottom:4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:16px;height:0;border-top:2.5px solid}
+.kvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 18px}
+.kvi{display:flex;flex-direction:column;min-width:0}
+.kvi span{font-size:11.5px;color:var(--ink-3)}
+.kvi b{font-family:var(--mono);font-weight:500;font-size:14px;font-variant-numeric:tabular-nums}
+.kvi b.ok{color:var(--pos)} .kvi b.bad{color:var(--neg)}
+.warnline{margin:0;font-size:12.5px;color:var(--warn)}
+.note{font-size:12.5px;line-height:1.45}
+.inrow{border:1px solid var(--rule);border-radius:5px;padding:8px 10px;margin-bottom:8px;background:var(--sheet)}
+.inhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.inhead select{border:1px solid var(--rule);background:var(--panel);border-radius:4px;padding:4px 6px;font-size:13px}
+.inparams{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px 8px;margin-top:8px}
+.inparams label{display:flex;flex-direction:column;font-size:11.5px;color:var(--ink-2);gap:2px}
+.inparams input{font-family:var(--mono);font-size:13px;border:1px solid var(--rule);background:var(--panel);border-radius:4px;padding:5px 7px;width:100%;min-width:0}
+input.badin{border-color:var(--neg)!important}
+.sigs{display:flex;flex-direction:column;gap:2px}
+.sig{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;cursor:pointer}
+.sig .sw{width:14px;height:4px;border-radius:2px;flex:none}
+.sig .muted{font-size:11.5px}
+.knum{width:84px;border:1px solid var(--rule);background:var(--sheet);border-radius:5px;padding:4px 6px;font-family:var(--mono)}
+input[type=range]{width:100%;accent-color:var(--accent);margin:8px 0 0}
+.rangeticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.plist{display:flex;flex-direction:column;font-size:13px;border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.prow{display:flex;justify-content:space-between;gap:10px;padding:4px 9px;font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.prow+.prow{border-top:1px solid var(--rule)}
+.prow.ph{background:var(--sheet);font-family:var(--sans);font-size:11.5px;color:var(--ink-3);letter-spacing:.04em}
+.prow span:last-child{color:var(--ink-2);text-align:right}
+.seg button:disabled{opacity:.4;cursor:default}
+.rhp{fill:var(--neg);opacity:.06}
+@media (max-width:980px){
+  .simwrap{grid-template-columns:minmax(0,1fr);height:auto;overflow:visible}
+  .simside{border-right:0;border-bottom:1px solid var(--rule);overflow:visible}
+  #simView{overflow:visible}
+}
+
 #toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--sheet);padding:9px 14px;border-radius:5px;font-size:13px;max-width:min(520px,calc(100% - 32px));opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
 #toast.show{opacity:1}
 #ghost{position:fixed;pointer-events:none;z-index:60;width:54px;height:36px;border:1.6px dashed var(--accent);border-radius:4px;background:var(--accent-soft);transform:translate(-50%,-50%)}
@@ -270,6 +340,7 @@ svg.wiring .node{cursor:crosshair}
     </div>
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="editor" aria-selected="true">Editor</button>
+      <button role="tab" data-tab="simulate" aria-selected="false">Simulate</button>
       <button role="tab" data-tab="examples" aria-selected="false">Examples</button>
       <button role="tab" data-tab="practice" aria-selected="false">Practice</button>
       <button role="tab" data-tab="rules" aria-selected="false">Reduction rules</button>
@@ -316,6 +387,16 @@ svg.wiring .node{cursor:crosshair}
           <div class="sec" id="result"></div>
           <div class="sec" id="filesec"></div>
         </aside>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-simulate" hidden>
+      <div class="simwrap">
+        <aside class="simside" id="simSide"></aside>
+        <div class="simmain">
+          <div class="simbar"><div class="seg" id="simViews"><button data-sv="time" aria-pressed="true">Time response</button><button data-sv="bode" aria-pressed="false">Bode</button><button data-sv="nyq" aria-pressed="false">Nyquist</button><button data-sv="locus" aria-pressed="false">Root locus</button></div><div class="spacer"></div><button class="btn sm" id="sRef">Keep as reference</button><button class="btn sm" id="sCsv">Copy data as CSV</button></div>
+          <div id="simView"></div>
+        </div>
       </div>
     </section>
 
@@ -799,8 +880,15 @@ const EX=[
   b.w(r,s1);b.w(s1,c1);b.w(c1,s2);b.w(s2,c2);b.w(c2,p2);b.w(p2,pin);b.w(pin,p1);b.w(p1,pout);b.w(pout,c);b.w(pin,s2,-1,270);b.w(pout,s1,-1,330);}},
 {id:'distnum',title:'Disturbance rejection with PI control',cat:'Numeric',lvl:2,desc:'Integral action drives the steady-state effect of D(s) to zero. Switch the input to D(s).',build:b=>{const r=b.in(40,200),s1=b.s(110,200),gc=b.b('Gc',220,200,'5(s+1)/s'),s2=b.s(330,200),gp=b.b('Gp',430,200,'1/(s+2)'),p=b.p(520,200),c=b.out(590,200),dd=b.in(250,110,'D(s)');
   b.w(r,s1);b.w(s1,gc);b.w(gc,s2);b.w(dd,s2);b.w(s2,gp);b.w(gp,p);b.w(p,c);b.w(p,s1,-1);}},
+{id:'thirdK',title:'Third-order plant with gain K',cat:'Numeric',lvl:2,desc:'K/((s+1)(s+2)(s+3)) in unity feedback. The root locus crosses into the right half-plane at K = 60.',sim:{view:'locus',tune:'K'},build:b=>{const r=b.in(40,200),s=b.s(110,200),k=b.b('K',200,200,'10'),g=b.b('Gp',340,200,'1/((s+1)(s+2)(s+3))'),p=b.p(460,200),c=b.out(530,200);b.w(r,s);b.w(s,k);b.w(k,g);b.w(g,p);b.w(p,c);b.w(p,s,-1);}},
+{id:'unstab',title:'Stabilising an unstable plant',cat:'Numeric',lvl:3,desc:'The plant 1/(s − 1) has a right half-plane pole. On the Nyquist plot, the loop is stable because the curve circles −1 counter-clockwise once.',sim:{view:'nyq'},build:b=>{const r=b.in(40,200),s=b.s(110,200),gc=b.b('Gc',230,200,'8(s+2)/(s+10)'),gp=b.b('Gp',370,200,'1/(s-1)'),p=b.p(460,200),c=b.out(530,200);b.w(r,s);b.w(s,gc);b.w(gc,gp);b.w(gp,p);b.w(p,c);b.w(p,s,-1);}},
+{id:'delay',title:'PI loop with a transport delay',cat:'Numeric',lvl:2,desc:'A first-order Padé block (1 − 0.5s)/(1 + 0.5s) stands in for a 1 s delay. See how it eats phase margin on the Bode plot.',sim:{view:'bode'},build:b=>{const r=b.in(40,200),s=b.s(110,200),gc=b.b('Gc',220,200,'0.5(s+1)/s'),gp=b.b('Gp',350,200,'2/(s+1)'),gd=b.b('Delay',480,200,'(1-0.5s)/(1+0.5s)'),p=b.p(580,200),c=b.out(650,200);b.w(r,s);b.w(s,gc);b.w(gc,gp);b.w(gp,gd);b.w(gd,p);b.w(p,c);b.w(p,s,-1);}},
 ];
 EX.forEach(e=>{e.d=build(e.build);});
+EX.find(e=>e.id==='distnum').sim={inputs:{'R(s)':{wave:'step',A:1,t0:0},'D(s)':{wave:'step',A:1,t0:6}},signals:['C(s)','Gc']};
+EX.find(e=>e.id==='servo2').sim={view:'time'};
+EX.find(e=>e.id==='cascade').sim={signals:['C(s)','Gp2']};
+EX.find(e=>e.id==='pid').sim={signals:['C(s)','Gc']};
 
 /* ---- editor state ---- */
 let D=newD(), sel=null, tool='select', drag=null, hl=null, hlPinned=false;
@@ -1043,13 +1131,14 @@ function renderResult(){
   if(!r.paths.length)warns.unshift(`No forward path from ${inN.label} to ${outN.label}.`);
   let h=`<h3>Transfer function</h3><div class="io">${sel1}<span>→</span>${sel2}</div>
     <div class="tf"><span class="lhs">${lhs} =</span>${body}</div>
-    <div class="btns" style="margin-top:8px"><button class="btn sm" id="cpTF">Copy as text</button></div>
+    <div class="btns" style="margin-top:8px"><button class="btn sm" id="cpTF">Copy as text</button><button class="btn sm accent" id="goSim">Simulate this ▸</button></div>
     ${warns.length?`<ul class="warns">${warns.slice(0,5).map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}`;
   h+=masonHTML(r,true);
   h+=numericHTML(r);
   el.innerHTML=h;
   $('#ioIn').onchange=e=>{ioIn=e.target.value;renderResult();};
   $('#ioOut').onchange=e=>{ioOut=e.target.value;renderResult();};
+  $('#goSim').onclick=()=>{SIM.fIn=ioIn;SIM.fOut=ioOut;if(Array.isArray(SIM.signals)&&!SIM.signals.includes(ioOut))SIM.signals.unshift(ioOut);saveSim();showTab('simulate');};
   $('#cpTF').onclick=()=>copyText(`(${spText(r.num)}) / (${spText(r.den)})`,'Transfer function copied.');
   const det=el.querySelector('details.mason');if(det){det.open=!!store.get('bdb-mason-open');det.addEventListener('toggle',()=>store.set('bdb-mason-open',det.open));}
 }
@@ -1141,7 +1230,7 @@ function renderFile(){
 }
 
 /* ---- loading ---- */
-function loadDiagram(d,msg){snapshot();D=clone(d);sel=null;hl=null;hlPinned=false;ioIn=ioOut=null;changed();requestAnimationFrame(fit);if(msg)toast(msg);}
+function loadDiagram(d,msg,preset){snapshot();D=clone(d);sel=null;hl=null;hlPinned=false;ioIn=ioOut=null;changed();applySimPreset(preset);saveSim();requestAnimationFrame(fit);if(msg)toast(msg);}
 
 /* ---- tabs ---- */
 let currentTab='editor';
@@ -1151,6 +1240,7 @@ function showTab(t){
   try{history.replaceState(null,'','#'+t);}catch(e){}
   if(t==='editor')requestAnimationFrame(()=>{if(!view.fitted){fit();view.fitted=true;}});
   if(t==='practice'&&!prob)newProblem();
+  if(t==='simulate')requestAnimationFrame(renderSim);
   store.set('bdb-tab',t);
 }
 $$('nav.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
@@ -1166,8 +1256,9 @@ function renderExamples(){
     return `<article class="card"><div class="pv">${staticSVG(e.d,{label:e.title})}</div><div class="cb">
       <div class="meta-row"><span>${e.cat.toUpperCase()}</span><span class="lvl" title="Difficulty">${[1,2,3].map(i=>`<i class="${i<=e.lvl?'on':''}"></i>`).join('')}</span><span>${e.d.nodes.filter(n=>n.t==='blk').length} blocks</span></div>
       <h4>${esc(e.title)}</h4><p>${esc(e.desc)}</p>
-      <div class="btns"><button class="btn sm primary" data-open="${e.id}">Open in editor</button><button class="btn sm" data-prac="${e.id}">Solve it yourself</button></div></div></article>`;}).join('');
-  $$('[data-open]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.open);loadDiagram(e.d,`Loaded “${e.title}”. Undo returns to your previous sheet.`);showTab('editor');requestAnimationFrame(fit);});
+      <div class="btns"><button class="btn sm primary" data-open="${e.id}">Open in editor</button>${e.d.nodes.filter(n=>n.t==='blk').every(n=>n.expr)?`<button class="btn sm accent" data-sim="${e.id}">Simulate</button>`:''}<button class="btn sm" data-prac="${e.id}">Solve it yourself</button></div></div></article>`;}).join('');
+  $$('[data-sim]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.sim);loadDiagram(e.d,`Loaded “${e.title}” for simulation.`,e.sim);showTab('simulate');});
+  $$('[data-open]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.open);loadDiagram(e.d,`Loaded “${e.title}”. Undo returns to your previous sheet.`,e.sim);showTab('editor');requestAnimationFrame(fit);});
   $$('[data-prac]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.prac);setProblem(clone(e.d),null,e.title);showTab('practice');});
 }
 
@@ -1319,15 +1410,523 @@ $('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('dat
 const th=store.get('bdb-theme');if(th)document.documentElement.setAttribute('data-theme',th);
 
 /* ---- boot ---- */
-(function boot(){
+function boot(){
   const saved=store.get('bdb-diagram');
   if(saved&&Array.isArray(saved.nodes)&&saved.nodes.length)D=saved;else D=clone(EX.find(e=>e.id==='lead').d);
   renderExamples();renderRules();renderFile();renderCanvas();renderInspector();renderResult();updUndo();
-  const h=(location.hash||'').slice(1);const start=['editor','examples','practice','rules'].includes(h)?h:'editor';
+  const h=(location.hash||'').slice(1);const start=['editor','simulate','examples','practice','rules'].includes(h)?h:'editor';
   showTab(start);
   requestAnimationFrame(()=>{fit();view.fitted=true;});
   window.addEventListener('resize',()=>{if(currentTab==='editor'&&!drag)fit();});
-})();
+}
+
+/* ===== Simulation workspace ===== */
+const SC=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)'];
+const SIM=Object.assign({view:'time',fmode:'L',nyqZoom:'near',inputs:{},signals:null,dur:'',tuneBlock:null,tuneK:1,showInput:true,fIn:null,fOut:null},store.get('bdb-sim')||{});
+let simRef=null;
+const saveSim=()=>store.set('bdb-sim',SIM);
+let simCache={sig:'',solves:new Map()};
+function simSig(){const s=JSON.stringify([D.nodes,D.wires]);if(s!==simCache.sig)simCache={sig:s,solves:new Map()};}
+function sSolve(a,b){const k=a+'|'+b;if(!simCache.solves.has(k))simCache.solves.set(k,solve(D,a,b));return simCache.solves.get(k);}
+function blkBase(s){const b=D.nodes.find(n=>n.t==='blk'&&n.label.trim()===s&&n.expr&&n.expr.trim());if(!b)return null;try{return parseS(b.expr);}catch(e){return null;}}
+function numMap(syms,k){if(k==null)k=SIM.tuneK;const map={},missing=[];for(const s of syms){const r=blkBase(s);if(!r){missing.push(s);continue;}map[s]=(s===SIM.tuneBlock&&k!==1)?RO.mul(RO.num(k),r):r;}return {map,missing};}
+const ZERO_TF={n:[0],d:[1],poles:[],zeros:[],k:0};
+function tfOf(a,b,k){
+  const r=sSolve(a,b);if(!r.paths.length)return {st:ZERO_TF,zero:true};
+  const syms=[...SP.syms(r.den,SP.syms(r.num))];const {map,missing}=numMap(syms,k);if(missing.length)return {missing};
+  try{return {st:simplifyTF(RO.div(evalSPtoR(r.num,map),evalSPtoR(r.den,map)))};}catch(e){return {err:e.message};}
+}
+function loopOf(k){
+  const r=sSolve(SIM.fIn,SIM.fOut);if(!r.loops.length)return {none:true};
+  const syms=[...SP.syms(r.delta)];const {map,missing}=numMap(syms,k);if(missing.length)return {missing};
+  try{const Dk=evalSPtoR(r.delta,map);const L=simplifyTF(RO.sub(Dk,RO.num(1)));const ch=simplifyTF(Dk);return {L,charRoots:ch.zeros};}catch(e){return {err:e.message};}
+}
+function sigCandidates(){
+  const c=[];
+  D.nodes.filter(n=>n.t==='out').forEach(n=>c.push({id:n.id,name:n.label||'output',kind:''}));
+  D.nodes.filter(n=>(n.t==='sum'||n.t==='pick')&&n.label).forEach(n=>c.push({id:n.id,name:n.label,kind:n.t==='sum'?'junction':'pickoff'}));
+  D.nodes.filter(n=>n.t==='blk').forEach(n=>c.push({id:n.id,name:n.label,kind:'output of block'}));
+  return c;
+}
+function tunables(){return [...new Set(D.nodes.filter(n=>n.t==='blk'&&n.expr&&n.expr.trim()).map(n=>n.label.trim()))];}
+function validateSim(){
+  const ins=D.nodes.filter(n=>n.t==='in');const cand=sigCandidates();
+  if(!ins.some(n=>n.id===SIM.fIn))SIM.fIn=ins[0]?.id||null;
+  if(!cand.some(c=>c.id===SIM.fOut))SIM.fOut=cand[0]?.id||null;
+  ins.forEach((n,i)=>{const c=SIM.inputs[n.label];if(!c||typeof c!=='object')SIM.inputs[n.label]={wave:i===0?'step':'none',A:1,t0:0,w:1,width:1};else{c.A??=1;c.t0??=0;c.w??=1;c.width??=1;c.wave??='none';}});
+  if(!Array.isArray(SIM.signals))SIM.signals=[];
+  SIM.signals=SIM.signals.filter(id=>cand.some(c=>c.id===id));
+  if(!SIM.signals.length&&SIM.fOut)SIM.signals=[SIM.fOut];
+  const bl=tunables();
+  if(!bl.includes(SIM.tuneBlock)){
+    let pick=null;
+    if(SIM.fIn&&SIM.fOut){try{const r=sSolve(SIM.fIn,SIM.fOut);const ds=[...SP.syms(r.delta)].filter(s=>bl.includes(s));pick=ds.find(s=>/^(K|Gc|C|Kp|D)/i.test(s))||ds[0];}catch(e){}}
+    SIM.tuneBlock=pick||bl[0]||null;SIM.tuneK=1;
+  }
+  if(!(SIM.tuneK>0))SIM.tuneK=1;
+}
+function applySimPreset(p){
+  SIM.inputs={};SIM.signals=null;SIM.fIn=SIM.fOut=null;SIM.tuneBlock=null;SIM.tuneK=1;SIM.dur='';simRef=null;
+  if(!p)return;
+  if(p.inputs)for(const k in p.inputs)SIM.inputs[k]={wave:'none',A:1,t0:0,w:1,width:1,...p.inputs[k]};
+  if(p.signals){SIM.signals=p.signals.map(nm=>D.nodes.find(n=>(n.label||'').trim()===nm&&n.t!=='in')?.id).filter(Boolean);}
+  if(p.view)SIM.view=p.view;
+  if(p.tune)SIM.tuneBlock=p.tune;
+}
+function colorFor(id){const i=SIM.signals.indexOf(id);return i<0?'var(--rule)':SC[i%SC.length];}
+
+/* ---- numerics ---- */
+function lsim(st,uf,imps,T,Nout,maxAbs){
+  const n=PS.trim(st.n),d=PS.trim(st.d);const N=d.length-1;
+  if(n.length-1>N)return null;
+  if(PS.isZero(n))return new Array(Nout+1).fill(0);
+  const dl=d[N],a=d.map(x=>x/dl),b=Array.from({length:N+1},(_,i)=>(n[i]||0)/dl),D0=b[N],c=a.slice(0,N).map((ai,i)=>b[i]-D0*ai);
+  const dt=T/Nout;const m=Math.min(Math.max(2,Math.ceil(dt*maxAbs/0.3)),Math.max(2,Math.ceil(90000/Nout)));const h=dt/m;
+  let x=new Array(N).fill(0);const y=new Array(Nout+1).fill(NaN);
+  const f=(x,u)=>{const dx=new Array(N);for(let i=0;i<N-1;i++)dx[i]=x[i+1];let s=u;for(let i=0;i<N;i++)s-=a[i]*x[i];if(N)dx[N-1]=s;return dx;};
+  const out=(x,t)=>{let v=D0*uf(t);for(let i=0;i<N;i++)v+=c[i]*x[i];return v;};
+  const q=imps.slice().sort((p,r)=>p.t0-r.t0);let qi=0;
+  while(qi<q.length&&q[qi].t0<=1e-12){if(N)x[N-1]+=q[qi].A;qi++;}
+  y[0]=out(x,0);let t=0;
+  for(let k=1;k<=Nout;k++){
+    for(let j=0;j<m;j++){
+      while(qi<q.length&&q[qi].t0<t+h-1e-12){if(N)x[N-1]+=q[qi].A;qi++;}
+      if(N){const u1=uf(t),u2=uf(t+h/2),u3=uf(t+h);
+        const k1=f(x,u1),x2=x.map((v,i)=>v+h/2*k1[i]),k2=f(x2,u2),x3=x.map((v,i)=>v+h/2*k2[i]),k3=f(x3,u2),x4=x.map((v,i)=>v+h*k3[i]),k4=f(x4,u3);
+        x=x.map((v,i)=>v+h/6*(k1[i]+2*k2[i]+2*k3[i]+k4[i]));}
+      t+=h;
+    }
+    const v=out(x,k*dt);if(!isFinite(v)||Math.abs(v)>1e9)break;y[k]=v;
+  }
+  return y;
+}
+function waveFn(c){
+  const A=+c.A||0,t0=+c.t0||0,w=Math.max(1e-6,+c.w||1),wd=Math.max(0,+c.width||0);
+  switch(c.wave){
+    case 'step':return t=>t>=t0?A:0;
+    case 'ramp':return t=>t>=t0?A*(t-t0):0;
+    case 'sine':return t=>t>=t0?A*Math.sin(w*(t-t0)):0;
+    case 'square':return t=>t>=t0?(Math.floor(w*(t-t0)/Math.PI)%2?-A:A):0;
+    case 'pulse':return t=>t>=t0&&t<t0+wd?A:0;
+    default:return ()=>0;
+  }
+}
+function baseTime(poles){
+  if(!poles.length)return 5;const re=poles.map(p=>p[0]);const un=re.filter(r=>r>1e-7);
+  if(un.length)return Math.min(5/Math.max(...un),100);
+  if(re.some(r=>Math.abs(r)<=1e-7)){const im=Math.max(...poles.map(p=>Math.abs(p[1])));return im>1e-6?6*2*Math.PI/im:10;}
+  let T=6/Math.min(...re.map(r=>-r));const ims=poles.map(p=>Math.abs(p[1])).filter(x=>x>1e-6);
+  if(ims.length)T=Math.max(T,Math.min(...ims.map(w=>2.2*Math.PI/w)));return T;
+}
+function niceCeil(v){const p=10**Math.floor(Math.log10(v));for(const f of [1,1.2,1.5,2,2.5,3,4,5,6,8,10])if(f*p>=v*(1-1e-9))return +(f*p).toPrecision(6);return v;}
+function fr(st,w){
+  if(!st.k)return {db:-Infinity,ph:0,m:0};let m=Math.abs(st.k),p=st.k<0?-180:0;
+  for(const z of st.zeros){m*=Math.hypot(z[0],w-z[1]);p+=Math.atan2(w-z[1],-z[0])*180/Math.PI;}
+  for(const q of st.poles){m/=Math.hypot(q[0],w-q[1]);p-=Math.atan2(w-q[1],-q[0])*180/Math.PI;}
+  return {db:20*Math.log10(m),ph:p,m};
+}
+function wRange(sts){
+  const mags=[];for(const st of sts){if(!st)continue;for(const r of [...st.poles,...st.zeros]){const a=Math.hypot(r[0],r[1]);if(a>1e-9)mags.push(a);}}
+  if(!mags.length)return [0.01,100];
+  let lo=Math.floor(Math.log10(Math.min(...mags)))-1,hi=Math.ceil(Math.log10(Math.max(...mags)))+1;
+  if(hi-lo<3){const c=(hi+lo)/2;lo=Math.floor(c-1.5);hi=Math.ceil(c+1.5);}
+  return [10**lo,10**hi];
+}
+const logspace=(a,b,n)=>Array.from({length:n},(_,i)=>10**(Math.log10(a)+(Math.log10(b)-Math.log10(a))*i/(n-1)));
+function margins(L,w0,w1){
+  const ws=logspace(w0/100,w1*100,1600);let prev=null;const gcs=[],pcs=[];
+  for(const w of ws){const r=fr(L,w);r.w=w;
+    if(prev&&isFinite(prev.db)&&isFinite(r.db)){
+      if((prev.db>0)!==(r.db>0)){const t=prev.db/(prev.db-r.db);const lw=10**(Math.log10(prev.w)+t*(Math.log10(w)-Math.log10(prev.w)));gcs.push({w:lw,ph:prev.ph+t*(r.ph-prev.ph)});}
+      const m0=Math.floor((prev.ph+180)/360),m1=Math.floor((r.ph+180)/360);
+      if(m0!==m1){const tg=-180+360*Math.max(m0,m1);const t=(tg-prev.ph)/(r.ph-prev.ph);const lw=10**(Math.log10(prev.w)+t*(Math.log10(w)-Math.log10(prev.w)));pcs.push({w:lw,db:prev.db+t*(r.db-prev.db),tg});}
+    }
+    prev=r;}
+  let pm=null,gm=null;
+  for(const g of gcs){let v=((g.ph+180)%360+360)%360;if(v>180)v-=360;if(!pm||v<pm.v)pm={v,w:g.w,ph:g.ph};}
+  for(const p of pcs){const v=-p.db;if(!gm||v<gm.v)gm={v,w:p.w,db:p.db,tg:p.tg};}
+  return {pm,gm};
+}
+function errConst(L){
+  const d=PS.trim(L.d),n=PS.trim(L.n);let type=0;while(type<d.length-1&&Math.abs(d[type])<1e-10*Math.max(...d.map(Math.abs)))type++;
+  const L0=(n[0]||0)/d[type];const inf=Infinity;
+  const Kp=type===0?L0:inf,Kv=type===0?0:type===1?L0:inf,Ka=type<2?0:type===2?L0:inf;
+  return {type,Kp,Kv,Ka,ep:1/(1+Kp),ev:Kv?1/Kv:inf,ea:Ka?1/Ka:inf};
+}
+const fK=v=>v===Infinity?'∞':fmtN(v);
+
+/* ---- plotting ---- */
+const PGROUP={};
+function logTicks(a,b){const maj=[],min=[];for(let k=Math.floor(Math.log10(a));k<=Math.ceil(Math.log10(b));k++){const v=10**k;if(v>=a*0.999&&v<=b*1.001)maj.push(+v.toPrecision(3));for(let j=2;j<10;j++){const u=j*v;if(u>a&&u<b)min.push(u);}}return {maj,min};}
+function stepTicks(a,b,st){const out=[];for(let v=Math.ceil(a/st-1e-9)*st;v<=b+1e-9;v+=st)out.push(+v.toFixed(6));return out;}
+function pathOf(xs,ys,X,Y){let d='',pen=false;for(let i=0;i<xs.length;i++){const x=xs[i],y=ys[i];if(!isFinite(x)||!isFinite(y)){pen=false;continue;}const px=Math.max(-9000,Math.min(9000,X(x))),py=Math.max(-9000,Math.min(9000,Y(y)));d+=(pen?'L':'M')+px.toFixed(1)+' '+py.toFixed(1);pen=true;}return d;}
+function markSVG(k,px,py){const s=k.size||5,c=k.color||'var(--ink)';const t=k.title?`<title>${esc(k.title)}</title>`:'';
+  switch(k.shape){
+    case 'x':return `<path d="M${px-s} ${py-s}L${px+s} ${py+s}M${px+s} ${py-s}L${px-s} ${py+s}" stroke="${c}" stroke-width="2.2" fill="none">${t}</path>`;
+    case 'o':return `<circle cx="${px}" cy="${py}" r="${s}" fill="var(--panel)" stroke="${c}" stroke-width="1.8">${t}</circle>`;
+    case 'sq':return `<rect x="${px-s}" y="${py-s}" width="${2*s}" height="${2*s}" fill="${c}" stroke="var(--panel)" stroke-width="1.2">${t}</rect>`;
+    case 'dia':return `<path d="M${px} ${py-s}L${px+s} ${py}L${px} ${py+s}L${px-s} ${py}z" fill="${c}" stroke="var(--panel)" stroke-width="1">${t}</path>`;
+    case 'plus':return `<path d="M${px-s} ${py}H${px+s}M${px} ${py-s}V${py+s}" stroke="${c}" stroke-width="2.4">${t}</path>`;
+    default:return `<circle cx="${px}" cy="${py}" r="${s}" fill="${c}">${t}</circle>`;}}
+function drawPlot(box,o){
+  if(!box)return;
+  const W=Math.max(260,Math.round(box.clientWidth||640)),H=o.H||260,m={l:o.ml||54,r:14,t:12,b:28};
+  let [x0,x1]=o.x,[y0,y1]=o.y;
+  if(!(y1>y0)){y0-=1;y1+=1;}if(!(x1>x0))x1=x0+1;
+  const pw=W-m.l-m.r,ph=H-m.t-m.b;
+  if(o.equal){const sx=pw/(x1-x0),sy=ph/(y1-y0);if(sx>sy){const c=(x0+x1)/2,h=pw/sy/2;x0=c-h;x1=c+h;}else{const c=(y0+y1)/2,h=ph/sx/2;y0=c-h;y1=c+h;}}
+  const lx=v=>o.xlog?Math.log10(v):v,ilx=v=>o.xlog?10**v:v;
+  const X=v=>m.l+(lx(v)-lx(x0))/(lx(x1)-lx(x0))*pw,Y=v=>m.t+(1-(v-y0)/(y1-y0))*ph;
+  const IX=px=>ilx(lx(x0)+(px-m.l)/pw*(lx(x1)-lx(x0))),IY=py=>y0+(1-(py-m.t)/ph)*(y1-y0);
+  let g='';
+  if(o.xlog){const t=logTicks(x0,x1);for(const v of t.min)g+=`<line class="gm" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${H-m.b}"/>`;for(const v of t.maj)g+=`<line class="gM" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${H-m.b}"/><text class="tk" x="${X(v)}" y="${H-m.b+14}" text-anchor="middle">${fmtN(v)}</text>`;}
+  else for(const v of ticks(x0,x1,Math.max(3,Math.round(pw/95))))g+=`<line class="gM" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${H-m.b}"/><text class="tk" x="${X(v)}" y="${H-m.b+14}" text-anchor="middle">${fmtN(v)}</text>`;
+  const yt=o.yStep?stepTicks(y0,y1,o.yStep):ticks(y0,y1,Math.max(3,Math.round(ph/48)));
+  for(const v of yt)g+=`<line class="gM" x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tk" x="${m.l-6}" y="${Y(v)+3.5}" text-anchor="end">${fmtN(v)}</text>`;
+  if(o.xlabel)g+=`<text class="tk axl" x="${W-m.r}" y="${H-3}" text-anchor="end">${esc(o.xlabel)}</text>`;
+  const cid='pc'+(++mSeq);let b='';
+  for(const r of o.regions||[])b+=`<rect class="${r.cls}" x="${Math.min(X(r.x0),X(r.x1))}" y="${Math.min(Y(r.y0),Y(r.y1))}" width="${Math.abs(X(r.x1)-X(r.x0))}" height="${Math.abs(Y(r.y1)-Y(r.y0))}"/>`;
+  if(o.axes)b+=`<line class="axz" x1="${m.l}" x2="${W-m.r}" y1="${Y(0)}" y2="${Y(0)}"/><line class="axz" x1="${X(0)}" x2="${X(0)}" y1="${m.t}" y2="${H-m.b}"/>`;
+  for(const l of o.hlines||[])b+=`<line class="${l.cls||'axz'}" x1="${m.l}" x2="${W-m.r}" y1="${Y(l.y)}" y2="${Y(l.y)}"/>`+(l.label?`<text class="tk" x="${W-m.r-4}" y="${Y(l.y)-4}" text-anchor="end">${esc(l.label)}</text>`:'');
+  for(const l of o.vlines||[])b+=`<line class="${l.cls||'axz'}" x1="${X(l.x)}" x2="${X(l.x)}" y1="${m.t}" y2="${H-m.b}"/>`+(l.label?`<text class="tk" x="${X(l.x)+4}" y="${m.t+11}">${esc(l.label)}</text>`:'');
+  for(const c of o.circles||[])b+=`<ellipse class="${c.cls||'gM'}" cx="${X(c.x)}" cy="${Y(c.y)}" rx="${Math.abs(X(c.x+c.r)-X(c.x))}" ry="${Math.abs(Y(c.y+c.r)-Y(c.y))}" fill="none"/>`;
+  for(const s of o.series||[])b+=`<path d="${pathOf(s.x,s.y,X,Y)}" fill="none" stroke="${s.color}" stroke-width="${s.w||2}"${s.dash?` stroke-dasharray="${s.dash}"`:''} stroke-linejoin="round"/>`;
+  for(const s of o.segs||[])b+=`<line x1="${X(s.x1)}" y1="${Y(s.y1)}" x2="${X(s.x2)}" y2="${Y(s.y2)}" stroke="${s.color}" stroke-width="${s.w||2.5}"${s.dash?` stroke-dasharray="${s.dash}"`:''}/>`;
+  for(const a of o.arrows||[]){const px=X(a.x),py=Y(a.y);b+=`<path d="M0 -4.5L9 0L0 4.5z" fill="${a.color}" transform="translate(${px} ${py}) rotate(${a.ang})"/>`;}
+  for(const k of o.marks||[])b+=markSVG(k,X(k.x),Y(k.y));
+  for(const t of o.texts||[])b+=`<text class="ptx" x="${X(t.x)+(t.dx||0)}" y="${Y(t.y)+(t.dy||0)}" text-anchor="${t.anchor||'start'}" fill="${t.color||'var(--ink-2)'}">${esc(t.text)}</text>`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(o.label||'Plot')}"><defs><clipPath id="${cid}"><rect x="${m.l}" y="${m.t}" width="${pw}" height="${ph}"/></clipPath></defs>${g}<rect class="pframe" x="${m.l}" y="${m.t}" width="${pw}" height="${ph}"/><g clip-path="url(#${cid})">${b}<g class="hov"></g></g></svg><div class="ptip" hidden></div>`;
+  box._p={o,X,Y,IX,IY,W,H,m,pw,ph,x0,x1,y0,y1};
+  box.style.cursor=o.onClick?'crosshair':'';
+  if(o.group)(PGROUP[o.group]=PGROUP[o.group]||new Set()).add(box);
+  if(!box._bound){box._bound=true;
+    const loc=e=>{const svg=box.querySelector('svg');const r=svg.getBoundingClientRect();const P=box._p;return {px:(e.clientX-r.left)*P.W/r.width,py:(e.clientY-r.top)*P.H/r.height,sc:r.width/P.W};};
+    box.addEventListener('pointermove',e=>{const P=box._p;if(!P||!P.o.hover)return;const l=loc(e);
+      if(P.o.hover==='x'){const xv=P.IX(l.px);const set=P.o.group?[...PGROUP[P.o.group]].filter(x=>x.isConnected):[box];for(const bx of set)hoverX(bx,xv,bx===box?l.py:null);}
+      else hoverNear(box,l.px,l.py);});
+    box.addEventListener('pointerleave',()=>{const P=box._p;const set=P&&P.o.group?[...(PGROUP[P.o.group]||[])]:[box];for(const bx of set)clearHover(bx);});
+    box.addEventListener('click',e=>{const P=box._p;if(P&&P.o.onClick){const l=loc(e);P.o.onClick(l.px,l.py,P);}});
+  }
+}
+function clearHover(box){const h=box.querySelector('.hov');if(h)h.innerHTML='';const t=box.querySelector('.ptip');if(t)t.hidden=true;}
+function placeTip(box,html,px,py){const P=box._p,t=box.querySelector('.ptip');const svg=box.querySelector('svg');const sc=svg.getBoundingClientRect().width/P.W||1;t.innerHTML=html;t.hidden=false;
+  const tw=t.offsetWidth;let left=px*sc+14;if(left+tw>box.clientWidth-4)left=px*sc-tw-14;t.style.left=Math.max(0,left)+'px';t.style.top=Math.max(0,(py??P.m.t+6)*sc-6)+'px';}
+function nearestIdx(xs,v){let lo=0,hi=xs.length-1;while(hi-lo>1){const mid=(lo+hi)>>1;if(xs[mid]<v)lo=mid;else hi=mid;}return Math.abs(xs[lo]-v)<=Math.abs(xs[hi]-v)?lo:hi;}
+function hoverX(box,xv,py){
+  const P=box._p;if(!P)return;if(xv<Math.min(P.x0,P.x1)||xv>Math.max(P.x0,P.x1)){clearHover(box);return;}
+  let h=`<line class="hl" x1="${P.X(xv)}" x2="${P.X(xv)}" y1="${P.m.t}" y2="${P.m.t+P.ph}"/>`;const rows=[];
+  for(const s of P.o.series||[]){if(s.hover===false||!s.x.length)continue;const i=nearestIdx(s.x,xv);const y=s.y[i];if(!isFinite(y))continue;
+    h+=`<circle cx="${P.X(s.x[i])}" cy="${P.Y(y)}" r="3.6" fill="${s.color}" stroke="var(--panel)" stroke-width="1.2"/>`;rows.push(`<div><span class="tdot" style="background:${s.color}"></span>${esc(s.name||'')} <b>${fmtN(y)}${s.unit||''}</b></div>`);}
+  box.querySelector('.hov').innerHTML=h;
+  placeTip(box,`<div class="tx">${P.o.fmtX?P.o.fmtX(xv):fmtN(xv)}</div>${rows.join('')}`,P.X(xv),py);
+}
+function hoverNear(box,px,py){
+  const P=box._p;let best=null,bd=900;
+  (P.o.series||[]).forEach((s,si)=>{if(!s.near)return;for(let i=0;i<s.x.length;i++){const x=s.x[i],y=s.y[i];if(!isFinite(x)||!isFinite(y))continue;const d=(P.X(x)-px)**2+(P.Y(y)-py)**2;if(d<bd){bd=d;best={si,i,x,y};}}});
+  if(!best){clearHover(box);return;}
+  const s=P.o.series[best.si];
+  box.querySelector('.hov').innerHTML=`<circle cx="${P.X(best.x)}" cy="${P.Y(best.y)}" r="4.5" fill="${s.color}" stroke="var(--panel)" stroke-width="1.5"/>`;
+  placeTip(box,P.o.tipNear?P.o.tipNear(best.si,best.i):`${fmtN(best.x)}, ${fmtN(best.y)}`,P.X(best.x),P.Y(best.y));
+}
+
+/* ---- side panel ---- */
+const WAVES=[['none','Off'],['step','Step'],['impulse','Impulse'],['ramp','Ramp'],['sine','Sine'],['square','Square wave'],['pulse','Pulse']];
+function inputRow(n){
+  const c=SIM.inputs[n.label];
+  return `<div class="inrow" data-in="${esc(n.label)}"><div class="inhead">${symHTML(n.label)}<select data-k="wave" aria-label="Waveform for ${esc(n.label)}">${WAVES.map(([v,l])=>`<option value="${v}"${c.wave===v?' selected':''}>${l}</option>`).join('')}</select></div>
+   <div class="inparams"${c.wave==='none'?' hidden':''}>
+    <label>${c.wave==='ramp'?'Slope':c.wave==='impulse'?'Area':'Amplitude'}<input data-k="A" value="${fmtN(c.A)}" inputmode="decimal" autocomplete="off"></label>
+    <label>Starts at <i>t</i> =<input data-k="t0" value="${fmtN(c.t0)}" inputmode="decimal" autocomplete="off"></label>
+    ${c.wave==='sine'||c.wave==='square'?`<label>ω (rad/s)<input data-k="w" value="${fmtN(c.w)}" inputmode="decimal" autocomplete="off"></label>`:''}
+    ${c.wave==='pulse'?`<label>Width (s)<input data-k="width" value="${fmtN(c.width)}" inputmode="decimal" autocomplete="off"></label>`:''}
+   </div></div>`;
+}
+function renderSimSide(){
+  const el=$('#simSide');const ins=D.nodes.filter(n=>n.t==='in'),cand=sigCandidates(),bl=tunables();
+  let h=`<div class="sec"><h3>System<button class="btn sm" id="simEdit" style="margin-left:auto">Edit diagram</button></h3><div class="simthumb">${staticSVG(D,{pad:16})}</div>`;
+  if(ins.length&&cand.length)h+=`<div class="io" style="margin-top:10px"><span>Analyse</span><select id="sfIn" aria-label="Analysed input">${ins.map(n=>`<option value="${n.id}"${n.id===SIM.fIn?' selected':''}>${esc(n.label)}</option>`).join('')}</select><span>→</span><select id="sfOut" aria-label="Analysed output">${cand.map(c=>`<option value="${c.id}"${c.id===SIM.fOut?' selected':''}>${esc(c.name)}${c.kind==='output of block'?' (block output)':''}</option>`).join('')}</select></div>`;
+  h+=`<div id="simTF"></div></div>`;
+  if(ins.length)h+=`<div class="sec"><h3>Input signals</h3>${ins.map(inputRow).join('')}<div class="field" style="margin:10px 0 0"><label for="sDur">Run time in seconds</label><input id="sDur" class="code" placeholder="Automatic" value="${esc(SIM.dur)}" inputmode="decimal" autocomplete="off"></div></div>`;
+  h+=`<div class="sec"><h3>Signals to plot</h3><div class="sigs">${cand.map(c=>`<label class="sig"><input type="checkbox" data-sig="${c.id}"${SIM.signals.includes(c.id)?' checked':''}><span class="sw" style="background:${colorFor(c.id)}"></span>${symHTML(c.name)}${c.kind?`<span class="muted"> ${c.kind}</span>`:''}</label>`).join('')}</div>
+     <label class="sig" style="margin-top:6px"><input type="checkbox" id="sShowIn"${SIM.showInput?' checked':''}>Show the input waveforms</label></div>`;
+  h+=`<div class="sec"><h3>Tune a gain</h3>${bl.length?`<div class="io"><span>Multiply</span><select id="sTb" aria-label="Block to tune">${bl.map(b=>`<option${b===SIM.tuneBlock?' selected':''}>${esc(b)}</option>`).join('')}</select><span>by</span><input id="sTk" class="code knum" value="${fmtN(SIM.tuneK)}" inputmode="decimal" autocomplete="off" aria-label="Gain multiplier"></div>
+     <input type="range" id="sTr" min="-3" max="3" step="0.005" value="${Math.log10(SIM.tuneK)}" aria-label="Gain multiplier slider"><div class="rangeticks"><span>×0.001</span><span>×1</span><span>×1000</span></div>
+     <div class="btns" style="margin-top:8px"><button class="btn sm" id="sTreset">Reset to ×1</button><button class="btn sm" id="sTapply">Write into the diagram</button></div>
+     <p class="muted note">Every plot follows the slider. On the root locus, click a branch to jump to the gain at that point.</p>`:'<p class="muted note" style="margin:0">Give the blocks transfer functions in the editor, then you can tune their gains here.</p>'}</div>`;
+  el.innerHTML=h;
+  $('#simEdit').onclick=()=>showTab('editor');
+  const fi=$('#sfIn');if(fi)fi.onchange=e=>{SIM.fIn=e.target.value;saveSim();renderSim();};
+  const fo=$('#sfOut');if(fo)fo.onchange=e=>{SIM.fOut=e.target.value;if(!SIM.signals.includes(SIM.fOut))SIM.signals.unshift(SIM.fOut);saveSim();renderSim();};
+  $$('#simSide .inrow').forEach(row=>{const lab=row.dataset.in;
+    row.querySelector('select').onchange=e=>{SIM.inputs[lab].wave=e.target.value;saveSim();renderSimSide();renderSimView();};
+    row.querySelectorAll('input[data-k]').forEach(inp=>inp.addEventListener('input',()=>{const v=parseFloat(inp.value);inp.classList.toggle('badin',!isFinite(v));if(!isFinite(v))return;SIM.inputs[lab][inp.dataset.k]=v;saveSim();queueView();}));});
+  const du=$('#sDur');if(du)du.addEventListener('input',()=>{const v=du.value.trim();if(v&&!(parseFloat(v)>0)){du.classList.add('badin');return;}du.classList.remove('badin');SIM.dur=v;saveSim();queueView();});
+  $$('#simSide [data-sig]').forEach(cb=>cb.onchange=()=>{const id=cb.dataset.sig;SIM.signals=SIM.signals.filter(x=>x!==id);if(cb.checked)SIM.signals.push(id);saveSim();renderSimSide();renderSimView();});
+  $('#sShowIn').onchange=e=>{SIM.showInput=e.target.checked;saveSim();renderSimView();};
+  if(bl.length){
+    $('#sTb').onchange=e=>{SIM.tuneBlock=e.target.value;SIM.tuneK=1;saveSim();renderSimSide();renderSimView();};
+    $('#sTr').addEventListener('input',e=>{SIM.tuneK=+(10**+e.target.value).toPrecision(4);$('#sTk').value=fmtN(SIM.tuneK);$('#sTk').classList.remove('badin');saveSim();queueView(true);});
+    $('#sTk').addEventListener('input',e=>{const v=parseFloat(e.target.value);if(!(v>0)){e.target.classList.add('badin');return;}e.target.classList.remove('badin');SIM.tuneK=v;$('#sTr').value=Math.log10(v);saveSim();queueView(true);});
+    $('#sTreset').onclick=()=>{SIM.tuneK=1;saveSim();renderSimSide();renderSimView();};
+    $('#sTapply').onclick=()=>{if(SIM.tuneK===1)return toast('The multiplier is already ×1.');snapshot();const k=SIM.tuneK;D.nodes.forEach(n=>{if(n.t==='blk'&&n.label.trim()===SIM.tuneBlock&&n.expr&&n.expr.trim())n.expr=`${fmtN(k)}*(${n.expr.trim()})`;});SIM.tuneK=1;changed();saveSim();renderSim();toast(`${SIM.tuneBlock} now includes the ×${fmtN(k)} gain. Undo in the editor reverts it.`);};
+  }
+  renderSimTF();
+}
+let qvT=null;
+function queueView(tf){if(qvT)return;qvT=requestAnimationFrame(()=>{qvT=null;if(tf)renderSimTF();renderSimView();});}
+function poleRows(ps){
+  const out=[];for(const p of ps){if(p[1]<-1e-12)continue;
+    if(p[1]>0){const wn=Math.hypot(p[0],p[1]),z=-p[0]/wn;out.push(`<div class="prow"><span>${fmtN(p[0])} ± ${fmtN(p[1])}<i>j</i></span><span>ζ ${fmtN(+z.toFixed(3))} · ω<sub>n</sub> ${fmtN(wn)}</span></div>`);}
+    else out.push(`<div class="prow"><span>${fmtN(p[0])}</span><span>${p[0]>1e-7?'<span class="bad">right half-plane</span>':Math.abs(p[0])<=1e-7?'integrator':`τ ${fmtN(-1/p[0])} s`}</span></div>`);}
+  return out.join('');
+}
+function stabOf(ps){const re=ps.map(p=>p[0]);return re.some(x=>x>1e-7)?'unstable':re.some(x=>Math.abs(x)<=1e-7)?'marginal':'stable';}
+const BADGE={stable:'<span class="badge stable">Stable</span>',unstable:'<span class="badge unstable">Unstable</span>',marginal:'<span class="badge marginal">Marginally stable</span>'};
+function renderSimTF(){
+  const el=$('#simTF');if(!el||!SIM.fIn||!SIM.fOut)return;const r=tfOf(SIM.fIn,SIM.fOut);
+  if(r.missing){el.innerHTML='';return;}if(r.err){el.innerHTML=`<p class="bad note">${esc(r.err)}</p>`;return;}
+  const st=r.st;const inN=byId(D,SIM.fIn),outN=byId(D,SIM.fOut);
+  const body=r.zero?'0':PS.trim(st.d).length===1?sPolyHTML(PS.scale(st.n,1/st.d[0])):fracHTML(sPolyHTML(st.n),sPolyHTML(st.d));
+  const lp=loopOf();const cl=lp.charRoots?lp.charRoots:st.poles;const s=stabOf(cl);
+  el.innerHTML=`<div class="tf" style="font-size:16px;margin-top:10px"><span class="lhs">${fracHTML(symHTML(outN.label||'Y'),symHTML(inN.label||'X'))} =</span>${body}</div>
+   <div style="display:flex;align-items:center;gap:8px;margin:10px 0 4px;flex-wrap:wrap">${BADGE[s]}${SIM.tuneK!==1?`<span class="chip">${esc(SIM.tuneBlock)} ×${fmtN(SIM.tuneK)}</span>`:''}</div>
+   ${cl.length?`<div class="plist"><div class="prow ph"><span>Closed-loop poles</span><span></span></div>${poleRows(cl)}</div>`:''}`;
+}
+
+/* ---- views ---- */
+function missingHTML(ms){
+  const nums=EX.filter(e=>e.cat==='Numeric');
+  return `<div class="pcard empty"><h4>Blocks need transfer functions to simulate</h4><p>Simulation works with numbers. Give ${ms.slice(0,8).map(m=>symHTML(m)).join(', ')} a transfer function in <i>s</i> in the editor (select the block and type something like <code>10/(s(s+2))</code>), or load a ready-made numeric example.</p>
+   <div class="btns"><button class="btn sm primary" data-goedit>Go to the editor</button>${nums.map(e=>`<button class="btn sm" data-simex="${e.id}">${esc(e.title)}</button>`).join('')}</div></div>`;
+}
+function bindEmpty(){
+  $$('#simView [data-goedit]').forEach(b=>b.onclick=()=>showTab('editor'));
+  $$('#simView [data-simex]').forEach(b=>b.onclick=()=>{const e=EX.find(x=>x.id===b.dataset.simex);loadDiagram(e.d,`Loaded “${e.title}”.`,e.sim);renderSim();});
+}
+function renderSimView(){
+  const v=$('#simView');if(!v)return;
+  $$('#simViews button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.sv===SIM.view)));
+  if(!SIM.fIn||!SIM.fOut){v.innerHTML=`<div class="pcard empty"><h4>Add an input and an output</h4><p>The simulator needs at least one Input terminal and something to observe. Add them in the editor, or load an example.</p><div class="btns"><button class="btn sm primary" data-goedit>Go to the editor</button>${EX.filter(e=>e.cat==='Numeric').slice(0,3).map(e=>`<button class="btn sm" data-simex="${e.id}">${esc(e.title)}</button>`).join('')}</div></div>`;bindEmpty();return;}
+  const base=tfOf(SIM.fIn,SIM.fOut);
+  if(base.missing){v.innerHTML=missingHTML(base.missing);bindEmpty();return;}
+  if(base.err){v.innerHTML=`<div class="pcard"><p class="bad">${esc(base.err)}</p></div>`;return;}
+  try{
+    if(SIM.view==='time')viewTime(v);else if(SIM.view==='bode')viewBode(v);else if(SIM.view==='nyq')viewNyq(v);else viewLocus(v);
+  }catch(err){console.error(err);v.innerHTML=`<div class="pcard"><p class="bad">Could not compute this view: ${esc(err.message)}</p></div>`;}
+  bindEmpty();
+}
+
+/* time */
+function simTime(){
+  const active=D.nodes.filter(n=>n.t==='in'&&SIM.inputs[n.label]&&SIM.inputs[n.label].wave!=='none');
+  const sigs=SIM.signals.map(id=>byId(D,id)).filter(Boolean);
+  const tfs={},missing=new Set(),poles=[];let improper=[];
+  for(const i of active)for(const s of sigs){const r=tfOf(i.id,s.id);if(r.missing){r.missing.forEach(m=>missing.add(m));continue;}if(r.err)throw new Error(r.err);tfs[i.id+'|'+s.id]=r.st;poles.push(...r.st.poles);}
+  const prim=tfOf(SIM.fIn,SIM.fOut);if(prim.st)poles.push(...prim.st.poles);
+  if(missing.size)return {missing:[...missing]};
+  const bt=baseTime(poles);let T=0;
+  for(const i of active){const c=SIM.inputs[i.label];let e=(+c.t0||0)+bt;if(c.wave==='sine'||c.wave==='square')e=(+c.t0||0)+Math.max(bt,5*2*Math.PI/Math.max(1e-6,+c.w||1));if(c.wave==='pulse')e+=(+c.width||0);T=Math.max(T,e);}
+  if(!active.length)T=bt;
+  T=parseFloat(SIM.dur)>0?parseFloat(SIM.dur):niceCeil(Math.min(Math.max(T,0.01),5000));
+  const N=800,t=Array.from({length:N+1},(_,k)=>k*T/N);
+  const out=[];
+  for(const s of sigs){let y=new Array(N+1).fill(0),bad=false;
+    for(const i of active){const st=tfs[i.id+'|'+s.id];if(!st)continue;const c=SIM.inputs[i.label];
+      const mx=Math.max(1e-6,...st.poles.map(p=>Math.hypot(p[0],p[1])),...st.zeros.map(p=>Math.hypot(p[0],p[1])));
+      const yi=c.wave==='impulse'?lsim(st,()=>0,[{t0:+c.t0||0,A:+c.A||0}],T,N,mx):lsim(st,waveFn(c),[],T,N,mx);
+      if(!yi){bad=true;improper.push(`${i.label} → ${s.label}`);continue;}
+      for(let k=0;k<=N;k++)y[k]+=yi[k];}
+    out.push({node:s,y,bad});}
+  const inputs=active.map(i=>{const c=SIM.inputs[i.label];return {node:i,c,y:c.wave==='impulse'?t.map(()=>0):t.map(waveFn(c))};});
+  // primary metrics
+  let met=null;const pin=active.find(i=>i.id===SIM.fIn);
+  if(pin&&prim.st){const c=SIM.inputs[pin.label];const st=prim.st;const mx=Math.max(1e-6,...st.poles.map(p=>Math.hypot(p[0],p[1])));
+    const y1=c.wave==='impulse'?lsim(st,()=>0,[{t0:+c.t0||0,A:+c.A||0}],T,N,mx):lsim(st,waveFn(c),[],T,N,mx);
+    if(y1){const u=c.wave==='impulse'?0:waveFn(c)(T);met={wave:c.wave,A:+c.A||0,t0:+c.t0||0,st,yEnd:y1[N],err:u-y1[N],stab:stabOf(st.poles)};
+      if(c.wave==='step')Object.assign(met,stepInfo(t,y1,+c.t0||0,(+c.A||0)*dcGain(st)));}}
+  return {t,T,out,inputs,met,improper};
+}
+function dcGain(st){const d0=PS.val(st.d,0);return Math.abs(d0)>1e-12?PS.val(st.n,0)/d0:NaN;}
+function stepInfo(t,y,t0,fv){
+  const i0=t.findIndex(v=>v>=t0-1e-12);if(i0<0||!isFinite(fv)||Math.abs(fv)<1e-12)return {};
+  const sg=fv>=0?1:-1;let pk=-Infinity,ip=i0,t10=null,t90=null;
+  for(let i=i0;i<y.length;i++){if(!isFinite(y[i]))break;const v=sg*y[i];if(v>pk){pk=v;ip=i;}if(t10==null&&v>=0.1*Math.abs(fv))t10=t[i];if(t90==null&&v>=0.9*Math.abs(fv))t90=t[i];}
+  let ls=-1;for(let i=y.length-1;i>=i0;i--){if(!isFinite(y[i])||Math.abs(y[i]-fv)>0.02*Math.abs(fv)){ls=i;break;}}
+  return {fv,peak:sg*pk,tp:t[ip]-t0,os:Math.max(0,(pk-Math.abs(fv))/Math.abs(fv)*100),tr:t10!=null&&t90!=null?t90-t10:null,ts:ls<0?0:ls>=y.length-1?null:t[ls+1]-t0};
+}
+function legendHTML(items){return `<div class="legend">${items.map(i=>`<span><i style="border-color:${i.color};${i.dash?'border-top-style:dashed':''}"></i>${i.html}</span>`).join('')}</div>`;}
+function kv(label,val,cls=''){return `<div class="kvi"><span>${label}</span><b class="${cls}">${val}</b></div>`;}
+function viewTime(v){
+  const R=simTime();if(R.missing){v.innerHTML=missingHTML(R.missing);return;}
+  const series=[],leg=[];
+  R.out.forEach(o=>{const col=colorFor(o.node.id);series.push({x:R.t,y:o.y,color:col,name:o.node.label,w:2.2});leg.push({color:col,html:symHTML(o.node.label)+(o.node.t==='blk'?' <span class="muted">output</span>':'')});});
+  if(SIM.showInput)R.inputs.forEach(i=>{if(i.c.wave!=='impulse'){series.push({x:R.t,y:i.y,color:'var(--ink-3)',dash:'5 4',w:1.4,name:i.node.label+' in'});}leg.push({color:'var(--ink-3)',dash:true,html:`${symHTML(i.node.label)} <span class="muted">${i.c.wave}</span>`});});
+  if(simRef&&simRef.time){series.push({x:simRef.time.t,y:simRef.time.y,color:'var(--ink-2)',dash:'2 4',w:2,name:'reference'});leg.push({color:'var(--ink-2)',dash:true,html:`<span class="muted">reference: ${esc(simRef.label)}</span>`});}
+  let ys=[];series.forEach(s=>s.y.forEach(y=>{if(isFinite(y))ys.push(y);}));
+  let y0=Math.min(0,...ys),y1=Math.max(0,...ys);if(y1-y0<1e-9){y0-=1;y1+=1;}const pad=(y1-y0)*0.08;
+  const vlines=SIM.showInput?R.inputs.filter(i=>i.c.wave==='impulse').map(i=>({x:+i.c.t0||0,cls:'crit',label:'δ'})):[];
+  const blow=R.out.some(o=>o.y.some(y=>!isFinite(y)));
+  let h=`<div class="pcard"><div class="phead"><h5>Time response</h5>${legendHTML(leg)}</div>${blow?'<p class="warnline">The response grows without bound, so the run stops where it leaves the chart.</p>':''}<div class="pbox" id="pTime"></div></div>`;
+  if(R.improper.length)h+=`<p class="warnline">Skipped ${R.improper.map(esc).join(', ')}: more zeros than poles, so it has no time response.</p>`;
+  const m=R.met;
+  if(m){const inN=byId(D,SIM.fIn),outN=byId(D,SIM.fOut);
+    h+=`<div class="pcard"><div class="phead"><h5>${symHTML(outN.label)} for the ${m.wave} on ${symHTML(inN.label)} alone</h5>${BADGE[m.stab]}</div><div class="kvgrid">`;
+    if(m.wave==='step'&&m.stab==='stable'&&m.fv!=null){h+=kv('Final value A·T(0)',fmtN(m.fv))+kv('Peak',fmtN(m.peak))+kv('Overshoot',(m.os<0.05?'0':m.os.toFixed(1))+' %')+kv('Peak time',fmtN(m.tp)+' s')+kv('Rise time 10–90 %',m.tr!=null?fmtN(m.tr)+' s':'—')+kv('Settling time 2 %',m.ts!=null?fmtN(m.ts)+' s':'not within run');}
+    h+=kv(`Value at t = ${fmtN(R.T)} s`,fmtN(m.yEnd))+(m.wave!=='impulse'?kv('Input − output at the end',fmtN(m.err)):'');
+    h+=`</div></div>`;}
+  const lp=loopOf();
+  if(lp.L){const e=errConst(lp.L);h+=`<div class="pcard"><div class="phead"><h5>Steady-state error</h5><span class="muted" style="font-size:12px">from the loop gain <i>L</i>(<i>s</i>), assuming unity feedback</span></div><div class="kvgrid">${kv('System type',e.type)+kv('K<sub>p</sub> position',fK(e.Kp))+kv('K<sub>v</sub> velocity',fK(e.Kv))+kv('K<sub>a</sub> acceleration',fK(e.Ka))+kv('e<sub>ss</sub> unit step',fK(e.ep))+kv('e<sub>ss</sub> unit ramp',fK(e.ev))+kv('e<sub>ss</sub> unit parabola',fK(e.ea))}</div></div>`;}
+  v.innerHTML=h;
+  drawPlot($('#pTime'),{H:330,x:[0,R.T],y:[y0-pad,y1+pad],xlabel:'t (s)',series,vlines,hover:'x',fmtX:x=>`t = ${fmtN(x)} s`,hlines:[{y:0,cls:'axz'}],label:'Time response'});
+  lastTime=R;
+}
+let lastTime=null;
+
+/* bode */
+function simBode(){
+  const T1=tfOf(SIM.fIn,SIM.fOut).st;const lp=loopOf();const L=lp.L||null;
+  const [w0,w1]=wRange([T1,L]);const ws=logspace(w0,w1,500);
+  const cur=st=>{const db=[],ph=[];for(const w of ws){const r=fr(st,w);db.push(r.db);ph.push(r.ph);}return {db,ph};};
+  const res={ws,w0,w1,T:cur(T1),Tst:T1,Lst:L,lp};
+  if(L){res.L=cur(L);res.mg=margins(L,w0,w1);}
+  const dc=res.T.db[0];if(isFinite(dc)){let bw=null;for(let i=1;i<ws.length;i++)if(res.T.db[i]<dc-3){bw=ws[i];break;}let mx=-Infinity,iw=0;res.T.db.forEach((d,i)=>{if(d>mx){mx=d;iw=i;}});res.bw=bw;res.Mr=mx-dc;res.wr=ws[iw];}
+  return res;
+}
+function viewBode(v){
+  const B=simBode();const hasL=!!B.L;let mode=SIM.fmode;if(!hasL)mode='T';
+  const showL=mode!=='T',showT=mode!=='L';
+  const sm=[],sp=[],leg=[];
+  if(showL){sm.push({x:B.ws,y:B.L.db,color:'var(--c2)',name:'|L|',unit:' dB'});sp.push({x:B.ws,y:B.L.ph,color:'var(--c2)',name:'∠L',unit:'°'});leg.push({color:'var(--c2)',html:'Loop gain <i>L</i>(<i>jω</i>)'});}
+  if(showT){sm.push({x:B.ws,y:B.T.db,color:'var(--c1)',name:'|T|',unit:' dB'});sp.push({x:B.ws,y:B.T.ph,color:'var(--c1)',name:'∠T',unit:'°'});leg.push({color:'var(--c1)',html:'Closed loop <i>T</i>(<i>jω</i>)'});}
+  if(simRef&&simRef.bode){const rb=simRef.bode;const src=showL&&rb.L?rb.L:rb.T;if(src){sm.push({x:rb.ws,y:src.db,color:'var(--ink-2)',dash:'2 4',name:'ref',unit:' dB'});sp.push({x:rb.ws,y:src.ph,color:'var(--ink-2)',dash:'2 4',name:'ref',unit:'°'});leg.push({color:'var(--ink-2)',dash:true,html:`<span class="muted">reference: ${esc(simRef.label)}</span>`});}}
+  const fin=a=>a.filter(x=>isFinite(x));
+  let dbs=fin(sm.flatMap(s=>s.y));let dmax=Math.max(...dbs,0),dmin=Math.min(...dbs,0);dmin=Math.max(dmin,dmax-140);const dstep=dmax-dmin>80?20:10;
+  const pS=fin(sp.flatMap(s=>s.y));let pmin=Math.floor(Math.min(...pS,-90)/45)*45,pmax=Math.ceil(Math.max(...pS,0)/45)*45;if(pmax-pmin<90)pmax=pmin+90;const pstep=pmax-pmin>360?90:45;
+  const mv=[],pv=[],msg=[],psg=[],mtx=[],ptx=[],phl=[{y:0,cls:'axz'}];
+  const mg=B.mg;
+  if(showL&&mg){
+    if(mg.pm){const c=mg.pm.v>0?'var(--pos)':'var(--neg)';mv.push({x:mg.pm.w,cls:'crit'});pv.push({x:mg.pm.w,cls:'crit'});psg.push({x1:mg.pm.w,x2:mg.pm.w,y1:mg.pm.ph-mg.pm.v,y2:mg.pm.ph,color:c,w:3});ptx.push({x:mg.pm.w,y:(2*mg.pm.ph-mg.pm.v)/2,text:`PM ${mg.pm.v.toFixed(1)}°`,dx:6,dy:4,color:c});phl.push({y:mg.pm.ph-mg.pm.v,cls:'crit'});}
+    if(mg.gm){const c=mg.gm.v>0?'var(--pos)':'var(--neg)';mv.push({x:mg.gm.w,cls:'crit'});pv.push({x:mg.gm.w,cls:'crit'});msg.push({x1:mg.gm.w,x2:mg.gm.w,y1:mg.gm.db,y2:0,color:c,w:3});mtx.push({x:mg.gm.w,y:mg.gm.db/2,text:`GM ${mg.gm.v.toFixed(1)} dB`,dx:6,dy:4,color:c});if(!phl.some(l=>l.y===mg.gm.tg))phl.push({y:mg.gm.tg,cls:'crit'});}
+  }
+  if(showT&&B.bw)mv.push({x:B.bw,cls:'bwl',label:'−3 dB'});
+  let h=`<div class="pcard"><div class="phead"><h5>Bode diagram</h5><div class="seg" id="fmSeg"><button data-fm="L"${hasL?'':' disabled'} aria-pressed="${mode==='L'}">Loop gain L</button><button data-fm="T" aria-pressed="${mode==='T'}">Closed loop T</button><button data-fm="both"${hasL?'':' disabled'} aria-pressed="${mode==='both'}">Both</button></div></div>${legendHTML(leg)}
+   <div class="plabel">Magnitude (dB)</div><div class="pbox" id="pMag"></div><div class="plabel">Phase (degrees)</div><div class="pbox" id="pPh"></div></div>`;
+  h+=`<div class="pcard"><div class="phead"><h5>Stability margins and closed-loop figures</h5></div><div class="kvgrid">`;
+  if(hasL){const pm=mg.pm,gm=mg.gm;h+=kv('Gain margin',gm?`${gm.v.toFixed(2)} dB`:'∞',gm?(gm.v>0?'ok':'bad'):'ok')+kv('Phase crossover ω<sub>pc</sub>',gm?fmtN(gm.w)+' rad/s':'none')+kv('Phase margin',pm?`${pm.v.toFixed(1)}°`:'∞',pm?(pm.v>0?'ok':'bad'):'ok')+kv('Gain crossover ω<sub>gc</sub>',pm?fmtN(pm.w)+' rad/s':'none');}
+  h+=kv('DC gain |T(0)|',isFinite(B.T.db[0])?fmtN(10**(B.T.db[0]/20)):'—')+kv('Bandwidth (−3 dB)',B.bw?fmtN(B.bw)+' rad/s':'beyond range')+kv('Resonant peak M<sub>r</sub>',B.Mr>0.01?B.Mr.toFixed(2)+' dB':'none')+(B.Mr>0.01?kv('Resonant frequency ω<sub>r</sub>',fmtN(B.wr)+' rad/s'):'');
+  h+=`</div>${hasL?`<p class="note muted" style="margin:10px 0 0"><i>L</i>(<i>s</i>) is defined by 1 + <i>L</i>(<i>s</i>) = Δ(<i>s</i>), so it equals <i>G</i>(<i>s</i>)<i>H</i>(<i>s</i>) for a single loop. ${(B.Lst.poles.some(p=>p[0]>1e-7))?'<b class="bad">L has right half-plane poles, so the margins alone do not decide stability. Use the Nyquist view.</b>':'Positive margins mean a stable closed loop when L itself is stable.'}</p>`:'<p class="note muted" style="margin:10px 0 0">This diagram has no feedback loop, so only the transfer function is shown.</p>'}</div>`;
+  v.innerHTML=h;
+  $$('#fmSeg button').forEach(b=>b.onclick=()=>{SIM.fmode=b.dataset.fm;saveSim();renderSimView();});
+  const fx=x=>`ω = ${fmtN(x)} rad/s`;
+  drawPlot($('#pMag'),{H:230,xlog:true,x:[B.w0,B.w1],y:[dmin-5,dmax+5],yStep:dstep,series:sm,vlines:mv,segs:msg,texts:mtx,hlines:[{y:0,cls:'axz'}],hover:'x',group:'bode',fmtX:fx,label:'Bode magnitude'});
+  drawPlot($('#pPh'),{H:210,xlog:true,x:[B.w0,B.w1],y:[pmin,pmax],yStep:pstep,series:sp,vlines:pv,segs:psg,texts:ptx,hlines:phl,hover:'x',group:'bode',fmtX:fx,xlabel:'ω (rad/s)',label:'Bode phase'});
+  lastBode=B;
+}
+let lastBode=null;
+
+/* nyquist */
+function viewNyq(v){
+  const lp=loopOf();
+  if(lp.none){v.innerHTML=`<div class="pcard empty"><h4>No feedback loop</h4><p>The Nyquist plot shows the loop gain <i>L</i>(<i>jω</i>). This diagram has no loop to analyse.</p></div>`;return;}
+  if(lp.missing){v.innerHTML=missingHTML(lp.missing);return;}
+  const L=lp.L;const [w0,w1]=wRange([L]);const ws=logspace(w0/1000,w1*1000,1800);
+  const re=[],im=[];for(const w of ws){const r=fr(L,w);const a=r.ph*Math.PI/180;re.push(r.m*Math.cos(a));im.push(r.m*Math.sin(a));}
+  const P=L.poles.filter(p=>p[0]>1e-7).length,Z=lp.charRoots.filter(p=>p[0]>1e-7).length,N=Z-P;
+  const axisPoles=L.poles.filter(p=>Math.abs(p[0])<=1e-7).length;
+  let R;const near=SIM.nyqZoom==='near';
+  if(near)R=2.6;else{const ms=re.map((x,i)=>Math.hypot(x,im[i])).filter(isFinite);R=Math.max(1.5,Math.min(Math.max(...ms),1e4))*1.1;}
+  const vis=[];for(let i=0;i<re.length;i++)if(Math.abs(re[i])<R&&Math.abs(im[i])<R)vis.push(i);
+  const arrows=[];
+  for(const f of [0.3,0.65]){const k=vis[Math.floor(vis.length*f)];if(k==null||k+1>=re.length)continue;
+    const dx=re[k+1]-re[k],dy=im[k+1]-im[k];if(Math.hypot(dx,dy)<1e-12)continue;
+    arrows.push({x:re[k],y:im[k],ang:Math.atan2(-dy,dx)*180/Math.PI,color:'var(--c2)'});
+    arrows.push({x:re[k],y:-im[k],ang:Math.atan2(-dy,-dx)*180/Math.PI,color:'var(--ink-3)'});}
+  const series=[{x:re,y:im,color:'var(--c2)',w:2.2,near:true,name:'ω > 0'},{x:re,y:im.map(y=>-y),color:'var(--ink-3)',w:1.5,dash:'5 4',near:true,name:'ω < 0'}];
+  if(simRef&&simRef.nyq)series.push({x:simRef.nyq.re,y:simRef.nyq.im,color:'var(--ink-2)',dash:'2 4',w:1.8,name:'reference'});
+  const xr=near?[-2.6,1.4]:[-R,R],yr=near?[-1.6,1.6]:[-R,R];
+  let h=`<div class="pcard"><div class="phead"><h5>Nyquist plot of <i>L</i>(<i>jω</i>)</h5><div class="seg" id="nzSeg"><button data-nz="near" aria-pressed="${near}">Around −1</button><button data-nz="all" aria-pressed="${!near}">Whole curve</button></div></div>
+    ${legendHTML([{color:'var(--c2)',html:'ω from 0 to ∞'},{color:'var(--ink-3)',dash:true,html:'ω from −∞ to 0 (mirror)'},{color:'var(--neg)',html:'critical point −1'}])}<div class="pbox" id="pNyq"></div></div>
+    <div class="pcard"><div class="phead"><h5>Nyquist criterion</h5>${BADGE[Z?'unstable':stabOf(lp.charRoots)]}</div>
+    <div class="kvgrid">${kv('Open-loop RHP poles P',P)+kv('Closed-loop RHP poles Z',Z,Z?'bad':'ok')+kv('Clockwise encirclements of −1, N = Z − P',N)}</div>
+    <p class="note muted" style="margin:10px 0 0">Z = N + P. ${P?`Because L has ${P} unstable pole${P>1?'s':''}, a stable loop needs ${P} counter-clockwise encirclement${P>1?'s':''} of −1 (N = −${P}).`:'L is open-loop stable, so the closed loop is stable when the curve does not encircle −1.'}${axisPoles?` L has ${axisPoles} pole${axisPoles>1?'s':''} on the imaginary axis; the contour detours around ${axisPoles>1?'them':'it'}, so the curve closes through a large arc at infinity (not drawn).`:''}</p></div>`;
+  v.innerHTML=h;
+  $$('#nzSeg button').forEach(b=>b.onclick=()=>{SIM.nyqZoom=b.dataset.nz;saveSim();renderSimView();});
+  drawPlot($('#pNyq'),{H:380,equal:true,axes:true,x:xr,y:yr,series,arrows,circles:[{x:0,y:0,r:1,cls:'ucirc'}],marks:[{x:-1,y:0,shape:'plus',color:'var(--neg)',size:7,title:'−1'}],hover:'near',
+    tipNear:(si,i)=>{if(si>1)return 'reference';const w=ws[i]*(si===1?-1:1);const x=re[i],y=si===1?-im[i]:im[i];return `<div class="tx">ω = ${fmtN(w)} rad/s</div><div>L = ${fmtN(x)} ${y<0?'−':'+'} ${fmtN(Math.abs(y))}j</div><div>|L| ${fmtN(Math.hypot(x,y))} · ∠ ${fmtN(Math.atan2(y,x)*180/Math.PI)}°</div>`;},xlabel:'Re',label:'Nyquist plot'});
+  lastNyq={re,im};
+}
+let lastNyq=null;
+
+/* root locus */
+function locusData(){
+  const blk=SIM.tuneBlock;const r=sSolve(SIM.fIn,SIM.fOut);
+  if(!r.loops.length)return {msg:'This diagram has no feedback loops, so there is no root locus.'};
+  if(!blk)return {msg:'Give a block a transfer function so its gain can be varied.'};
+  const syms=[...SP.syms(r.delta)];
+  if(!syms.includes(blk))return {msg:`${blk} is not inside any loop, so changing its gain does not move the closed-loop poles. Pick another block under “Tune a gain”.`};
+  const m1=numMap(syms,1);if(m1.missing.length)return {missing:m1.missing};
+  let deg=0;for(const t of r.delta.values())deg=Math.max(deg,t.m[blk]||0);
+  let charAt,Leq=null;
+  if(deg===1){const D0=evalSPtoR(r.delta,{...m1.map,[blk]:RO.num(0)});const D1=RO.sub(evalSPtoR(r.delta,m1.map),D0);Leq=simplifyTF(RO.div(D1,D0));if(!Leq.k)return {msg:`${blk} cancels out of the characteristic equation.`};charAt=k=>roots(PS.add(Leq.d,PS.scale(Leq.n,k)));}
+  else charAt=k=>simplifyTF(evalSPtoR(r.delta,numMap(syms,k).map)).zeros;
+  const ks=[];for(let i=0;i<=420;i++)ks.push(10**(-4+8*i/420));
+  let br=null;
+  for(const k of ks){const rs=charAt(k);if(!br){br=rs.map(q=>[{x:q[0],y:q[1],k}]);continue;}
+    const used=new Array(rs.length).fill(false);
+    for(const b of br){const l=b[b.length-1];let bi=-1,bd=Infinity;rs.forEach((q,j)=>{if(used[j])return;const d=Math.hypot(q[0]-l.x,q[1]-l.y);if(d<bd){bd=d;bi=j;}});if(bi>=0){used[bi]=true;b.push({x:rs[bi][0],y:rs[bi][1],k});}}
+    rs.forEach((q,j)=>{if(!used[j])br.push([{x:q[0],y:q[1],k}]);});}
+  const mre=k=>Math.max(...charAt(k).map(q=>q[0]));
+  const cr=[];let pv=mre(ks[0]);
+  for(let i=1;i<ks.length;i++){const v=mre(ks[i]);if((pv>1e-9)!==(v>1e-9)){let a=Math.log10(ks[i-1]),b=Math.log10(ks[i]);const sa=pv>1e-9;for(let it=0;it<50;it++){const m=(a+b)/2;if((mre(10**m)>1e-9)===sa)a=m;else b=m;}const kc=10**((a+b)/2);const rs=charAt(kc);let best=rs[0];rs.forEach(q=>{if(Math.abs(q[0])<Math.abs(best[0]))best=q;});cr.push({k:kc,w:Math.abs(best[1]),toUnstable:!sa});}pv=v;}
+  const ol={poles:Leq?Leq.poles:charAt(1e-6),zeros:Leq?Leq.zeros:[]};
+  return {br,cr,cur:charAt(SIM.tuneK),ol,blk};
+}
+function viewLocus(v){
+  const Ld=locusData();
+  if(Ld.missing){v.innerHTML=missingHTML(Ld.missing);return;}
+  if(Ld.msg){v.innerHTML=`<div class="pcard empty"><h4>Root locus unavailable</h4><p>${esc(Ld.msg)}</p></div>`;return;}
+  const pts=[...Ld.ol.poles,...Ld.ol.zeros,...Ld.cur,...Ld.cr.map(c=>[0,c.w])];
+  let xa=Math.min(-1,...pts.map(p=>p[0])),xb=Math.max(0.5,...pts.map(p=>p[0])),ya=Math.max(1,...pts.map(p=>Math.abs(p[1])));
+  const span=Math.max(xb-xa,2*ya);const px=span*0.22;xa-=px;xb+=px;ya=ya+px;
+  const series=Ld.br.map(b=>({x:b.map(p=>p.x),y:b.map(p=>p.y),color:'var(--c2)',w:2,near:true,name:'locus'}));
+  const marks=[...Ld.ol.poles.map(p=>({x:p[0],y:p[1],shape:'x',color:'var(--ink)',size:6,title:'open-loop pole'})),...Ld.ol.zeros.map(p=>({x:p[0],y:p[1],shape:'o',color:'var(--ink)',size:5.5,title:'open-loop zero'})),
+    ...Ld.cr.flatMap(c=>[{x:0,y:c.w,shape:'dia',color:'var(--warn)',size:6,title:`×${fmtN(c.k)}`},{x:0,y:-c.w,shape:'dia',color:'var(--warn)',size:6}]),
+    ...Ld.cur.map(p=>({x:p[0],y:p[1],shape:'sq',color:'var(--c1)',size:5,title:'closed-loop pole now'}))];
+  const s=stabOf(Ld.cur);
+  let h=`<div class="pcard"><div class="phead"><h5>Root locus as the gain of ${symHTML(Ld.blk)} changes</h5>${BADGE[s]}</div>
+    ${legendHTML([{color:'var(--c2)',html:'closed-loop pole paths, ×0.0001 to ×10000'},{color:'var(--c1)',html:`poles at ×${fmtN(SIM.tuneK)}`},{color:'var(--ink)',html:'× open-loop poles, ○ zeros'}])}
+    <div class="pbox" id="pLoc"></div><p class="note muted" style="margin:8px 0 0">Click anywhere on a branch to set the gain to that point. Shaded area is the right half-plane.</p></div>
+    <div class="pcard"><div class="phead"><h5>Stability boundary</h5></div>${Ld.cr.length?`<div class="kvgrid">${Ld.cr.map(c=>kv(`${c.toUnstable?'Becomes unstable':'Becomes stable'} at`,`${esc(Ld.blk)} ×${fmtN(c.k)}<br><span class="muted" style="font-size:12px">crosses at ω = ${fmtN(c.w)} rad/s</span>`)).join('')}</div><div class="btns" style="margin-top:10px">${Ld.cr.map((c,i)=>`<button class="btn sm" data-setk="${c.k}">Go to ×${fmtN(c.k)}</button>`).join('')}</div>`:`<p class="note muted" style="margin:0">The poles never cross the imaginary axis for gains between ×0.0001 and ×10000, so the stability ${s==='stable'?'holds':'does not change'} over that range.</p>`}</div>
+    <div class="pcard"><div class="phead"><h5>Closed-loop poles at ×${fmtN(SIM.tuneK)}</h5></div><div class="plist">${poleRows(Ld.cur)}</div></div>`;
+  v.innerHTML=h;
+  $$('[data-setk]').forEach(b=>b.onclick=()=>{SIM.tuneK=+(+b.dataset.setk).toPrecision(4);saveSim();renderSimSide();renderSimView();});
+  drawPlot($('#pLoc'),{H:400,equal:true,axes:true,x:[xa,xb],y:[-ya,ya],regions:[{x0:0,x1:1e6,y0:-1e6,y1:1e6,cls:'rhp'}],series,marks,hover:'near',xlabel:'Re (σ)',label:'Root locus',
+    tipNear:(si,i)=>{const p=Ld.br[si][i];const wn=Math.hypot(p.x,p.y);return `<div class="tx">${esc(Ld.blk)} ×${fmtN(p.k)}</div><div>s = ${fmtN(p.x)} ${p.y<0?'−':'+'} ${fmtN(Math.abs(p.y))}j</div>${Math.abs(p.y)>1e-6?`<div>ζ ${fmtN(+(-p.x/wn).toFixed(3))} · ω<sub>n</sub> ${fmtN(wn)}</div>`:''}<div class="muted2">click to use this gain</div>`;},
+    onClick:(px,py,P)=>{let best=null,bd=196;Ld.br.forEach(b=>b.forEach(p=>{const d=(P.X(p.x)-px)**2+(P.Y(p.y)-py)**2;if(d<bd){bd=d;best=p;}}));if(best){SIM.tuneK=+best.k.toPrecision(4);saveSim();renderSimSide();renderSimView();}}});
+}
+
+/* ---- toolbar ---- */
+$$('#simViews button').forEach(b=>b.onclick=()=>{SIM.view=b.dataset.sv;saveSim();renderSimView();});
+$('#sRef').onclick=()=>{
+  if(simRef){simRef=null;$('#sRef').textContent='Keep as reference';renderSimView();toast('Reference cleared.');return;}
+  const label=SIM.tuneBlock&&SIM.tuneK!==1?`${SIM.tuneBlock} ×${fmtN(SIM.tuneK)}`:'as it was';
+  const ref={label};
+  try{const R=simTime();if(!R.missing){const o=R.out.find(x=>x.node.id===SIM.fOut)||R.out[0];if(o)ref.time={t:R.t,y:o.y.slice()};}}catch(e){}
+  try{const B=simBode();ref.bode={ws:B.ws,T:B.T,L:B.L};}catch(e){}
+  try{const lp=loopOf();if(lp.L){const [w0,w1]=wRange([lp.L]);const re=[],im=[];for(const w of logspace(w0/1000,w1*1000,1800)){const r=fr(lp.L,w);const a=r.ph*Math.PI/180;re.push(r.m*Math.cos(a));im.push(r.m*Math.sin(a));}ref.nyq={re,im};}}catch(e){}
+  simRef=ref;$('#sRef').textContent='Clear reference';renderSimView();toast('Reference kept. Change the gain or the diagram to compare against it.');
+};
+$('#sCsv').onclick=()=>{
+  let R;try{R=simTime();}catch(e){R=null;}
+  if(!R||R.missing)return toast('Nothing to copy yet.');
+  const cols=[['t',R.t],...R.out.map(o=>[o.node.label,o.y]),...R.inputs.map(i=>[i.node.label+' input',i.y])];
+  const lines=[cols.map(c=>c[0]).join(',')];for(let k=0;k<R.t.length;k++)lines.push(cols.map(c=>isFinite(c[1][k])?+c[1][k].toPrecision(8):'').join(','));
+  copyText(lines.join('\n'),`Copied ${R.t.length} rows as CSV. Paste into a spreadsheet.`);
+};
+function renderSim(){simSig();validateSim();saveSim();renderSimSide();renderSimView();$('#sRef').textContent=simRef?'Clear reference':'Keep as reference';}
+window.addEventListener('resize',()=>{if(currentTab==='simulate'){clearTimeout(window.__rsT);window.__rsT=setTimeout(renderSimView,120);}});
+
+boot();
 
 </script>
 
