@@ -478,11 +478,118 @@ details.mason summary{background:linear-gradient(#F4F6F7,#D9DFE3);font-size:12px
   .taskbar .status{display:none}
 }
 #toast{font:12px var(--sans);border-radius:0;background:#FFFFE1;color:#000;border:1px solid #767676;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+
+/* ---------- Mark 2 additions: library, digital, SFG, practice, animation ---------- */
+.kt{font:700 13px var(--sans);fill:#000;text-anchor:middle;pointer-events:none}
+.ks{font:10.5px var(--sans);fill:#46525A;text-anchor:middle;pointer-events:none}
+.digin{fill:none;stroke:#3B6E84;stroke-width:1;stroke-dasharray:3 2}
+.dbadge{fill:#4C7589;stroke:none}
+.dbt{font:700 9.5px var(--sans);fill:#FFFFFF;text-anchor:middle;pointer-events:none}
+svg.sfgmode{cursor:grab}
+.sfp{fill:none;stroke:#1E2429;stroke-width:1.6}
+.sfa{fill:#1E2429}
+.sfl{font:italic 15px var(--math);fill:#1E2429;paint-order:stroke;stroke:#FFFFFF;stroke-width:4px}
+.sfl.neg{fill:#B00000;font-style:normal}
+.sfn circle{fill:#FFFFFF;stroke:#1E2429;stroke-width:1.8}
+.sfnl{font:16px var(--math);fill:#1E2429;paint-order:stroke;stroke:#FFFFFF;stroke-width:4px}
+.sfe.on .sfp{stroke:var(--accent);stroke-width:3}
+.sfe.on .sfa{fill:var(--accent)}
+.sfn.on circle{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2.6}
+.kindhead{display:flex;flex-direction:column;gap:1px;margin:2px 0 8px;padding:6px 8px;background:#F3F5F6;border:1px solid #C3CBD1}
+.kindhead b{font-size:12.5px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px 10px;margin-bottom:8px}
+.pf{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:4px;font-size:11.5px;color:#000}
+.pf span{grid-column:1/-1;color:#46525A}
+.pf input,.pf select{min-width:0;width:100%;border:1px solid #8C979F;background:#FFFFFF;padding:3px 5px;font:12px var(--mono);border-radius:0}
+.pf select{font-family:var(--sans)}
+.pf em{font-style:normal;color:#5B666E;align-self:center;font-size:11.5px}
+.pf.inl{display:inline-grid;min-width:150px}
+.ansf input{font-size:14px;padding:5px 7px}
+.digsec{border-top:1px dashed #C3CBD1;padding-top:8px;margin:4px 0 10px}
+.diffeq{font:12.5px var(--mono);background:#F3F5F6;border:1px solid #C3CBD1;padding:5px 8px;margin-top:4px;overflow-x:auto;white-space:nowrap}
+.libgrp{margin-bottom:4px}
+.libgrp summary{cursor:pointer;font-weight:700;font-size:12px;padding:3px 4px;background:linear-gradient(#FBFCFC,#E8ECEE);border:1px solid #C3CBD1}
+.libitems{display:flex;flex-direction:column;border:1px solid #C3CBD1;border-top:0}
+.libitem{display:flex;align-items:center;gap:8px;text-align:left;border:0;border-top:1px solid #EEF1F3;background:#FFFFFF;padding:4px 8px;font:12px var(--sans);color:#000;cursor:pointer}
+.libitem:hover{background:#E2F2F2}
+.li{width:16px;height:12px;border:1.5px solid #1E3A4A;background:#FFFFFF;flex:none;position:relative}
+.li-pid,.li-lead,.li-gain,.li-integ{border-color:#00838A;background:#E0F2F2}
+.li-sensor,.li-delay{border-style:dashed}
+.anwrap{border:1px solid #C3CBD1;background:#FFFFFF}
+.anwrap canvas{display:block;width:100%;height:200px}
+#anScrub{width:100%;margin:6px 0 2px;accent-color:#00838A}
+.dgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:8px}
+.dblk{border:1px solid #C3CBD1;padding:6px 8px;margin-bottom:8px}
+.dbh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
+.dbh select{border:1px solid #8C979F;font:12px var(--sans);padding:2px 4px}
+.ucirc2{stroke:#1E2429;stroke-width:1.2}
+.routh{border-collapse:collapse;margin:6px 0;font:13px var(--math)}
+.routh th,.routh td{border:1px solid #C3CBD1;padding:3px 10px;text-align:center}
+.routh th{background:#F3F5F6;font-weight:400}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mopt{border:1px solid #A9B4BC;background:#FFFFFF;padding:4px;cursor:pointer;display:flex;flex-direction:column;gap:2px;text-align:left;border-radius:0}
+.mopt b{font-size:12px}
+.mopt svg{width:100%;height:auto}
+.mopt:hover{border-color:#5E9AB0;background:#F2FAFD}
+.mopt.on{border:2px solid #4C7589}
+.mboard{width:100%;max-width:520px}
+.mboard svg{width:100%;height:auto}
+.ansbig{width:100%;font:15px var(--mono);padding:8px 10px;border:1px solid #8C979F}
+.preview{min-height:36px;font-family:var(--math);font-size:17px;display:flex;align-items:center;overflow-x:auto}
+@media (max-width:980px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+[hidden]{display:none!important}
+
+/* ---------- export window ---------- */
+.xback{position:fixed;inset:0;background:rgba(30,40,48,.35);z-index:90}
+.xwin{position:fixed;z-index:91;left:50%;top:50%;transform:translate(-50%,-50%);width:min(1180px,calc(100vw - 24px));height:min(760px,calc(100vh - 24px));background:#F3F5F6;border:1px solid #5B6B75;box-shadow:4px 6px 18px rgba(0,0,0,.35);display:flex;flex-direction:column}
+.xtitle{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 4px 10px;background:linear-gradient(#6E97AA,#4C7589);color:#FFFFFF;font:700 12px var(--sans)}
+.xclose{border:1px solid #3B5E70;background:linear-gradient(#E9EDF0,#C9D2D8);width:24px;height:20px;font-size:11px;cursor:pointer;color:#000}
+.xclose:hover{background:linear-gradient(#F8C9C4,#E0605A);color:#FFFFFF}
+.xbody{flex:1;min-height:0;display:grid;grid-template-columns:200px 250px minmax(0,1fr)}
+.xlist{background:#FFFFFF;border-right:1px solid #A9B4BC;overflow-y:auto;padding:4px 0}
+.xg{font:700 11.5px var(--sans);color:#46525A;padding:8px 10px 3px}
+.xi{display:flex;align-items:center;gap:7px;width:100%;border:1px solid transparent;background:none;text-align:left;padding:4px 10px 4px 16px;font:12px var(--sans);color:#000;cursor:pointer}
+.xi:hover{background:#E2F2F2}
+.xi.on{background:#CDEAEA;border-color:#5E9AB0;font-weight:700}
+.xopts{border-right:1px solid #A9B4BC;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;background:#F3F5F6}
+.xopts .pf{grid-template-columns:minmax(0,1fr) auto}
+.xrow{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chk{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer}
+.xsub{font:700 11.5px var(--sans);color:#46525A;margin-top:6px}
+.xmain{display:flex;flex-direction:column;min-width:0;min-height:0;background:#FFFFFF}
+.xprev{flex:1;min-height:0;overflow:auto;border-bottom:1px solid #A9B4BC}
+.xacts{display:flex;gap:6px;padding:6px 10px;background:linear-gradient(#FBFCFC,#E3E8EB);border-bottom:1px solid #A9B4BC;flex-wrap:wrap}
+.xacts:empty{display:none}
+.xnotes{max-height:34%;overflow-y:auto;padding:6px 12px;font-size:12px}
+.xnotes:empty{display:none}
+pre.code{margin:0;padding:10px 12px;font:12px/1.5 var(--mono);white-space:pre;color:#1E2429;tab-size:4}
+pre.code .cc{color:#2F7D32}
+pre.code .ck{color:#1F3FBF;font-weight:700}
+.xtab{border-collapse:collapse;margin:10px 12px;font-size:12px}
+.xtab th,.xtab td{border:1px solid #C3CBD1;padding:3px 8px;text-align:left}
+.xtab th{background:#F3F5F6}
+.xtab td.num{font-family:var(--mono);text-align:right}
+.xchecks{display:flex;flex-direction:column;gap:3px;margin:4px 0 6px}
+.cok{color:#1F6E12}.cbad{color:#A0400A}.cinfo{color:#46525A}
+.xsteps{margin:4px 0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.paper{background:#FFFFFF;max-width:780px;margin:12px auto;padding:20px 28px;box-shadow:0 0 0 1px #C3CBD1,2px 3px 8px rgba(0,0,0,.15);font:13.5px/1.5 Georgia,"Times New Roman",serif;color:#111}
+.paper h1{font:700 21px Arial,Helvetica,sans-serif;margin:0 0 2px}
+.paper h2{font:700 15px Arial,Helvetica,sans-serif;margin:20px 0 6px;padding-bottom:2px;border-bottom:1px solid #999}
+.paper .rhead p{color:#444;margin:0}
+.paper figure{margin:6px 0}.paper figure svg{max-width:100%;height:auto;display:block}
+.paper figcaption,.paper .rnote{font-size:12px;color:#555}
+.paper .rmath{font:16px var(--math);margin:6px 0 10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.paper .rtab{border-collapse:collapse;font:12.5px Arial,Helvetica,sans-serif;margin:4px 0 8px}
+.paper .rtab td,.paper .rtab th{border:1px solid #bbb;padding:2px 9px;text-align:left}
+.paper .rtab th{background:#eee}
+.paper .rcode{font:11px var(--mono);background:#F5F5F5;border:1px solid #ccc;padding:8px;white-space:pre-wrap}
+#rptHost{position:absolute;left:-12000px;top:0;width:700px;pointer-events:none}
+@media (max-width:900px){.xbody{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(300px,1fr);overflow-y:auto}.xlist,.xopts{border-right:0;border-bottom:1px solid #A9B4BC}.xlist{display:flex;flex-wrap:wrap;gap:2px}.xg{display:none}.xi{width:auto}}
 </style>
 
 <div class="app">
   <div class="titlebar"><svg width="16" height="16" viewBox="0 0 30 22" aria-hidden="true"><path d="M1 11h6M15.5 11h3" stroke="#1E2A33" stroke-width="2" fill="none"/><circle cx="11" cy="11" r="4.5" fill="none" stroke="#1E2A33" stroke-width="2"/><rect x="18.5" y="5" width="10" height="12" fill="none" stroke="#009999" stroke-width="2.4"/></svg><span>Eros’s Block Diagram Editor Mark 2 &nbsp;-&nbsp; Project1</span></div>
-  <header class="menubar" id="menubar"><div class="menu"><button class="mtop" aria-haspopup="true">Project</button><div class="drop" role="menu"><button data-act="new"><span>New sheet</span><kbd></kbd></button><hr><button data-act="copyjson"><span>Copy diagram (JSON)</span><kbd></kbd></button><button data-act="pastejson"><span>Paste diagram (JSON)…</span><kbd></kbd></button><button data-act="copysvg"><span>Copy diagram as SVG</span><kbd></kbd></button><hr><button data-act="portal"><span>Open example library…</span><kbd></kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Edit</button><div class="drop" role="menu"><button data-act="undo"><span>Undo</span><kbd>Ctrl+Z</kbd></button><button data-act="redo"><span>Redo</span><kbd>Ctrl+Y</kbd></button><hr><button data-act="dup"><span>Duplicate</span><kbd>Ctrl+D</kbd></button><button data-act="flip"><span>Flip direction</span><kbd>R</kbd></button><button data-act="del"><span>Delete</span><kbd>Del</kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">View</button><div class="drop" role="menu"><button data-act="v:editor"><span>Block diagram editor</span><kbd></kbd></button><button data-act="v:simulate"><span>Simulation</span><kbd></kbd></button><button data-act="v:practice"><span>Practice</span><kbd></kbd></button><button data-act="v:rules"><span>Reduction rules</span><kbd></kbd></button><hr><button data-act="zin"><span>Zoom in</span><kbd>+</kbd></button><button data-act="zout"><span>Zoom out</span><kbd>−</kbd></button><button data-act="fit"><span>Fit to window</span><kbd>F</kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Insert</button><div class="drop" role="menu"><button data-act="i:blk"><span>Block</span><kbd>B</kbd></button><button data-act="i:sum"><span>Summing junction</span><kbd>S</kbd></button><button data-act="i:pick"><span>Pickoff point</span><kbd>P</kbd></button><button data-act="i:in"><span>Input signal</span><kbd></kbd></button><button data-act="i:out"><span>Output signal</span><kbd></kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Online</button><div class="drop" role="menu"><button data-act="s:time"><span>Time response</span><kbd></kbd></button><button data-act="s:bode"><span>Bode diagram</span><kbd></kbd></button><button data-act="s:nyq"><span>Nyquist plot</span><kbd></kbd></button><button data-act="s:locus"><span>Root locus</span><kbd></kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Options</button><div class="drop" role="menu"><button data-act="m:select"><span>Select mode</span><kbd>V</kbd></button><button data-act="m:wire"><span>Wire mode</span><kbd>W</kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Help</button><div class="drop" role="menu"><button data-act="h:keys"><span>Keyboard shortcuts</span><kbd></kbd></button><button data-act="h:mason"><span>Mason’s gain formula</span><kbd></kbd></button><button data-act="v:rules"><span>Reduction rules</span><kbd></kbd></button></div></div><div class="spacer"></div><div class="pbrand"><span>Eros’s Block Diagram</span><b>EDITOR <i>Mark 2</i></b></div><button class="theme-btn" id="themeBtn" type="button" hidden>Theme</button></header>
+  <header class="menubar" id="menubar"><div class="menu"><button class="mtop" aria-haspopup="true">Project</button><div class="drop" role="menu"><button data-act="new"><span>New sheet</span><kbd></kbd></button><hr><button data-act="copyjson"><span>Copy diagram (JSON)</span><kbd></kbd></button><button data-act="pastejson"><span>Paste diagram (JSON)…</span><kbd></kbd></button><button data-act="copysvg"><span>Copy diagram as SVG</span><kbd></kbd></button><hr><button data-act="x:scl"><span>Export PLC code…</span><kbd></kbd></button><button data-act="x:mat"><span>Export to MATLAB / Python…</span><kbd></kbd></button><button data-act="x:rep"><span>Create report (PDF)…</span><kbd></kbd></button><hr><button data-act="portal"><span>Open example library…</span><kbd></kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Edit</button><div class="drop" role="menu"><button data-act="undo"><span>Undo</span><kbd>Ctrl+Z</kbd></button><button data-act="redo"><span>Redo</span><kbd>Ctrl+Y</kbd></button><hr><button data-act="dup"><span>Duplicate</span><kbd>Ctrl+D</kbd></button><button data-act="flip"><span>Flip direction</span><kbd>R</kbd></button><button data-act="del"><span>Delete</span><kbd>Del</kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">View</button><div class="drop" role="menu"><button data-act="v:editor"><span>Block diagram editor</span><kbd></kbd></button><button data-act="v:simulate"><span>Simulation</span><kbd></kbd></button><button data-act="v:practice"><span>Practice</span><kbd></kbd></button><button data-act="v:rules"><span>Reduction rules</span><kbd></kbd></button><hr><button data-act="zin"><span>Zoom in</span><kbd>+</kbd></button><button data-act="zout"><span>Zoom out</span><kbd>−</kbd></button><button data-act="fit"><span>Fit to window</span><kbd>F</kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Insert</button><div class="drop" role="menu"><button data-act="i:blk"><span>Block</span><kbd>B</kbd></button><button data-act="i:sum"><span>Summing junction</span><kbd>S</kbd></button><button data-act="i:pick"><span>Pickoff point</span><kbd>P</kbd></button><button data-act="i:in"><span>Input signal</span><kbd></kbd></button><button data-act="i:out"><span>Output signal</span><kbd></kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Online</button><div class="drop" role="menu"><button data-act="s:time"><span>Time response</span><kbd></kbd></button><button data-act="s:bode"><span>Bode diagram</span><kbd></kbd></button><button data-act="s:nyq"><span>Nyquist plot</span><kbd></kbd></button><button data-act="s:locus"><span>Root locus</span><kbd></kbd></button><button data-act="s:digital"><span>Digital control (z-plane)</span><kbd></kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Options</button><div class="drop" role="menu"><button data-act="m:select"><span>Select mode</span><kbd>V</kbd></button><button data-act="m:wire"><span>Wire mode</span><kbd>W</kbd></button></div></div><div class="menu"><button class="mtop" aria-haspopup="true">Help</button><div class="drop" role="menu"><button data-act="h:keys"><span>Keyboard shortcuts</span><kbd></kbd></button><button data-act="h:mason"><span>Mason’s gain formula</span><kbd></kbd></button><button data-act="v:rules"><span>Reduction rules</span><kbd></kbd></button></div></div><div class="spacer"></div><div class="pbrand"><span>Eros’s Block Diagram</span><b>EDITOR <i>Mark 2</i></b></div><button class="theme-btn" id="themeBtn" type="button" hidden>Theme</button></header>
   <main>
     <section class="tab editor-tab" id="tab-editor">
       <div class="wtitle">Project1 &nbsp;▸&nbsp; Block diagrams &nbsp;▸&nbsp; Main [Sheet 1]</div>
@@ -497,6 +604,11 @@ details.mason summary{background:linear-gradient(#F4F6F7,#D9DFE3);font-size:12px
           <button class="tool" data-add="pick" title="Pickoff point (P)"><svg viewBox="0 0 24 24"><path d="M2 12h20M12 12v9"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/></svg>Pickoff</button>
           <button class="tool" data-add="in" title="Input signal"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.4" fill="currentColor"/><path d="M7 12h13M16 8l4 4-4 4"/></svg>Input</button>
           <button class="tool" data-add="out" title="Output signal"><svg viewBox="0 0 24 24"><path d="M2 12h14M12 8l4 4-4 4"/><circle cx="19" cy="12" r="2.6"/></svg>Output</button>
+          <div class="grp">View</div>
+          <button class="tool" data-view="bd" aria-pressed="true" title="Block diagram view"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="8" height="8"/><path d="M11 12h4"/><rect x="15" y="9" width="6" height="6"/></svg>Block diagram</button>
+          <button class="tool" data-view="sfg" aria-pressed="false" title="Signal flow graph view"><svg viewBox="0 0 24 24"><circle cx="4" cy="14" r="2"/><circle cx="12" cy="14" r="2"/><circle cx="20" cy="14" r="2"/><path d="M6 14h4M14 14h4M18 12Q12 2 6 12"/></svg>Signal flow graph</button>
+          <button class="tool" id="bLib" title="Open the block library"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="16"/><rect x="11" y="4" width="4" height="16"/><path d="M16 5l4 1-3 14-4-1z"/></svg>Library</button>
+          <button class="tool" id="bExport" title="Export PLC code, scripts or a report"><svg viewBox="0 0 24 24"><path d="M5 4h9l5 5v11H5z"/><path d="M14 4v5h5"/><path d="M12 11v6M9 14l3 3 3-3"/></svg>Export</button>
           <div class="grp">Edit</div>
           <button class="tool" id="bUndo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 7L4 12l5 5"/><path d="M4 12h10a6 6 0 010 12h-2" transform="translate(0 -6)"/></svg>Undo</button>
           <button class="tool" id="bRedo" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24"><path d="M15 7l5 5-5 5"/><path d="M20 12H10a6 6 0 000 12h2" transform="translate(0 -6)"/></svg>Redo</button>
@@ -514,17 +626,18 @@ details.mason summary{background:linear-gradient(#F4F6F7,#D9DFE3);font-size:12px
             </defs>
             <g id="world"><rect id="gridbg" x="-6000" y="-6000" width="12000" height="12000" fill="url(#gMajor)"/><g id="content"></g><g id="overlay"></g></g>
           </svg>
-          <div class="netbar"><b>▼ Network 1:</b> <span>Closed-loop block diagram</span><em>Comment</em></div>
+          <div class="netbar"><b>▼ Network 1:</b> <span id="netTitle">Closed-loop block diagram</span><em>Comment</em></div>
           <div class="mode-pill" id="modePill" hidden>Wire mode</div>
           <div class="stage-hint" id="stageHint"></div>
           <div class="zoom"><button id="zOut" title="Zoom out" aria-label="Zoom out">−</button><button id="zFit" title="Fit diagram (F)" aria-label="Fit diagram">⤢</button><button id="zIn" title="Zoom in" aria-label="Zoom in">+</button></div>
         </div>
         <aside class="side">
           <div class="sec" id="insp"></div>
+          <div class="sec" id="libsec"></div>
           <div class="sec" id="result"></div>
           <div class="sec" id="filesec"></div>
         </aside>
-        <div class="vtabs" aria-label="Task cards"><button data-jump="insp" class="on">Properties</button><button data-jump="result">Analysis</button><button data-jump="filesec">Project file</button></div>
+        <div class="vtabs" aria-label="Task cards"><button data-jump="insp" class="on">Properties</button><button data-jump="libsec">Instructions</button><button data-jump="result">Analysis</button><button data-jump="filesec">Project file</button></div>
       </div>
     </section>
 
@@ -533,7 +646,7 @@ details.mason summary{background:linear-gradient(#F4F6F7,#D9DFE3);font-size:12px
       <div class="simwrap">
         <aside class="simside" id="simSide"></aside>
         <div class="simmain">
-          <div class="simbar"><div class="seg" id="simViews"><button data-sv="time" aria-pressed="true">Time response</button><button data-sv="bode" aria-pressed="false">Bode</button><button data-sv="nyq" aria-pressed="false">Nyquist</button><button data-sv="locus" aria-pressed="false">Root locus</button></div><div class="spacer"></div><button class="btn sm" id="sRef">Keep as reference</button><button class="btn sm" id="sCsv">Copy data as CSV</button></div>
+          <div class="simbar"><div class="seg" id="simViews"><button data-sv="time" aria-pressed="true">Time response</button><button data-sv="bode" aria-pressed="false">Bode</button><button data-sv="nyq" aria-pressed="false">Nyquist</button><button data-sv="locus" aria-pressed="false">Root locus</button><button data-sv="digital" aria-pressed="false">Digital</button></div><div class="spacer"></div><button class="btn sm" id="sRef">Keep as reference</button><button class="btn sm" id="sCsv">Copy data as CSV</button><button class="btn sm" id="sRep">Create report…</button></div>
           <div id="simView"></div>
         </div>
       </div>
@@ -555,21 +668,20 @@ details.mason summary{background:linear-gradient(#F4F6F7,#D9DFE3);font-size:12px
       <div class="wtitle">Project1 &nbsp;▸&nbsp; Training &nbsp;▸&nbsp; Practice</div>
       <div class="page">
         <div class="page-head">
-          <div><h2>Practice</h2><p>Find the closed-loop transfer function. Type it with block names, like <code>G1G2/(1+G1G2H1)</code>. Any algebraically equal form counts as correct.</p></div>
+          <div><h2>Practice</h2><p>Six kinds of exam-style questions: transfer functions by Mason’s rule, counting paths and loops, stability ranges with Routh, steady-state error, second-order specifications, and matching responses to pole locations. Pick one type or mix them.</p></div>
         </div>
         <div class="prac">
           <div class="board">
-            <div class="board-head"><span class="num" id="prNum">Problem 1</span><div class="spacer"></div><div class="seg" id="prLevel"><button data-lv="easy" aria-pressed="false">Easy</button><button data-lv="medium" aria-pressed="true">Medium</button><button data-lv="hard" aria-pressed="false">Hard</button></div></div>
+            <div class="board-head"><span class="num" id="prNum">Problem 1</span><div class="spacer"></div><button class="btn sm" id="prSfg" hidden>Show as signal flow graph</button><select id="prType" aria-label="Question type"></select><div class="seg" id="prLevel"><button data-lv="easy" aria-pressed="false">Easy</button><button data-lv="medium" aria-pressed="true">Medium</button><button data-lv="hard" aria-pressed="false">Hard</button></div></div>
             <div class="board-svg" id="prSvg"></div>
           </div>
           <div class="qpanel">
             <div class="question" id="prQ"></div>
-            <div><input id="ansIn" autocomplete="off" spellcheck="false" placeholder="e.g. G1G2/(1+G1G2H1)" aria-label="Your answer"></div>
-            <div class="preview" id="ansPrev"><span class="muted" style="font-family:var(--sans);font-size:13px">Your answer will be typeset here.</span></div>
+            <div id="prAnsArea"></div>
             <div class="btns"><button class="btn primary" id="prCheck">Check answer</button><button class="btn" id="prHint">Hint</button><button class="btn" id="prReveal">Show solution</button><button class="btn" id="prNext">Next problem →</button></div>
             <div id="prFb"></div>
             <div class="hints" id="prHints"></div>
-            <div class="btns"><button class="btn sm" id="prOpen">Open this diagram in the editor</button></div>
+            <div class="btns" id="prOpenRow"><button class="btn sm" id="prOpen">Open this diagram in the editor</button></div>
             <div class="score" id="prScore"></div>
           </div>
         </div>
@@ -594,6 +706,15 @@ details.mason summary{background:linear-gradient(#F4F6F7,#D9DFE3);font-size:12px
     </nav>
     <div class="status" id="status" aria-live="off"></div>
   </footer>
+</div>
+<div class="xback" id="xback" hidden></div>
+<div class="xwin" id="xwin" role="dialog" aria-modal="true" aria-labelledby="xTitle" hidden>
+  <div class="xtitle"><span id="xTitle">Export</span><button class="xclose" id="xClose" aria-label="Close export window">✕</button></div>
+  <div class="xbody">
+    <nav class="xlist" id="xList" aria-label="Export targets"></nav>
+    <div class="xopts" id="xOpts"></div>
+    <div class="xmain"><div class="xprev" id="xPrev"></div><div class="xacts" id="xActs"></div><div class="xnotes" id="xNotes"></div></div>
+  </div>
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="ghost" hidden></div>
@@ -644,7 +765,7 @@ function parseWith(src,ops,ident,badIdent){
   const startsFactor=()=>{const c=s[i];return c!==undefined&&(c==='('||/[0-9.]/.test(c)||!!ident(s,i));};
   function expr(){let v=term();while(s[i]==='+'||s[i]==='-'){const op=s[i++];const r=term();v=op==='+'?ops.add(v,r):ops.sub(v,r);}return v;}
   function term(){let v=factor();for(;;){const c=s[i];if(c==='*'){i++;v=ops.mul(v,factor());}else if(c==='/'){i++;v=ops.div(v,factor());}else if(startsFactor()){v=ops.mul(v,factor());}else break;}return v;}
-  function factor(){if(s[i]==='-'){i++;return ops.neg(factor());}if(s[i]==='+'){i++;return factor();}let b=primary();while(s[i]==='^'){i++;const m=/^\(?(\d+)\)?/.exec(s.slice(i));if(!m)throw new Error('Powers must be whole numbers, like s^2');i+=m[0].length;b=ops.pow(b,+m[1]);}return b;}
+  function factor(){if(s[i]==='-'){i++;return ops.neg(factor());}if(s[i]==='+'){i++;return factor();}let b=primary();while(s[i]==='^'){i++;const m=/^(?:\((\d+)\)|(\d+))/.exec(s.slice(i));if(!m)throw new Error('Powers must be whole numbers, like s^2');i+=m[0].length;b=ops.pow(b,+(m[1]||m[2]));}return b;}
   function primary(){
     const c=s[i];
     if(c==='('){i++;const v=expr();if(s[i]!==')')throw new Error('Missing a closing bracket');i++;return v;}
@@ -728,7 +849,9 @@ function splitFrac(e){
 /* ---- geometry ---- */
 function blkDims(n){
   let w,h;
-  if(n.expr&&n.expr.trim()){const f=splitFrac(n.expr);const L=f?Math.max(prettyExpr(f[0]).length,prettyExpr(f[1]).length):prettyExpr(n.expr).length;w=Math.max(64,L*7.6+30);h=f?60:44;}
+  const kl=n.kind&&typeof kindLines==='function'?kindLines(n):null;
+  if(kl){w=Math.max(76,kl[0].length*8.4+30,kl[1].length*6.3+24);h=50;}
+  else if(n.expr&&n.expr.trim()){const f=splitFrac(n.expr);const L=f?Math.max(prettyExpr(f[0]).length,prettyExpr(f[1]).length):prettyExpr(n.expr).length;w=Math.max(64,L*7.6+30);h=f?60:44;}
   else{w=Math.max(56,labelLen(n.label)*10.5+32);h=44;}
   return {w:2*Math.round(w/2),h};
 }
@@ -762,7 +885,8 @@ function route(d,w){
   } else {T={x:B.x,y:B.y};g2=0;}
   if(!ds){const dx=T.x-S.x,dy=T.y-S.y;ds=Math.abs(dy)<6?{x:sg(dx),y:0}:{x:0,y:sg(dy)};}
   if(!dt){const dx=T.x-S.x,dy=T.y-S.y;if(ds.x)dt=Math.abs(dy)<6?{x:sg(dx),y:0}:{x:0,y:sg(dy)};else dt=Math.abs(dx)<6?{x:0,y:sg(dy)}:{x:sg(dx),y:0};}
-  const P1={x:S.x+ds.x*g1,y:S.y+ds.y*g1},P2={x:T.x-dt.x*g2,y:T.y-dt.y*g2};
+  let P1={x:S.x+ds.x*g1,y:S.y+ds.y*g1},P2={x:T.x-dt.x*g2,y:T.y-dt.y*g2};
+  if(ds.x&&dt.x&&ds.x===dt.x&&(P2.x-P1.x)*ds.x<0&&(T.x-S.x)*ds.x>4){P1={x:S.x,y:S.y};P2={x:T.x,y:T.y};}
   const bx=w.bendAxis==='x'&&w.bend!=null?w.bend:null, by=w.bendAxis==='y'&&w.bend!=null?w.bend:null;
   let mid=[],handle=null;
   if(ds.x&&dt.x){
@@ -908,6 +1032,300 @@ function stepMetrics(sr,fv){
 }
 /* @@END_CORE */
 
+/* ===== Block library: controllers, physical plants, sensors ===== */
+const nf=v=>{const x=+(+v).toPrecision(6);return Object.is(x,-0)?'0':String(x);};
+const KINDS={
+  pid:{grp:'Controllers',name:'PID controller',short:'PID',label:'Gc',
+    params:[['Kp','Proportional gain','',2],['Ki','Integral gain','1/s',1],['Kd','Derivative gain','s',0.2],['N','Derivative filter','rad/s',50]],
+    tf:p=>{const t=[];if(+p.Kp)t.push(nf(p.Kp));if(+p.Ki)t.push(`${nf(p.Ki)}/s`);if(+p.Kd)t.push(+p.N>0?`${nf(p.Kd*p.N)}*s/(s+${nf(p.N)})`:`${nf(p.Kd)}*s`);return t.join('+')||'0';},
+    sub:p=>`Kp ${nf(p.Kp)} · Ki ${nf(p.Ki)} · Kd ${nf(p.Kd)}`,
+    note:'C(s) = Kp + Ki/s + Kd·N·s/(s + N). Set N = 0 for an ideal derivative.'},
+  lead:{grp:'Controllers',name:'Lead / lag compensator',short:'Lead-lag',label:'Gc',
+    params:[['K','Gain','',1],['z','Zero at s = −z','rad/s',1],['p','Pole at s = −p','rad/s',10]],
+    tf:p=>`${nf(p.K)}*(s+${nf(p.z)})/(s+${nf(p.p)})`,sub:p=>`z ${nf(p.z)} · p ${nf(p.p)}${+p.z<+p.p?' (lead)':' (lag)'}`,
+    note:'Lead when z < p (adds phase), lag when z > p (adds low-frequency gain).'},
+  gain:{grp:'Controllers',name:'Gain',short:'Gain',label:'K',params:[['K','Gain','',10]],tf:p=>nf(p.K),sub:p=>`K = ${nf(p.K)}`},
+  integ:{grp:'Controllers',name:'Integrator',short:'Integrator',label:'I',params:[['K','Gain','1/s',1]],tf:p=>`${nf(p.K)}/s`,sub:p=>`K/s, K = ${nf(p.K)}`},
+  motorw:{grp:'Physical plants',name:'DC motor (speed)',short:'DC motor ω',label:'Gp',anim:'motorw',unitIn:'V',unitOut:'rad/s',
+    params:[['J','Rotor inertia','kg·m²',0.01],['b','Viscous friction','N·m·s',0.1],['K','Motor constant','N·m/A',0.01],['R','Armature resistance','Ω',1],['L','Armature inductance','H',0.5]],
+    tf:p=>`${nf(p.K)}/((${nf(p.J)}*s+${nf(p.b)})*(${nf(p.L)}*s+${nf(p.R)})+${nf(p.K*p.K)})`,sub:p=>`voltage → speed`,
+    note:'ω/V = K / ((Js + b)(Ls + R) + K²). Input armature voltage, output shaft speed.'},
+  motorp:{grp:'Physical plants',name:'DC motor (position)',short:'DC motor θ',label:'Gp',anim:'motorp',unitIn:'V',unitOut:'rad',
+    params:[['J','Rotor inertia','kg·m²',0.01],['b','Viscous friction','N·m·s',0.1],['K','Motor constant','N·m/A',0.01],['R','Armature resistance','Ω',1],['L','Armature inductance','H',0.5]],
+    tf:p=>`${nf(p.K)}/(s*((${nf(p.J)}*s+${nf(p.b)})*(${nf(p.L)}*s+${nf(p.R)})+${nf(p.K*p.K)}))`,sub:p=>`voltage → angle`,
+    note:'θ/V = K / (s((Js + b)(Ls + R) + K²)). One more integrator than the speed model.'},
+  msd:{grp:'Physical plants',name:'Mass-spring-damper',short:'Mass-spring',label:'Gp',anim:'mass',unitIn:'N',unitOut:'m',
+    params:[['m','Mass','kg',1],['b','Damping','N·s/m',2],['k','Spring stiffness','N/m',20]],
+    tf:p=>`1/(${nf(p.m)}*s^2+${nf(p.b)}*s+${nf(p.k)})`,sub:p=>`m ${nf(p.m)} · b ${nf(p.b)} · k ${nf(p.k)}`,
+    note:'X/F = 1 / (ms² + bs + k). Input force, output position.'},
+  tank:{grp:'Physical plants',name:'Water tank (level)',short:'Water tank',label:'Gp',anim:'tank',unitIn:'m³/s',unitOut:'m',
+    params:[['A','Tank cross-section','m²',2],['R','Outlet resistance','s/m²',0.5]],
+    tf:p=>`${nf(p.R)}/(${nf(p.A*p.R)}*s+1)`,sub:p=>`τ = ${nf(p.A*p.R)} s`,
+    note:'H/Q = R / (ARs + 1). Input inflow, output level. Time constant τ = AR.'},
+  thermal:{grp:'Physical plants',name:'Heated oven',short:'Oven',label:'Gp',anim:'thermal',unitIn:'W',unitOut:'K',
+    params:[['C','Heat capacity','J/K',400],['R','Thermal resistance','K/W',0.05]],
+    tf:p=>`${nf(p.R)}/(${nf(p.R*p.C)}*s+1)`,sub:p=>`τ = ${nf(p.R*p.C)} s`,
+    note:'ΔT/P = R / (RCs + 1). Input heater power, output temperature rise above ambient.'},
+  pend:{grp:'Physical plants',name:'Inverted pendulum',short:'Pendulum',label:'Gp',anim:'pend',unitIn:'N·m',unitOut:'rad',
+    params:[['m','Bob mass','kg',0.2],['l','Rod length','m',0.5]],
+    tf:p=>`1/(${nf(p.m*p.l*p.l)}*s^2-${nf(p.m*9.81*p.l)})`,sub:p=>`unstable, linearised`,
+    note:'θ/τ = 1 / (ml²s² − mgl), linearised about upright. It has a right half-plane pole, so it needs feedback.'},
+  rlc:{grp:'Physical plants',name:'RLC circuit',short:'RLC',label:'Gp',unitIn:'V',unitOut:'V',
+    params:[['R','Resistance','Ω',10],['L','Inductance','H',0.1],['C','Capacitance','F',0.001]],
+    tf:p=>`1/(${nf(p.L*p.C)}*s^2+${nf(p.R*p.C)}*s+1)`,sub:p=>`ωn ${nf(1/Math.sqrt(p.L*p.C))} rad/s`,
+    note:'Vc/Vin = 1 / (LCs² + RCs + 1). Series RLC, capacitor voltage as output.'},
+  sensor:{grp:'Sensors and signals',name:'Sensor (first-order lag)',short:'Sensor',label:'H',params:[['K','Sensor gain','',1],['tau','Time constant','s',0.05]],
+    tf:p=>+p.tau?`${nf(p.K)}/(${nf(p.tau)}*s+1)`:nf(p.K),sub:p=>`τ = ${nf(p.tau)} s`},
+  delay:{grp:'Sensors and signals',name:'Time delay (Padé)',short:'Delay',label:'Gd',params:[['T','Delay','s',0.5]],
+    tf:p=>{const a=nf(p.T/2),b=nf(p.T*p.T/12);return `(1-${a}*s+${b}*s^2)/(1+${a}*s+${b}*s^2)`;},sub:p=>`T = ${nf(p.T)} s`,
+    note:'Second-order Padé approximation of e^(−sT).'},
+};
+function kindDefaults(k){const o={};KINDS[k].params.forEach(([key,,,v])=>o[key]=v);return o;}
+function kindLines(n){const K=KINDS[n.kind];if(!K)return null;let sub='';try{sub=K.sub(n.params||kindDefaults(n.kind));}catch(e){}return [K.short,sub];}
+function applyKind(n){const K=KINDS[n.kind];if(!K)return;n.params=Object.assign(kindDefaults(n.kind),n.params||{});n.expr=K.tf(n.params);}
+function uniqueLabel(base){if(!D.nodes.some(n=>n.t==='blk'&&n.label===base))return base;let i=2;while(D.nodes.some(n=>n.t==='blk'&&n.label===base+i))i++;return base+i;}
+function addKind(kind,p){
+  if(tool==='wire')setTool('select');if(typeof sfgOn!=='undefined'&&sfgOn)setView('bd');
+  snapshot();
+  if(!p){const r=cv.getBoundingClientRect();const k=D.nodes.length%6;p={x:(r.width/2-view.tx)/view.k+k*20-50,y:(r.height/2-view.ty)/view.k+k*20-50};}
+  const n=addNode(D,'blk',snapv(p.x),snapv(p.y),{label:uniqueLabel(KINDS[kind].label),kind,params:kindDefaults(kind)});applyKind(n);
+  sel={kind:'node',id:n.id};changed();toast(`Added ${KINDS[kind].name}. Set its parameters on the right.`);
+}
+
+/* ---- critical gain search (used by Ziegler–Nichols and the root locus) ---- */
+function critGainFor(d,inId,outId,label){
+  const r=solve(d,inId,outId);if(!r.loops.length)return {err:'This diagram has no feedback loop.'};
+  const syms=[...SP.syms(r.delta)];if(!syms.includes(label))return {err:`${label} is not inside a feedback loop.`};
+  const map={},miss=[];
+  for(const s of syms){if(s===label)continue;const b=d.nodes.find(n=>n.t==='blk'&&n.label.trim()===s&&n.expr&&n.expr.trim());if(!b){miss.push(s);continue;}try{map[s]=parseS(b.expr);}catch(e){miss.push(s);}}
+  if(miss.length)return {err:`Give ${miss.join(', ')} a transfer function first.`};
+  const D0=evalSPtoR(r.delta,{...map,[label]:RO.num(0)});const D1=RO.sub(evalSPtoR(r.delta,{...map,[label]:RO.num(1)}),D0);
+  const Leq=simplifyTF(RO.div(D1,D0));if(!Leq.k)return {err:`${label} cancels out of the characteristic equation.`};
+  const charAt=k=>roots(PS.add(Leq.d,PS.scale(Leq.n,k)));const mre=k=>Math.max(...charAt(k).map(q=>q[0]));
+  let pk=1e-4,pv=mre(pk);
+  for(let i=1;i<=480;i++){const k=10**(-4+10*i/480),v=mre(k);
+    if(pv<=1e-9&&v>1e-9){let a=Math.log10(pk),b=Math.log10(k);for(let it=0;it<60;it++){const m=(a+b)/2;if(mre(10**m)>1e-9)b=m;else a=m;}const kc=10**((a+b)/2);let best=null;charAt(kc).forEach(q=>{if(!best||Math.abs(q[0])<Math.abs(best[0]))best=q;});return {Kcr:kc,w:Math.abs(best[1])};}
+    pk=k;pv=v;}
+  return {err:pv>1e-9?'The loop is unstable for every proportional gain, so the ultimate-gain method cannot be used.':'The loop never becomes unstable under proportional gain, so there is no ultimate gain to tune from. Tune by hand on the Simulate tab instead.'};
+}
+function znTune(n,rule){
+  const ins=D.nodes.filter(x=>x.t==='in');const inId=ioIn||ins[0]?.id;const outId=ioOut||D.nodes.find(x=>x.t==='out')?.id;
+  if(!inId||!outId)return toast('Add an input and an output first.');
+  const r=critGainFor(D,inId,outId,n.label.trim());
+  if(r.err)return toast(r.err);
+  if(!(r.w>1e-6))return toast('At the ultimate gain the loop does not oscillate (the pole crosses at s = 0), so Ziegler–Nichols does not apply.');
+  const Pu=2*Math.PI/r.w,Ku=r.Kcr;let Kp,Ki=0,Kd=0;
+  if(rule==='P')Kp=0.5*Ku;else if(rule==='PI'){Kp=0.45*Ku;Ki=Kp/(Pu/1.2);}else{Kp=0.6*Ku;Ki=Kp/(Pu/2);Kd=Kp*Pu/8;}
+  snapshot();const N=n.params.N;n.params={Kp:+Kp.toPrecision(4),Ki:+Ki.toPrecision(4),Kd:+Kd.toPrecision(4),N:Kd?(+N||Math.max(10,+(20/(Pu/8)).toPrecision(3))):N};applyKind(n);changed();
+  toast(`Ziegler–Nichols ${rule}: Ku = ${fmtN(Ku)}, Pu = ${fmtN(Pu)} s → Kp ${fmtN(Kp)}, Ki ${fmtN(Ki)}, Kd ${fmtN(Kd)}`);
+}
+
+/* ---- library task card ---- */
+function renderLib(){
+  const el=document.getElementById('libsec');if(!el)return;
+  const grps={};for(const k in KINDS)(grps[KINDS[k].grp]=grps[KINDS[k].grp]||[]).push(k);
+  el.innerHTML=`<h3>Instructions</h3><p class="muted note" style="margin:0 0 6px">Click to place on the sheet. Parameters are edited in the properties above.</p>`+
+    Object.entries(grps).map(([g,ks])=>`<details class="libgrp" open><summary>${esc(g)}</summary><div class="libitems">${ks.map(k=>`<button class="libitem" data-kind="${k}" title="${esc(KINDS[k].note||KINDS[k].name)}"><i class="li li-${k}"></i>${esc(KINDS[k].name)}</button>`).join('')}</div></details>`).join('');
+  el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>addKind(b.dataset.kind));
+}
+
+/* ===== Digital control: discretisation, sampled-data simulation, z-plane analysis ===== */
+const DMETHODS={zoh:'Zero-order hold',tustin:'Tustin (bilinear)',fe:'Forward Euler',be:'Backward Euler'};
+const getTs=()=>(D.Ts>0?D.Ts:0.1);
+const hasDigital=d=>(d||D).nodes.some(n=>n.t==='blk'&&n.dig);
+
+/* small dense matrix helpers */
+const MZ=(r,c)=>Array.from({length:r},()=>new Array(c).fill(0));
+const MI=n=>{const m=MZ(n,n);for(let i=0;i<n;i++)m[i][i]=1;return m;};
+function MM(a,b){const n=a.length,m=b[0].length,k=b.length,r=MZ(n,m);for(let i=0;i<n;i++)for(let l=0;l<k;l++){const v=a[i][l];if(!v)continue;for(let j=0;j<m;j++)r[i][j]+=v*b[l][j];}return r;}
+function expm(A){
+  const n=A.length;let nrm=0;for(const r of A)nrm=Math.max(nrm,r.reduce((s,v)=>s+Math.abs(v),0));
+  let sq=Math.max(0,Math.ceil(Math.log2(nrm||1))+1);const sc=2**-sq;const As=A.map(r=>r.map(v=>v*sc));
+  let E=MI(n),T=MI(n);for(let k=1;k<=18;k++){T=MM(T,As).map(r=>r.map(v=>v/k));E=E.map((r,i)=>r.map((v,j)=>v+T[i][j]));}
+  for(let i=0;i<sq;i++)E=MM(E,E);return E;
+}
+/* Faddeev–LeVerrier: returns char poly (ascending) and adjugate coefficient matrices */
+function faddeev(M){
+  const n=M.length;const c=new Array(n+1).fill(0);c[n]=1;let Mk=MZ(n,n);const mats=[];
+  for(let k=1;k<=n;k++){const AM=MM(M,Mk);for(let i=0;i<n;i++)AM[i][i]+=c[n-k+1];Mk=AM;mats.push(Mk);const MMk=MM(M,Mk);let tr=0;for(let i=0;i<n;i++)tr+=MMk[i][i];c[n-k]=-tr/k;}
+  return {c,mats};
+}
+function eigs(M){if(!M.length)return [];return roots(faddeev(M).c);}
+function companion(n,d){
+  n=PS.trim(n);d=PS.trim(d);const N=d.length-1;if(n.length-1>N)throw new Error('improper');
+  const dl=d[N],a=d.map(x=>x/dl),b=Array.from({length:N+1},(_,i)=>(n[i]||0)/dl),D0=b[N],c=a.slice(0,N).map((ai,i)=>b[i]-D0*ai);
+  const A=MZ(N,N);for(let i=0;i<N-1;i++)A[i][i+1]=1;for(let j=0;j<N;j++)if(N)A[N-1][j]=-a[j];
+  const B=new Array(N).fill(0);if(N)B[N-1]=1;return {A,B,C:c,D0,N};
+}
+function polyPow(p,k){let r=[1];for(let i=0;i<k;i++)r=PS.mul(r,p);return r;}
+function c2d(num,den,Ts,method){
+  num=PS.trim(num);den=PS.trim(den);
+  if(method==='zoh'){
+    const ss=companion(num,den);const N=ss.N;if(!N)return {nz:[ss.D0],dz:[1]};
+    const Aug=MZ(N+1,N+1);for(let i=0;i<N;i++){for(let j=0;j<N;j++)Aug[i][j]=ss.A[i][j]*Ts;Aug[i][N]=ss.B[i]*Ts;}
+    const E=expm(Aug);const Ad=E.slice(0,N).map(r=>r.slice(0,N)),Bd=E.slice(0,N).map(r=>r[N]);
+    const {c,mats}=faddeev(Ad);const nz=new Array(N+1).fill(0);
+    mats.forEach((Mk,idx)=>{const k=idx+1;let v=0;for(let i=0;i<N;i++){let s=0;for(let j=0;j<N;j++)s+=Mk[i][j]*Bd[j];v+=ss.C[i]*s;}nz[N-k]+=v;});
+    for(let i=0;i<=N;i++)nz[i]+=ss.D0*c[i];
+    return {nz,dz:c};
+  }
+  const n=Math.max(num.length,den.length)-1;let p,q;
+  if(method==='tustin'){p=[-2/Ts,2/Ts];q=[1,1];}else if(method==='fe'){p=[-1/Ts,1/Ts];q=[1];}else{p=[-1/Ts,1/Ts];q=[0,1];}
+  const sub=a=>{let r=[0];a.forEach((ai,i)=>{if(!ai)return;r=PS.add(r,PS.scale(PS.mul(polyPow(p,i),polyPow(q,n-i)),ai));});return r;};
+  return {nz:sub(num),dz:sub(den)};
+}
+function blockTF(n,k){let r=parseS(n.expr);if(k!=null&&k!==1)r=RO.mul(RO.num(k),r);const st=simplifyTF(r);return {n:st.n,d:st.d};}
+function discretizeNode(n,Ts,k){const tf=blockTF(n,k);const z=c2d(tf.n,tf.d,Ts,n.dmethod||'zoh');return normZ(z.nz,z.dz);}
+function normZ(nz,dz){
+  dz=PS.trim(dz);nz=PS.trim(nz);const na=dz.length-1;
+  if(nz.length-1>na)throw new Error('The discrete controller would need future inputs (more zeros than poles). Add a derivative filter or use Tustin.');
+  const lead=dz[na];const a=[],b=[];for(let i=0;i<=na;i++){a.push(dz[na-i]/lead);b.push((nz[na-i]||0)/lead);}
+  return {a,b,order:na,nz:nz.map(x=>x/lead),dz:dz.map(x=>x/lead)};
+}
+function zPolyHTML(a){
+  a=PS.trim(a);const mx=Math.max(...a.map(Math.abs));let s='',first=true;
+  for(let k=a.length-1;k>=0;k--){const c=a[k];if(Math.abs(c)<=1e-10*mx)continue;const neg=c<0,ac=Math.abs(c);const v=k===0?'':k===1?'<i>z</i>':`<i>z</i><sup>${k}</sup>`;const co=(k>0&&Math.abs(ac-1)<1e-9)?'':fmtN(ac);s+=first?(neg?'−':'')+co+v:(neg?' − ':' + ')+co+v;first=false;}
+  return s||'0';
+}
+function diffEqHTML(dz,u='e',y='u'){
+  const t=[];dz.b.forEach((c,i)=>{if(Math.abs(c)>1e-12)t.push({c,v:`${u}[k${i?'−'+i:''}]`});});dz.a.forEach((c,i)=>{if(i&&Math.abs(c)>1e-12)t.push({c:-c,v:`${y}[k−${i}]`});});
+  return `${y}[k] = `+(t.map((x,i)=>(i?(x.c<0?' − ':' + '):(x.c<0?'−':''))+fmtN(Math.abs(+x.c.toPrecision(6)))+'·'+x.v).join('')||'0');
+}
+
+/* ---- hybrid (sampled-data) simulator ---- */
+function buildHybrid(d,Ts,opt={}){
+  const k=opt.k??SIM.tuneK,tb=opt.tuneBlock??SIM.tuneBlock;
+  const B={},inW={};
+  d.wires.forEach(w=>{(inW[w.b]=inW[w.b]||[]).push(w);});
+  let maxAbs=1e-6;
+  for(const n of d.nodes){if(n.t!=='blk')continue;
+    if(!n.expr||!n.expr.trim())throw new Error(`Give ${n.label} a transfer function to simulate.`);
+    const kk=n.label.trim()===tb?k:1;
+    if(n.dig){const dz=discretizeNode(n,Ts,kk);B[n.id]={dig:true,dz,uh:new Array(dz.order).fill(0),yh:new Array(dz.order).fill(0),held:0};}
+    else{const tf=blockTF(n,kk);let ss;try{ss=companion(tf.n,tf.d);}catch(e){throw new Error(`${n.label} has more zeros than poles. Add a filter pole so it can be simulated in sampled time.`);}
+      roots(tf.d).forEach(p=>{maxAbs=Math.max(maxAbs,Math.hypot(p[0],p[1]));});B[n.id]={dig:false,ss,x:new Array(ss.N).fill(0)};}
+  }
+  const ids=d.nodes.map(n=>n.id);const nodeOf={};d.nodes.forEach(n=>nodeOf[n.id]=n);
+  const H={d,Ts,B,inW,nodeOf,maxAbs,ufn:{}};
+  H.evalAll=(t,sampling,X)=>{ /* X: optional override of continuous states */
+    const memo=new Map(),stk=new Set();
+    const val=id=>{
+      if(memo.has(id))return memo.get(id);
+      if(stk.has(id))throw new Error('Algebraic loop: every block around a loop passes its input straight through. Add a lag (for example a sensor) to break it.');
+      stk.add(id);const n=nodeOf[id];let v=0;const ws=inW[id]||[];
+      if(n.t==='in')v=(H.ufn[id]||(()=>0))(t);
+      else if(n.t==='sum')for(const w of ws)v+=(w.sign<0?-1:1)*val(w.a);
+      else if(n.t==='pick'||n.t==='out')v=ws.length?val(ws[0].a):0;
+      else{const b=B[id];const inp=()=>ws.length?val(ws[0].a):0;
+        if(b.dig){const z=b.dz;if(sampling){let s=0;for(let i=1;i<=z.order;i++)s+=z.b[i]*b.uh[i-1]-z.a[i]*b.yh[i-1];v=(Math.abs(z.b[0])>1e-15?z.b[0]*inp():0)+s;}else v=b.held;}
+        else{const x=X?X[id]:b.x;const ss=b.ss;for(let i=0;i<ss.N;i++)v+=ss.C[i]*x[i];if(Math.abs(ss.D0)>1e-15)v+=ss.D0*inp();}}
+      stk.delete(id);memo.set(id,v);return v;};
+    ids.forEach(val);return {val,memo};
+  };
+  H.sample=t=>{const {val,memo}=H.evalAll(t,true);
+    for(const id in B){const b=B[id];if(!b.dig)continue;const ws=inW[id]||[];const u=ws.length?val(ws[0].a):0;const y=memo.get(id);
+      if(b.dz.order){b.uh.unshift(u);b.uh.pop();b.yh.unshift(y);b.yh.pop();}b.held=y;}
+    return memo;};
+  H.deriv=(t,X)=>{const {val}=H.evalAll(t,false,X);const dX={};
+    for(const id in B){const b=B[id];if(b.dig)continue;const ss=b.ss,x=X[id],ws=inW[id]||[];const u=ws.length?val(ws[0].a):0;const dx=new Array(ss.N);
+      for(let i=0;i<ss.N-1;i++)dx[i]=x[i+1];if(ss.N){let s=u;for(let j=0;j<ss.N;j++)s+=ss.A[ss.N-1][j]*x[j];dx[ss.N-1]=s;}dX[id]=dx;}
+    return dX;};
+  H.step=(t,h)=>{const X0={};for(const id in B)if(!B[id].dig)X0[id]=B[id].x;
+    const add=(X,dX,s)=>{const r={};for(const id in X)r[id]=X[id].map((v,i)=>v+s*dX[id][i]);return r;};
+    const k1=H.deriv(t,X0),k2=H.deriv(t+h/2,add(X0,k1,h/2)),k3=H.deriv(t+h/2,add(X0,k2,h/2)),k4=H.deriv(t+h,add(X0,k3,h));
+    for(const id in X0)B[id].x=X0[id].map((v,i)=>v+h/6*(k1[id][i]+2*k2[id][i]+2*k3[id][i]+k4[id][i]));};
+  H.nsub=Math.min(4000,Math.max(4,Math.ceil(Ts*maxAbs/0.3)));
+  H.getState=()=>{const v=[];for(const id in B){const b=B[id];if(b.dig)v.push(...b.uh,...b.yh);else v.push(...b.x);}return v;};
+  H.setState=v=>{let i=0;for(const id in B){const b=B[id];if(b.dig){for(let j=0;j<b.uh.length;j++)b.uh[j]=v[i++];for(let j=0;j<b.yh.length;j++)b.yh[j]=v[i++];b.held=b.yh.length?b.yh[0]:0;}else for(let j=0;j<b.x.length;j++)b.x[j]=v[i++];}};
+  return H;
+}
+/* run with the Simulate tab's input settings; returns {t, ys:{id:[]}} */
+function hybridRun(d,Ts,T,inputs,watch,opt={}){
+  const H=buildHybrid(d,Ts,opt);{const nS0=Math.ceil(T/Ts-1e-9);H.nsub=Math.max(H.nsub,Math.min(30,Math.floor(150000/Math.max(1,nS0))));}const h=Ts/H.nsub;
+  for(const n of d.nodes)if(n.t==='in'){const c=inputs[n.label];if(!c||c.wave==='none')continue;
+    if(c.wave==='impulse'){const t0=+c.t0||0,A=+c.A||0;H.ufn[n.id]=t=>(t>=t0-1e-12&&t<t0+h-1e-12)?A/h:0;}else H.ufn[n.id]=waveFn(c);}
+  const t=[],ys={};watch.forEach(id=>ys[id]=[]);
+  const rec=(tt,memo)=>{t.push(tt);watch.forEach(id=>ys[id].push(memo.get(id)));};
+  const nS=Math.ceil(T/Ts-1e-9);const every=Math.max(1,Math.ceil(H.nsub*nS/2500));let cnt=0;
+  for(let k=0;k<=nS;k++){const tk=k*Ts;
+    rec(tk,H.evalAll(tk,false).memo);const m=H.sample(tk);rec(tk,m);
+    if(k===nS)break;
+    for(let j=0;j<H.nsub;j++){const tt=tk+j*h;H.step(tt,h);cnt++;
+      if(cnt%every===0&&j<H.nsub-1){const mm=H.evalAll(tt+h,false).memo;if([...mm.values()].some(v=>!isFinite(v)||Math.abs(v)>1e9))return {t,ys,blow:true};rec(tt+h,mm);}}
+    const chk=H.evalAll(tk+Ts,false).memo;if([...chk.values()].some(v=>!isFinite(v)||Math.abs(v)>1e9))return {t,ys,blow:true};
+  }
+  return {t,ys};
+}
+/* exact closed-loop z-plane poles: eigenvalues of the one-period state transition */
+function hybridPhi(d,Ts,opt={}){
+  const H=buildHybrid(d,Ts,opt);const n=H.getState().length;const Phi=MZ(n,n);const h=Ts/H.nsub;
+  for(let i=0;i<n;i++){const e=new Array(n).fill(0);e[i]=1;H.setState(e);H.sample(0);for(let j=0;j<H.nsub;j++)H.step(j*h,h);const col=H.getState();for(let r=0;r<n;r++)Phi[r][i]=col[r];}
+  return Phi;
+}
+function zPoles(d,Ts,opt){return eigs(hybridPhi(d,Ts,opt));}
+const specRad=zs=>Math.max(0,...zs.map(z=>Math.hypot(z[0],z[1])));
+function maxStableTs(d,opt){
+  const rho=Ts=>{try{return specRad(zPoles(d,Ts,opt));}catch(e){return Infinity;}};
+  const grid=logspace(1e-3,5,26);let prev=null;
+  for(const Ts of grid){const r=rho(Ts);if(r>=1-1e-9){if(prev==null)return {none:true};let a=Math.log10(prev),b=Math.log10(Ts);for(let i=0;i<22;i++){const m=(a+b)/2;if(rho(10**m)<1-1e-9)a=m;else b=m;}return {Ts:10**a};}prev=Ts;}
+  return {all:true};
+}
+
+/* ===== Signal flow graph: conversion and drawing ===== */
+function buildSFG(d){
+  const inW={};d.wires.forEach(w=>{(inW[w.b]=inW[w.b]||[]).push(w);});
+  const byIdM={};d.nodes.forEach(n=>byIdM[n.id]=n);
+  /* a pickoff carries the same signal as its source: collapse it */
+  const rep=id=>{const via=[];let cur=id,guard=0;while(byIdM[cur]&&byIdM[cur].t==='pick'&&guard++<200){const w=(inW[cur]||[])[0];if(!w)break;via.push(w.id);cur=w.a;}return {id:cur,via};};
+  const nodes=d.nodes.filter(n=>n.t!=='pick');
+  const edges=[];
+  for(const w of d.wires){const B=byIdM[w.b];if(!B||B.t==='pick')continue;const r=rep(w.a);if(!byIdM[r.id])continue;
+    const gain=B.t==='blk'?{sym:(B.label||'?').trim()}:B.t==='sum'?{num:w.sign<0?-1:1}:{num:1};
+    edges.push({a:r.id,b:w.b,gain,wires:[w.id,...r.via],orig:[w.a]});}
+  /* layout: one main line ordered by position; extra inputs float above their target */
+  const posX=n=>n.t==='blk'?outPort(n).x:n.x;
+  const mainIn=nodes.filter(n=>n.t==='in').sort((a,b)=>a.x-b.x)[0];
+  const line=nodes.filter(n=>!(n.t==='in'&&n!==mainIn)).sort((a,b)=>posX(a)-posX(b));
+  const idx={};line.forEach((n,i)=>idx[n.id]=i);
+  const GAP=120,P={};line.forEach((n,i)=>P[n.id]={x:i*GAP,y:0});
+  nodes.filter(n=>n.t==='in'&&n!==mainIn).forEach((n,j)=>{const e=edges.find(e=>e.a===n.id);const tx=e&&P[e.b]?P[e.b].x:0;P[n.id]={x:tx-GAP*0.55,y:-120-30*j,float:true};});
+  /* names */
+  let k=1;const name={};
+  line.concat(nodes.filter(n=>!idx.hasOwnProperty(n.id))).forEach(n=>{
+    if(n.t==='in'||n.t==='out')name[n.id]=n.label||(n.t==='in'?'R':'C');
+    else if(n.label&&n.t==='sum')name[n.id]=n.label;
+    else name[n.id]='x'+(k++);});
+  /* edge geometry */
+  const pairCount={};
+  edges.forEach(e=>{const A=P[e.a],B=P[e.b];if(!A||!B)return;const key=[e.a,e.b].sort().join('|');const c=pairCount[key]=(pairCount[key]||0)+1;
+    const fwd=B.x>A.x;const span=Math.abs((idx[e.b]??0)-(idx[e.a]??0));
+    if(A.float||B.float){e.kind='line';e.h=0;}
+    else if(fwd&&span===1&&c===1){e.kind='line';e.h=0;}
+    else{e.kind='arc';const base=(fwd?-1:1)*(34+26*span);e.h=base*(1+0.35*(c-1))*(fwd&&span===1?0.8:1);}
+  });
+  return {nodes,edges,P,name,line};
+}
+function sfgBounds(G){let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+  for(const id in G.P){const p=G.P[id];x0=Math.min(x0,p.x-40);x1=Math.max(x1,p.x+40);y0=Math.min(y0,p.y-30);y1=Math.max(y1,p.y+30);}
+  for(const e of G.edges)if(e.kind==='arc'){const A=G.P[e.a],B=G.P[e.b];if(!A||!B)continue;const ym=A.y+e.h*1.05;y0=Math.min(y0,ym-24);y1=Math.max(y1,ym+24);}
+  if(x0===Infinity)return {x:0,y:0,w:400,h:200};return {x:x0,y:y0,w:x1-x0,h:y1-y0};}
+function sfgSVG(d,o={}){
+  const G=buildSFG(d);let s='';const hl=o.hl;
+  for(const e of G.edges){const A=G.P[e.a],B=G.P[e.b];if(!A||!B)continue;
+    const on=hl&&e.wires.some(w=>hl.wires.has(w));
+    let path,mid,ang;
+    if(e.kind==='line'){const dx=B.x-A.x,dy=B.y-A.y,L=Math.hypot(dx,dy)||1;const ux=dx/L,uy=dy/L;const sx=A.x+ux*7,sy=A.y+uy*7,ex=B.x-ux*7,ey=B.y-uy*7;path=`M${sx} ${sy}L${ex} ${ey}`;mid={x:(sx+ex)/2,y:(sy+ey)/2};ang=Math.atan2(dy,dx);}
+    else{const cx=(A.x+B.x)/2,cy=A.y+2*e.h;path=`M${A.x} ${A.y}Q${cx} ${cy} ${B.x} ${B.y}`;mid={x:(A.x+2*cx+B.x)/4,y:(A.y+2*cy+B.y)/4};ang=Math.atan2(B.y-A.y,B.x-A.x);}
+    const lab=e.gain.sym!=null?symSVG(e.gain.sym):(e.gain.num<0?'−1':'1');
+    const ly=e.kind==='arc'?(e.h<0?mid.y-9:mid.y+19):mid.y-9;
+    s+=`<g class="sfe${on?' on':''}"><path class="sfp" d="${path}"/><path class="sfa" d="M-6 -4.5L6 0L-6 4.5z" transform="translate(${mid.x} ${mid.y}) rotate(${ang*180/Math.PI})"/><text class="sfl${e.gain.num<0?' neg':''}" x="${mid.x}" y="${ly}" text-anchor="middle">${lab}</text></g>`;}
+  for(const n of G.nodes){const p=G.P[n.id];if(!p)continue;const on=hl&&hl.nodes.has(n.id);
+    s+=`<g class="sfn${on?' on':''}"><circle cx="${p.x}" cy="${p.y}" r="5.5"/><text class="sfnl" x="${p.x}" y="${p.y+(p.float?-12:22)}" text-anchor="middle">${symSVG(G.name[n.id])}</text></g>`;}
+  return {svg:s,G};
+}
+function sfgStatic(d,o={}){const r=sfgSVG(d,o);const b=sfgBounds(r.G);const pad=o.pad??22;
+  return `<svg class="mini sfg" viewBox="${b.x-pad} ${b.y-pad} ${b.w+2*pad} ${b.h+2*pad}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Signal flow graph">${r.svg}</svg>`;}
+
 /* ===== App ===== */
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
@@ -932,7 +1350,8 @@ function build(fn){const d=newD();const api={
   b:(label,x,y,expr='',flip=false)=>addNode(d,'blk',x,y,{label,expr,flip}),
   s:(x,y,label='')=>addNode(d,'sum',x,y,{label}),
   p:(x,y)=>addNode(d,'pick',x,y,{label:''}),
-  w:(a,b,sign=1,bend=null)=>addWire(d,a,b,sign,bend)};fn(api);return d;}
+  w:(a,b,sign=1,bend=null)=>addWire(d,a,b,sign,bend),
+  k:(kind,label,x,y,params={},flip=false)=>{const n=addNode(d,'blk',x,y,{label,kind,params:{...kindDefaults(kind),...params},flip});applyKind(n);return n;}};fn(api);return d;}
 const clone=d=>JSON.parse(JSON.stringify(d));
 
 /* ---- rendering ---- */
@@ -947,7 +1366,10 @@ function nodeSVG(n,o){
   if(n.t==='blk'){
     const {w,h}=blkDims(n);
     s+=`<rect x="${n.x-w/2}" y="${n.y-h/2}" width="${w}" height="${h}" rx="3"/>`;
-    if(n.expr&&n.expr.trim()){
+    if(n.dig)s+=`<rect class="digin" x="${n.x-w/2+3}" y="${n.y-h/2+3}" width="${w-6}" height="${h-6}" rx="1"/><rect class="dbadge" x="${n.x+w/2-22}" y="${n.y-h/2-7}" width="22" height="13"/><text class="dbt" x="${n.x+w/2-11}" y="${n.y-h/2+3}">Ts</text>`;
+    const kl=n.kind&&typeof kindLines==='function'?kindLines(n):null;
+    if(kl){s+=`<text class="kt" x="${n.x}" y="${n.y-5}">${esc(kl[0])}</text><text class="ks" x="${n.x}" y="${n.y+13}">${esc(kl[1])}</text><text class="tag" x="${n.x-w/2+1}" y="${n.y-h/2-6}">${symSVG(n.label)}</text>`;}
+    else if(n.expr&&n.expr.trim()){
       const fr=splitFrac(n.expr);
       if(fr) s+=`<text class="ex" x="${n.x}" y="${n.y-11}" dy=".35em">${esc(prettyExpr(fr[0]))}</text><line class="fl" x1="${n.x-w/2+12}" x2="${n.x+w/2-12}" y1="${n.y}" y2="${n.y}"/><text class="ex" x="${n.x}" y="${n.y+12}" dy=".35em">${esc(prettyExpr(fr[1]))}</text>`;
       else s+=`<text class="ex" x="${n.x}" y="${n.y}" dy=".35em">${esc(prettyExpr(n.expr))}</text>`;
@@ -1037,7 +1459,15 @@ const EX=[
 {id:'unstab',title:'Stabilising an unstable plant',cat:'Numeric',lvl:3,desc:'The plant 1/(s − 1) has a right half-plane pole. On the Nyquist plot, the loop is stable because the curve circles −1 counter-clockwise once.',sim:{view:'nyq'},build:b=>{const r=b.in(40,200),s=b.s(110,200),gc=b.b('Gc',230,200,'8(s+2)/(s+10)'),gp=b.b('Gp',370,200,'1/(s-1)'),p=b.p(460,200),c=b.out(530,200);b.w(r,s);b.w(s,gc);b.w(gc,gp);b.w(gp,p);b.w(p,c);b.w(p,s,-1);}},
 {id:'delay',title:'PI loop with a transport delay',cat:'Numeric',lvl:2,desc:'A first-order Padé block (1 − 0.5s)/(1 + 0.5s) stands in for a 1 s delay. See how it eats phase margin on the Bode plot.',sim:{view:'bode'},build:b=>{const r=b.in(40,200),s=b.s(110,200),gc=b.b('Gc',220,200,'0.5(s+1)/s'),gp=b.b('Gp',350,200,'2/(s+1)'),gd=b.b('Delay',480,200,'(1-0.5s)/(1+0.5s)'),p=b.p(580,200),c=b.out(650,200);b.w(r,s);b.w(s,gc);b.w(gc,gp);b.w(gp,gd);b.w(gd,p);b.w(p,c);b.w(p,s,-1);}},
 ];
-EX.forEach(e=>{e.d=build(e.build);});
+EX.push(
+{id:'pidmotor',title:'DC motor speed control with PID',cat:'Library',lvl:2,desc:'A PID controller drives a DC motor model (J, b, K, R, L). Watch the shaft spin in the Simulate tab.',sim:{signals:['C(s)','Gc'],view:'time'},build:b=>{const r=b.in(40,200),s=b.s(110,200),c=b.k('pid','Gc',270,200,{Kp:100,Ki:200,Kd:10,N:100}),g=b.k('motorw','Gp',480,200),p=b.p(600,200),o=b.out(670,200);b.w(r,s);b.w(s,c);b.w(c,g);b.w(g,p);b.w(p,o);b.w(p,s,-1);}},
+{id:'pendpid',title:'Balancing an inverted pendulum',cat:'Library',lvl:3,desc:'The pendulum falls over on its own (a right half-plane pole). A PID controller holds it at a 0.1 rad set-point.',sim:{inputs:{'R(s)':{wave:'step',A:0.1,t0:0.5}},view:'time'},build:b=>{const r=b.in(40,200),s=b.s(110,200),c=b.k('pid','Gc',270,200,{Kp:3,Ki:2,Kd:0.4,N:100}),g=b.k('pend','Gp',480,200),p=b.p(600,200),o=b.out(670,200);b.w(r,s);b.w(s,c);b.w(c,g);b.w(g,p);b.w(p,o);b.w(p,s,-1);}},
+{id:'msdpid',title:'Mass-spring-damper position control',cat:'Library',lvl:2,desc:'A PID controller moves a mass on a spring and damper to a new position.',sim:{signals:['C(s)'],view:'time'},build:b=>{const r=b.in(40,200),s=b.s(110,200),c=b.k('pid','Gc',270,200,{Kp:350,Ki:300,Kd:50,N:200}),g=b.k('msd','Gp',480,200,{m:1,b:10,k:20}),p=b.p(600,200),o=b.out(670,200);b.w(r,s);b.w(s,c);b.w(c,g);b.w(g,p);b.w(p,o);b.w(p,s,-1);}},
+{id:'tankpi',title:'Tank level with PI control and an inflow disturbance',cat:'Library',lvl:2,desc:'A PI controller holds the water level while an extra inflow D(s) arrives at t = 10 s.',sim:{inputs:{'R(s)':{wave:'step',A:1,t0:0},'D(s)':{wave:'step',A:0.5,t0:10}},view:'time'},build:b=>{const r=b.in(40,200),s=b.s(110,200),c=b.k('pid','Gc',260,200,{Kp:4,Ki:2,Kd:0,N:0}),s2=b.s(390,200),g=b.k('tank','Gp',500,200),p=b.p(610,200),o=b.out(680,200),dd=b.in(300,110,'D(s)');b.w(r,s);b.w(s,c);b.w(c,s2);b.w(dd,s2);b.w(s2,g);b.w(g,p);b.w(p,o);b.w(p,s,-1);}},
+{id:'dmotor',title:'Digital PID on a DC motor',cat:'Digital',lvl:3,desc:'The same motor loop, but the PID runs as a discrete controller (Tustin, Ts = 10 ms) with a zero-order hold.',sim:{view:'digital',signals:['C(s)','Gc']},build:b=>{const r=b.in(40,200),s=b.s(110,200),c=b.k('pid','Gc',270,200,{Kp:100,Ki:200,Kd:10,N:100}),g=b.k('motorw','Gp',480,200),p=b.p(600,200),o=b.out(670,200);c.dig=true;c.dmethod='tustin';b.w(r,s);b.w(s,c);b.w(c,g);b.w(g,p);b.w(p,o);b.w(p,s,-1);},Ts:0.01},
+{id:'dts',title:'Sample time and stability',cat:'Digital',lvl:2,desc:'A digital gain of 4 around 1/(s + 1). Raise Ts and watch the z-plane pole leave the unit circle at Ts = ln(5/3).',sim:{view:'digital'},build:b=>{const r=b.in(40,200),s=b.s(110,200),c=b.b('Gc',220,200,'4'),g=b.b('Gp',350,200,'1/(s+1)'),p=b.p(450,200),o=b.out(520,200);c.dig=true;c.dmethod='zoh';b.w(r,s);b.w(s,c);b.w(c,g);b.w(g,p);b.w(p,o);b.w(p,s,-1);},Ts:0.3}
+);
+EX.forEach(e=>{e.d=build(e.build);if(e.Ts)e.d.Ts=e.Ts;});
 EX.find(e=>e.id==='distnum').sim={inputs:{'R(s)':{wave:'step',A:1,t0:0},'D(s)':{wave:'step',A:1,t0:6}},signals:['C(s)','Gc']};
 EX.find(e=>e.id==='servo2').sim={view:'time'};
 EX.find(e=>e.id==='cascade').sim={signals:['C(s)','Gp2']};
@@ -1065,7 +1495,7 @@ function updStatus(){
 }
 function toWorld(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left-view.tx)/view.k,y:(e.clientY-r.top-view.ty)/view.k};}
 function fit(){
-  const r=cv.getBoundingClientRect();if(r.width<10)return;const b=bounds(D);const pad=50;
+  const r=cv.getBoundingClientRect();if(r.width<10)return;const b=sfgOn?sfgBounds(buildSFG(D)):bounds(D);const pad=50;
   const k=Math.min(1.5,Math.max(0.3,Math.min(r.width/(b.w+2*pad),(r.height-30)/(b.h+2*pad))));
   view.k=k;view.tx=r.width/2-(b.x+b.w/2)*k;view.ty=(r.height-30)/2-(b.y+b.h/2)*k;applyView();
 }
@@ -1096,7 +1526,7 @@ function deleteSel(){
 function flipSel(){if(!sel||sel.kind!=='node')return toast('Select a block, junction or terminal to flip it.');const n=byId(D,sel.id);if(n.t==='pick')return;snapshot();n.flip=!n.flip;D.wires.forEach(w=>{if(w.a===n.id||w.b===n.id){w.bend=null;w.bendAxis=null;}});changed();}
 function dupSel(){if(!sel||sel.kind!=='node')return;const n=byId(D,sel.id);snapshot();const c=addNode(D,n.t,n.x+40,n.y+60,{label:n.t==='blk'?null:n.label,expr:n.expr,flip:n.flip});if(n.t==='blk'&&c.label==null)c.label=defaultLabel(D,'blk');sel={kind:'node',id:c.id};changed();}
 function addAt(t,p){
-  if(tool==='wire')setTool('select');
+  if(tool==='wire'||sfgOn)setTool('select');
   snapshot();
   if(!p){const r=cv.getBoundingClientRect();const k=D.nodes.length%6;p={x:(r.width/2-view.tx)/view.k+k*20-50,y:(r.height/2-view.ty)/view.k+k*20-50};}
   const n=addNode(D,t,snapv(p.x),snapv(p.y));sel={kind:'node',id:n.id};changed();
@@ -1129,7 +1559,16 @@ function pendAnchor(){
   if(pend.from){const A=byId(D,pend.from);return A?srcPoint(A):null;}
   const B=byId(D,pend.to);if(!B)return null;if(B.t==='sum')return {x:B.x,y:B.y};const ip=inPort(B);return ip?{x:ip.x,y:ip.y}:{x:B.x,y:B.y};
 }
+let sfgOn=false;
+function setView(v){
+  const on=v==='sfg';if(on){cancelPend(true);tool='select';hov=null;sel=null;$$('[data-tool]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tool==='select')));renderInspector();}
+  sfgOn=on;$$('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===v)));
+  const nt=$('#netTitle');if(nt)nt.textContent=on?'Signal flow graph (read only)':'Closed-loop block diagram';
+  renderCanvas();requestAnimationFrame(fit);
+}
 function renderCanvas(){
+  if(sfgOn){content.innerHTML=sfgSVG(D,{hl}).svg;overlay.innerHTML='';cv.classList.remove('wiring');cv.classList.add('sfgmode');updHint();updStatus();return;}
+  cv.classList.remove('sfgmode');
   const wiring=tool==='wire';
   content.innerHTML=diagramSVG(D,{interactive:true,wiring,sel:wiring?null:sel,hl,pfx:'e_',cand:hov&&hov.node?hov.node:null,whov:hov&&hov.wire?hov.wire:null,src:pend?(pend.from||pend.to):null});
   let ov='';
@@ -1141,6 +1580,7 @@ function renderCanvas(){
 }
 function updHint(){
   const pill=$('#modePill'),hint=$('#stageHint');if(!pill)return;
+  if(sfgOn){pill.hidden=true;hint.innerHTML='<b>Signal flow graph</b> · nodes are signals, branches carry gains · hover Mason’s rule lines on the right to trace paths and loops · switch back to <b>Block diagram</b> to edit';return;}
   if(tool!=='wire'){pill.hidden=true;hint.innerHTML='<b>Select mode</b> · add parts from the toolbar · drag parts to move them · click a part or wire to edit it · click a <b>± sign</b> to flip it · press <b>W</b> to draw wires';return;}
   pill.hidden=false;
   if(!pend){pill.textContent='Wire mode';hint.innerHTML='Click a <b>terminal</b> to start a wire, or click a <b>wire</b> to branch a new node off it · <b>Esc</b> or <b>V</b> returns to select mode';}
@@ -1201,6 +1641,7 @@ function wireClick(p,fromRelease){
   if(!fromRelease)cancelPend();return true;
 }
 function setTool(t){
+  if(sfgOn)setView('bd');
   if(t!=='wire')cancelPend(true);
   tool=t;hov=null;if(t==='wire'){sel=null;renderInspector();}
   $$('[data-tool]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tool===t)));renderCanvas();
@@ -1214,6 +1655,7 @@ cv.addEventListener('pointerdown',e=>{
   if(pointers.size===2){const [a,b]=[...pointers.values()];drag={k:'pinch',d0:Math.hypot(a.x-b.x,a.y-b.y),k0:view.k,tx:view.tx,ty:view.ty,mx:(a.x+b.x)/2,my:(a.y+b.y)/2};return;}
   if(e.pointerType==='mouse'&&e.button===1){drag={k:'pan',x0:e.clientX,y0:e.clientY,tx:view.tx,ty:view.ty,moved:true};try{cv.setPointerCapture(e.pointerId);}catch(_){}return;}
   if(e.pointerType==='mouse'&&e.button!==0)return;
+  if(sfgOn){try{cv.setPointerCapture(e.pointerId);}catch(_){}drag={k:'pan',x0:e.clientX,y0:e.clientY,tx:view.tx,ty:view.ty,moved:false};return;}
   const p=toWorld(e),t=e.target;
   try{cv.setPointerCapture(e.pointerId);}catch(_){}
   const sgE=t.closest('[data-sign]');
@@ -1261,6 +1703,7 @@ function endPointer(e){
   if(d.k==='wiredrag'){if(d.moved&&pend)wireClick(toWorld(e),true);return;}
   if(d.k==='move'){if(d.moved)changed();return;}
   if(d.k==='bend'){changed();return;}
+  if(d.k==='pan'&&!d.moved&&sfgOn)return;
   if(d.k==='pan'&&!d.moved){if(tool==='wire'){if(pend)cancelPend();}else{sel=null;renderCanvas();renderInspector();}}
 }
 cv.addEventListener('pointerup',endPointer);
@@ -1270,10 +1713,12 @@ cv.addEventListener('wheel',e=>{e.preventDefault();const r=cv.getBoundingClientR
   if(e.ctrlKey){zoomAt(Math.exp(-e.deltaY*0.01),cx,cy);return;}
   if(e.shiftKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)*0.5){view.tx-=e.shiftKey?e.deltaY:e.deltaX;if(!e.shiftKey)view.ty-=e.deltaY;applyView();return;}
   zoomAt(Math.exp(-e.deltaY*0.0015*(e.deltaMode?33:1)),cx,cy);},{passive:false});
-cv.addEventListener('dblclick',e=>{if(tool==='wire')return;const n=nodeAt(toWorld(e));if(n){sel={kind:'node',id:n.id};renderCanvas();renderInspector();const i=$('#fExpr')||$('#fLabel');if(i)i.focus();}});
+cv.addEventListener('dblclick',e=>{if(tool==='wire'||sfgOn)return;const n=nodeAt(toWorld(e));if(n){sel={kind:'node',id:n.id};renderCanvas();renderInspector();const i=$('#fExpr')||$('#fLabel');if(i)i.focus();}});
 
 /* palette */
 $$('[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
+$$('[data-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+{const lb=$('#bLib');if(lb)lb.onclick=()=>{if(sfgOn)setView('bd');const s=$('#libsec');const side=document.querySelector('#tab-editor .side');if(s&&side)side.scrollTo({top:s.offsetTop-side.offsetTop,behavior:'smooth'});};}
 $$('[data-add]').forEach(b=>{
   b.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;e.preventDefault();const st={t:b.dataset.add,x0:e.clientX,y0:e.clientY,moved:false};const g=$('#ghost');
     const mv=ev=>{if(!st.moved&&Math.hypot(ev.clientX-st.x0,ev.clientY-st.y0)>6){st.moved=true;g.hidden=false;}if(st.moved){g.style.left=ev.clientX+'px';g.style.top=ev.clientY+'px';}};
@@ -1328,8 +1773,19 @@ function renderInspector(){
   const kinds={blk:'Block',sum:'Summing junction',pick:'Pickoff point',in:'Input',out:'Output'};
   let h=`<h3>${kinds[n.t]}</h3>`;
   if(n.t==='blk'){
-    h+=`<div class="field"><label for="fLabel">Name (symbol used in the formula)</label><input id="fLabel" value="${esc(n.label)}" maxlength="12" autocomplete="off" spellcheck="false"></div>
-      <div class="field"><label for="fExpr">Transfer function in <i>s</i></label><input id="fExpr" class="code" value="${esc(n.expr||'')}" placeholder="e.g. 10/(s(s+2))" autocomplete="off" spellcheck="false"><div class="note" id="fExprNote">${exprStatus(n.expr||'')}</div></div>`;
+    h+=`<div class="field"><label for="fLabel">Name (symbol used in the formula)</label><input id="fLabel" value="${esc(n.label)}" maxlength="12" autocomplete="off" spellcheck="false"></div>`;
+    const K=n.kind&&KINDS[n.kind];
+    if(K){
+      h+=`<div class="kindhead"><b>${esc(K.name)}</b>${K.unitIn?`<span class="muted">input ${esc(K.unitIn)} → output ${esc(K.unitOut)}</span>`:''}</div>
+        <div class="pgrid">${K.params.map(([key,lab,unit])=>`<label class="pf" for="kp_${key}"><span>${esc(lab)}</span><input id="kp_${key}" data-p="${key}" value="${nf(n.params[key])}" inputmode="decimal" autocomplete="off"><em>${esc(unit)}</em></label>`).join('')}</div>
+        ${K.note?`<p class="note muted" style="margin:6px 0">${esc(K.note)}</p>`:''}
+        <div class="note" id="fExprNote" style="margin-bottom:10px">${exprStatus(n.expr||'')}</div>`;
+      if(n.kind==='pid')h+=`<div class="field" style="margin-bottom:8px"><label>Ziegler–Nichols tuning (ultimate-gain method, using the loop from ${esc(byId(D,ioIn)?.label||'the input')} to ${esc(byId(D,ioOut)?.label||'the output')})</label><div class="btns"><button class="btn sm" data-zn="P">P</button><button class="btn sm" data-zn="PI">PI</button><button class="btn sm primary" data-zn="PID">PID</button></div></div>`;
+      h+=`<div class="btns" style="margin-bottom:10px"><button class="btn sm" id="kDetach">Edit as plain transfer function</button><button class="btn sm" data-xcode="1">Generate PLC code…</button>${n.kind==='pid'?'<button class="btn sm" data-xpidc="1">PID_Compact settings…</button>':''}</div>`;
+    } else h+=`<div class="field"><label for="fExpr">Transfer function in <i>s</i></label><input id="fExpr" class="code" value="${esc(n.expr||'')}" placeholder="e.g. 10/(s(s+2))" autocomplete="off" spellcheck="false"><div class="note" id="fExprNote">${exprStatus(n.expr||'')}</div></div>${n.expr&&n.expr.trim()?'<div class="btns" style="margin-bottom:10px"><button class="btn sm" data-xcode="1">Generate PLC code…</button></div>':''}`;
+    h+=`<div class="digsec"><div class="field"><label for="fImpl">Implementation</label><select id="fImpl"><option value="c"${n.dig?'':' selected'}>Continuous (analog)</option><option value="d"${n.dig?' selected':''}>Digital (sampled, held between samples)</option></select></div>`;
+    if(n.dig)h+=`<div class="pgrid"><label class="pf" for="fMeth"><span>Discretisation</span><select id="fMeth">${Object.entries(DMETHODS).map(([k,v])=>`<option value="${k}"${(n.dmethod||'zoh')===k?' selected':''}>${v}</option>`).join('')}</select><em></em></label><label class="pf" for="fTs"><span>Sample time Ts (whole diagram)</span><input id="fTs" value="${nf(getTs())}" inputmode="decimal" autocomplete="off"><em>s</em></label></div><div id="digInfo"></div>`;
+    h+=`</div>`;
   } else if(n.t==='in'||n.t==='out'||n.t==='sum'||n.t==='pick'){
     h+=`<div class="field"><label for="fLabel">${n.t==='sum'||n.t==='pick'?'Signal name (optional, e.g. E(s))':'Signal name'}</label><input id="fLabel" value="${esc(n.label)}" maxlength="12" autocomplete="off" spellcheck="false"></div>`;
   }
@@ -1340,9 +1796,26 @@ function renderInspector(){
   h+=`<div class="btns">${n.t!=='pick'?'<button class="btn sm" id="nFlip">Flip direction</button>':''}<button class="btn sm" id="nDup">Duplicate</button><button class="btn sm danger" id="nDel">Delete</button></div>`;
   el.innerHTML=h;
   const fl=$('#fLabel');if(fl){fl.addEventListener('focus',snapshot,{once:true});fl.addEventListener('input',()=>{n.label=fl.value;renderCanvas();clearTimeout(resT);resT=setTimeout(renderResult,200);store.set('bdb-diagram',D);});}
-  const fe=$('#fExpr');if(fe){fe.addEventListener('focus',snapshot,{once:true});fe.addEventListener('input',()=>{n.expr=fe.value;renderCanvas();clearTimeout(resT);resT=setTimeout(renderResult,200);store.set('bdb-diagram',D);$('#fExprNote').innerHTML=exprStatus(n.expr);});}
+  if(n.t==='blk'){
+    $$('#insp [data-p]').forEach(inp=>{inp.addEventListener('focus',snapshot,{once:true});inp.addEventListener('input',()=>{const v=parseFloat(inp.value);inp.classList.toggle('badin',!isFinite(v));if(!isFinite(v))return;n.params[inp.dataset.p]=v;applyKind(n);renderCanvas();clearTimeout(resT);resT=setTimeout(renderResult,200);store.set('bdb-diagram',D);const ne=$('#fExprNote');if(ne)ne.innerHTML=exprStatus(n.expr);renderDigInfo(n);});});
+    $$('#insp [data-zn]').forEach(b=>b.onclick=()=>znTune(n,b.dataset.zn));
+    $$('#insp [data-xcode]').forEach(b=>b.onclick=()=>openExport('scl',n.id));$$('#insp [data-xpidc]').forEach(b=>b.onclick=()=>openExport('pidc',n.id));
+    const dt=$('#kDetach');if(dt)dt.onclick=()=>{snapshot();delete n.kind;delete n.params;changed();toast('The block is now a plain transfer function you can edit.');};
+    const im=$('#fImpl');if(im)im.onchange=()=>{snapshot();n.dig=im.value==='d';if(n.dig){n.dmethod=n.dmethod||'zoh';if(!(D.Ts>0))D.Ts=0.1;}changed();};
+    const fm=$('#fMeth');if(fm)fm.onchange=()=>{snapshot();n.dmethod=fm.value;store.set('bdb-diagram',D);renderDigInfo(n);renderCanvas();};
+    const ft=$('#fTs');if(ft){ft.addEventListener('focus',snapshot,{once:true});ft.addEventListener('input',()=>{const v=parseFloat(ft.value);const ok=v>0&&v<1e4;ft.classList.toggle('badin',!ok);if(!ok)return;D.Ts=v;store.set('bdb-diagram',D);renderDigInfo(n);});}
+    renderDigInfo(n);
+  }
+  const fe=$('#fExpr');if(fe){fe.addEventListener('focus',snapshot,{once:true});fe.addEventListener('input',()=>{n.expr=fe.value;renderCanvas();clearTimeout(resT);resT=setTimeout(renderResult,200);store.set('bdb-diagram',D);$('#fExprNote').innerHTML=exprStatus(n.expr);renderDigInfo(n);});}
   $$('[data-ws]').forEach(b=>b.onclick=()=>{const w=D.wires.find(x=>x.id===b.dataset.ws);snapshot();w.sign=-w.sign;changed();});
   const fb=$('#nFlip');if(fb)fb.onclick=flipSel;$('#nDup').onclick=dupSel;$('#nDel').onclick=deleteSel;
+}
+function renderDigInfo(n){
+  const el=$('#digInfo');if(!el||!n.dig)return;
+  if(!n.expr||!n.expr.trim()){el.innerHTML='<p class="note muted">Give the block a transfer function to see its discrete form.</p>';return;}
+  try{const z=discretizeNode(n,getTs(),1);
+    el.innerHTML=`<div class="tf" style="font-size:15px;margin:4px 0 6px"><span class="lhs"><i>${esc(n.label)}</i>(<i>z</i>) =</span>${fracHTML(zPolyHTML(z.nz),zPolyHTML(z.dz))}</div><div class="note muted">Difference equation (input e, output u), runs every ${nf(getTs())} s:</div><div class="diffeq">${diffEqHTML(z,'e','u')}</div>`;}
+  catch(err){el.innerHTML=`<p class="note bad">${esc(err.message)}</p>`;}
 }
 function keepFocus(id){const el=$('#'+id);if(el&&document.activeElement!==el){const v=el.value;el.focus();el.setSelectionRange(v.length,v.length);}}
 /* the label input re-renders the inspector via changed(); keep it lightweight instead */
@@ -1414,7 +1887,7 @@ function numericHTML(r){
   if(!r.paths.length)return '';
   const map={},missing=[];
   for(const s of syms){const b=D.nodes.find(n=>n.t==='blk'&&n.label.trim()===s&&n.expr&&n.expr.trim());if(!b){missing.push(s);continue;}try{map[s]=parseS(b.expr);}catch(err){missing.push(s);}}
-  let h=`<h3 style="margin-top:20px">Numeric analysis</h3>`;
+  let h=`<h3 style="margin-top:20px">Numeric analysis</h3>`+(hasDigital(D)?'<p class="warnline" style="margin:0 0 8px">Digital blocks are treated as their continuous originals here. Simulate ▸ Digital shows the sampled behaviour.</p>':'');
   if(missing.length){lastStab=null;return h+`<p class="muted" style="margin:0;font-size:13px">Give ${missing.slice(0,6).map(m=>symHTML(m)).join(', ')}${missing.length>6?'…':''} a transfer function in <i>s</i> to see the simplified result, poles and the step response.</p>`;}
   let st;try{st=simplifyTF(RO.div(evalSPtoR(r.num,map),evalSPtoR(r.den,map)));}catch(err){return h+`<p class="bad">${esc(err.message)}</p>`;}
   const poles=st.poles,zeros=st.zeros;
@@ -1442,7 +1915,7 @@ function stepSVG(sr,fv){
   let y0=Math.min(0,...y),y1=Math.max(...y,fv??-Infinity);if(y1-y0<1e-9)y1=y0+1;const pad=(y1-y0)*0.08;y0-=y0<0?pad:0;y1+=pad;
   const X=v=>l+(v/sr.t[ts.length-1])*(W-l-rr),Y=v=>t+(1-(v-y0)/(y1-y0))*(H-t-b);
   let g='';for(const v of ticks(y0,y1,4)){g+=`<line class="ax" x1="${l}" x2="${W-rr}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tk" x="${l-5}" y="${Y(v)+3}" text-anchor="end">${fmtN(v)}</text>`;}
-  for(const v of ticks(0,ts[ts.length-1],5)){g+=`<text class="tk" x="${X(v)}" y="${H-8}" text-anchor="middle">${fmtN(v)}</text>`;}
+  for(const v of ticks(0,ts[ts.length-1],5)){if(X(v)>W-rr-30)continue;g+=`<text class="tk" x="${X(v)}" y="${H-8}" text-anchor="middle">${fmtN(v)}</text>`;}
   g+=`<text class="tk" x="${W-rr}" y="${H-8}" text-anchor="end" dx="0">t (s)</text>`;
   if(fv!=null)g+=`<line class="fvline" x1="${l}" x2="${W-rr}" y1="${Y(fv)}" y2="${Y(fv)}"/>`;
   g+=`<line class="axz" x1="${l}" x2="${l}" y1="${t}" y2="${H-b}"/><line class="axz" x1="${l}" x2="${W-rr}" y1="${Y(Math.max(y0,Math.min(0,y1)))}" y2="${Y(Math.max(y0,Math.min(0,y1)))}"/>`;
@@ -1532,10 +2005,28 @@ function renderRules(){
    <p>Try it: open “Two forward paths, Δₖ ≠ 1” from the examples and expand <b>Mason’s rule, step by step</b>. Hover any path or loop to see it on the diagram.</p></article>`;
 }
 
-/* ---- practice ---- */
-let prob=null,prLevel=store.get('bdb-level')||'medium',prCount=0;
+/* ---- theme ---- */
+$('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',nx);store.set('bdb-theme',nx);};
+const th=store.get('bdb-theme');if(th)document.documentElement.setAttribute('data-theme',th);
+
+/* ---- boot ---- */
+function boot(){
+  const saved=store.get('bdb-diagram');
+  if(saved&&Array.isArray(saved.nodes)&&saved.nodes.length)D=saved;else D=clone(EX.find(e=>e.id==='lead').d);
+  renderLib();renderExamples();renderRules();renderFile();renderCanvas();renderInspector();renderResult();updUndo();
+  const h=(location.hash||'').slice(1);const start=['editor','simulate','examples','practice','rules'].includes(h)?h:'editor';
+  showTab(start);
+  requestAnimationFrame(()=>{fit();view.fitted=true;});
+  window.addEventListener('resize',()=>{if(currentTab==='editor'&&!drag)fit();});
+}
+
+/* ===== Practice: six question types ===== */
+let prob=null,prLevel=store.get('bdb-level')||'medium',prType=store.get('bdb-ptype')||'mix',prCount=0,prSfg=false;
 const score=Object.assign({right:0,tries:0,streak:0,best:0},store.get('bdb-score')||{});
 const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const PTYPES=[['mix','Mixed questions'],['tf','Transfer function (Mason)'],['count','Paths and loops'],['stab','Stability range (Routh)'],['ess','Steady-state error'],['spec','Second-order specs'],['match','Match the response']];
+const LEVELN={easy:'easy',medium:'medium',hard:'hard'};
 function genProblem(level){
   for(let attempt=0;attempt<80;attempt++){
     const n=level==='easy'?ri(2,3):ri(3,4);
@@ -1583,88 +2074,247 @@ function buildGen(n,loops,ff,level){
   if(level!=='easy'&&sums[1]&&Math.random()<0.2){sums[1].label='E(s)';outId=sums[1].id;ask='E';}
   d._out=outId;return d;
 }
-function setProblem(d,level,title){
-  const inN=d.nodes.find(n=>n.t==='in');const outId=d._out||d.nodes.find(n=>n.t==='out')?.id;
-  const r=solve(d,inN.id,outId);const syms=[...new Set(d.nodes.filter(n=>n.t==='blk').map(n=>n.label.trim()))];
-  prob={d,inId:inN.id,outId,r,syms,hint:0,done:false,revealed:false,title};
-  prCount++;$('#prNum').textContent=title?`From the library · ${title}`:`Problem ${prCount} · ${level||prLevel}`;
-  const outN=byId(d,outId);
-  $('#prQ').innerHTML=`Find ${fracHTML(symHTML(outN.label),symHTML(inN.label))} for the diagram. <span class="muted" style="font-size:13px">Blocks: ${syms.map(s=>symHTML(s)).join(', ')}</span>`;
-  $('#ansIn').value='';$('#ansPrev').innerHTML='<span class="muted" style="font-family:var(--sans);font-size:13px">Your answer will be typeset here.</span>';
-  $('#prFb').innerHTML='';$('#prHints').innerHTML='';drawProblem(null);renderScore();
+/* --- helpers --- */
+function unityLoop(ctrl,plant,opt={}){
+  const d=newD();let x=40;const r=addNode(d,'in',x,200,{label:'R(s)'});x+=70;const s=addNode(d,'sum',x,200,{label:opt.eLabel||''});addWire(d,r,s,1);let prev=s;x+=45;
+  if(ctrl){const c=addNode(d,'blk',0,200,{label:ctrl.label,expr:ctrl.expr||''});const w=blkDims(c).w;c.x=x+w/2;x+=w+45;addWire(d,prev,c,1);prev=c;}
+  const g=addNode(d,'blk',0,200,{label:plant.label,expr:plant.expr});const wg=blkDims(g).w;g.x=x+wg/2;x+=wg+40;addWire(d,prev,g,1);
+  const p=addNode(d,'pick',x,200,{label:''});x+=70;const o=addNode(d,'out',x,200,{label:'C(s)'});addWire(d,g,p,1);addWire(d,p,o,1);addWire(d,p,s,-1,280,'y');return d;
 }
-function newProblem(){setProblem(genProblem(prLevel),prLevel);}
-function drawProblem(h){$('#prSvg').innerHTML=staticSVG(prob.d,{hl:h,pad:20,label:'Practice diagram'});}
+const polyStr=(c)=>sPolyHTML(c);
+function readNum(id){const el=$('#'+id);if(!el)return NaN;const t=el.value.trim().toLowerCase().replace(',','.');if(/^(inf|infinity|∞|infinite)$/.test(t))return Infinity;if(t==='')return NaN;const v=Number(t);return isFinite(v)?v:NaN;}
+const close=(a,b,rel=0.02)=>a===b||(isFinite(a)&&isFinite(b)&&Math.abs(a-b)<=Math.max(rel*Math.abs(b),1e-6));
+function numInput(id,label,unit='',ph=''){return `<label class="pf ansf" for="${id}"><span>${label}</span><input id="${id}" inputmode="decimal" autocomplete="off" placeholder="${esc(ph)}"><em>${unit}</em></label>`;}
+
+/* --- generators: each returns a problem object --- */
+const GEN={
+  tf(level,d0,title){
+    const d=d0||genProblem(level);const inN=d.nodes.find(n=>n.t==='in');const outId=d._out||d.nodes.find(n=>n.t==='out')?.id;
+    const r=solve(d,inN.id,outId);const syms=[...new Set(d.nodes.filter(n=>n.t==='blk').map(n=>n.label.trim()))];const outN=byId(d,outId);
+    const eq=(txt,nP,dP)=>{for(let t=0;t<6;t++){const vals={};syms.forEach(s=>vals[s]=0.25+Math.random()*1.6);const dv=SP.evalN(dP,vals);if(Math.abs(dv)<1e-3){t--;continue;}const want=SP.evalN(nP,vals)/dv;const got=parseSym(txt,syms,vals);if(!isFinite(got)||Math.abs(got-want)>1e-7*Math.max(1,Math.abs(want)))return false;}return true;};
+    const sub=i=>`<sub>${i}</sub>`;
+    return {d,title,outId,r,name:'Transfer function',_ans:{ansIn:`(${spText(r.num)})/(${spText(r.den)})`},
+      q:`Find ${fracHTML(symHTML(outN.label),symHTML(inN.label))} for the diagram. <span class="muted">Blocks: ${syms.map(s=>symHTML(s)).join(', ')}</span>`,
+      ans:`<input id="ansIn" class="ansbig" autocomplete="off" spellcheck="false" placeholder="e.g. G1G2/(1+G1G2H1)" aria-label="Your answer"><div class="preview" id="ansPrev"><span class="muted">Your answer will be typeset here.</span></div>`,
+      bind(){const inp=$('#ansIn');inp.addEventListener('input',()=>{const txt=inp.value;if(!txt.trim()){$('#ansPrev').innerHTML='<span class="muted">Your answer will be typeset here.</span>';return;}
+        try{const vals={};syms.forEach(s=>vals[s]=1.3);parseSym(txt,syms,vals);const id=symIdent(syms);let s=txt.replace(/\s+/g,''),out='';for(let i=0;i<s.length;){const m=id(s,i);if(m){out+=symHTML(m.name);i+=m.len;continue;}const c=s[i];out+=c==='*'?'':c==='-'?' − ':c==='+'?' + ':c==='/'?' / ':esc(c);i++;}$('#ansPrev').innerHTML=out;}
+        catch(err){$('#ansPrev').innerHTML=`<span class="bad">${esc(err.message)}</span>`;}});},
+      check(){const txt=$('#ansIn').value;if(!txt.trim())return {empty:true};let ok;try{ok=eq(txt,r.num,r.den);}catch(err){return {err:err.message};}
+        if(ok)return {ok:true,html:`${fracHTML(spHTML(r.num),spHTML(r.den))}<br><span class="note">${r.paths.length} forward path${r.paths.length>1?'s':''}, ${r.loops.length} loop${r.loops.length===1?'':'s'}${r.combos.length?`, ${r.combos.length} non-touching group${r.combos.length>1?'s':''}`:''}.</span>`};
+        let tip='Check each loop’s sign and whether you included every forward path. A hint can help.';
+        try{if(r.cof.some(c=>!SP.isOne(c.d))&&eq(txt,r.sumP,r.den))tip='Close. Your Δ is right, but some loops do not touch a forward path, so that path’s cofactor Δₖ is not 1.';
+          else if(r.combos.length&&eq(txt,r.num,r.firstOrder))tip='Close. Δ also needs products of non-touching loops, added with a + sign.';
+          else if(eq(txt,r.den,r.num))tip='That is upside down: the forward paths go on top, Δ goes underneath.';
+          else{let f=SP.c(1);r.loops.forEach(l=>{f=SP.add(f,l.g);});if(!r.combos.length&&eq(txt,r.num,f))tip='Close. Check the loop signs: a negative-feedback loop has a negative gain, so it appears as + in Δ = 1 − ΣL.';}}catch(e){}
+        return {ok:false,tip};},
+      hints:[
+        `<b>Forward paths.</b> There ${r.paths.length===1?'is 1 path':`are ${r.paths.length} paths`} from input to output. Hover to highlight.<ul>${r.paths.map((p,i)=>`<li data-ph="p:${i}"><i>P</i>${sub(i+1)} = ${spHTML(p.g)}</li>`).join('')}</ul>`,
+        `<b>Loops.</b> ${r.loops.length} loop${r.loops.length===1?'':'s'}, gains include the junction sign.<ul>${r.loops.map((l,i)=>`<li data-ph="l:${i}"><i>L</i>${sub(i+1)} = ${spHTML(l.g)}</li>`).join('')||'<li>No loops.</li>'}</ul>`,
+        `<b>Non-touching loops and Δ.</b> ${r.combos.length?`Groups that share no node: ${r.combos.map(c=>c.map(i=>`<i>L</i>${sub(i+1)}`).join('')).join(', ')}.`:'Every pair of loops touches.'}<div class="mth" style="margin-top:6px;white-space:normal">Δ = ${spHTML(r.delta)}</div>${r.cof.some(c=>!SP.isOne(c.d))?`<div style="margin-top:6px">${r.cof.map((c,i)=>`Δ${sub(i+1)} = ${spHTML(c.d)}`).join(' · ')}</div>`:'<div style="margin-top:6px">Every loop touches every path, so each Δₖ = 1.</div>'}`],
+      solution:()=>`<div class="tf" style="margin-top:8px;font-size:17px">${fracHTML(spHTML(r.num),spHTML(r.den))}</div><div class="diffeq">${esc(`(${spText(r.num)}) / (${spText(r.den)})`)}</div>`};
+  },
+  count(level){
+    const d=genProblem(level);const inN=d.nodes.find(n=>n.t==='in');const outId=d._out||d.nodes.find(n=>n.t==='out')?.id;const r=solve(d,inN.id,outId);const outN=byId(d,outId);
+    const P=r.paths.length,L=r.loops.length,N2=r.combos.filter(c=>c.length===2).length;const sub=i=>`<sub>${i}</sub>`;
+    return {d,outId,r,name:'Paths and loops',_ans:{cP:P,cL:L,cN:N2},
+      q:`Count the forward paths from ${symHTML(inN.label)} to ${symHTML(outN.label)}, the individual loops, and the pairs of loops that do not touch each other.`,
+      ans:`<div class="pgrid">${numInput('cP','Forward paths')}${numInput('cL','Loops')}${numInput('cN','Non-touching loop pairs')}</div>`,
+      check(){const a=readNum('cP'),b=readNum('cL'),c=readNum('cN');if([a,b,c].some(isNaN))return {empty:true};
+        const wrong=[];if(a!==P)wrong.push('forward paths');if(b!==L)wrong.push('loops');if(c!==N2)wrong.push('non-touching pairs');
+        if(!wrong.length)return {ok:true,html:`${P} path${P===1?'':'s'}, ${L} loop${L===1?'':'s'}, ${N2} non-touching pair${N2===1?'':'s'}.`};
+        return {ok:false,tip:`Recount the ${wrong.join(' and ')}. A loop starts and ends at the same node without visiting any node twice. Two loops touch if they share any node, including a summing junction or pickoff.`};},
+      hints:[`<b>Forward paths</b> (hover to see them):<ul>${r.paths.map((p,i)=>`<li data-ph="p:${i}"><i>P</i>${sub(i+1)} = ${spHTML(p.g)}</li>`).join('')}</ul>`,
+        `<b>Loops</b> (hover to see them):<ul>${r.loops.map((l,i)=>`<li data-ph="l:${i}"><i>L</i>${sub(i+1)} = ${spHTML(l.g)}</li>`).join('')||'<li>None</li>'}</ul>`],
+      solution:()=>`${P} forward path${P===1?'':'s'}, ${L} loop${L===1?'':'s'}, ${N2} pair${N2===1?'':'s'} of non-touching loops.${r.combos.filter(c=>c.length===2).length?` The pairs: ${r.combos.filter(c=>c.length===2).map(c=>c.map(i=>`<i>L</i>${sub(i+1)}`).join('')).join(', ')}.`:''}`};
+  },
+  stab(level){
+    let a2,a1,a0,expr,polyTxt;
+    if(level==='easy'||Math.random()<0.4){const [a,b]=pick([[1,2],[1,3],[2,3],[1,4],[2,4],[1,5],[2,5],[3,4],[1,6],[2,6],[3,5],[4,5]]);a2=a+b;a1=a*b;a0=0;expr=`1/(s*(s+${a})*(s+${b}))`;polyTxt=`s(s + ${a})(s + ${b})`;}
+    else{let a,b,c;do{a=ri(1,6);b=ri(1,6);c=ri(1,8);}while(a===b||b===c||a===c);[a,b,c]=[a,b,c].sort((x,y)=>x-y);a2=a+b+c;a1=a*b+b*c+c*a;a0=a*b*c;expr=`1/((s+${a})*(s+${b})*(s+${c}))`;polyTxt=`(s + ${a})(s + ${b})(s + ${c})`;}
+    const Kmax=a2*a1-a0,w=Math.sqrt(a1);const d=unityLoop({label:'K',expr:''},{label:'Gp',expr});
+    return {d,name:'Stability range',_ans:{aK:Kmax,aW:w},
+      q:`The plant is <span class="mth">G<sub>p</sub>(<i>s</i>) = 1 / ${esc(polyTxt)}</span> with a gain <i>K</i> &gt; 0 in unity feedback. Find the largest <i>K</i> for a stable closed loop, and the frequency at which it oscillates at that gain.`,
+      ans:`<div class="pgrid">${numInput('aK','K max','','e.g. 60')}${numInput('aW','Oscillation frequency ω','rad/s','e.g. 3.32')}</div>`,
+      check(){const k=readNum('aK'),ww=readNum('aW');if(isNaN(k))return {empty:true};
+        if(!close(k,Kmax,0.01))return {ok:false,tip:k>0&&close(k,a1,0.02)?'That is the s¹ coefficient. Build the Routh array and set the s¹ row to zero.':'Write the characteristic equation 1 + K·Gp(s) = 0, build the Routh array, and find the K that makes the s¹ row zero.'};
+        if(!isNaN(ww)&&!close(ww,w,0.02))return {ok:false,tip:`K max is right (${fmtN(Kmax)}). For ω, use the auxiliary polynomial from the s² row: ${a2}s² + ${a0+Kmax} = 0.`};
+        return {ok:true,html:`Stable for 0 &lt; K &lt; ${fmtN(Kmax)}; at the limit the poles sit at s = ±j${fmtN(+w.toPrecision(4))}.`};},
+      hints:[`<b>Characteristic equation.</b> 1 + K·Gp(s) = 0 gives <span class="mth">${polyStr([a0,a1,a2,1])} + K = 0</span>.`,
+        `<b>Routh array.</b>${routhHTML(a2,a1,a0)}All first-column entries must be positive.`,
+        `<b>Boundary.</b> The s¹ row is zero when ${a2}·${a1} − (${a0} + K) = 0. The s² row then gives the auxiliary polynomial ${a2}s² + (${a0} + K) = 0, whose roots are ±jω.`],
+      solution:()=>`${routhHTML(a2,a1,a0)}<p>s¹ row: (${a2}·${a1} − ${a0} − K)/${a2} &gt; 0 ⇒ K &lt; ${fmtN(Kmax)}. Auxiliary polynomial ${a2}s² + ${fmtN(a0+Kmax)} = 0 ⇒ ω = √(${fmtN((a0+Kmax)/a2)}) = ${fmtN(+w.toPrecision(4))} rad/s.</p>`};
+  },
+  ess(level){
+    for(let tries=0;tries<50;tries++){
+      const type=level==='easy'?ri(0,1):ri(0,2);const inp=pick(['step','ramp','parabola']);const A=pick([1,2,5,10]);
+      let K,expr,num,den,z=0,p1=ri(1,6),p2=ri(2,9);
+      if(type===0){K=pick([5,10,12,20,40]);expr=`${K}/((s+${p1})*(s+${p2}))`;num=[K];den=PS.mul([p1,1],[p2,1]);}
+      else if(type===1){K=pick([2,4,5,10,20]);expr=`${K}/(s*(s+${p1}))`;num=[K];den=[0,p1,1];}
+      else{z=ri(1,3);p1=ri(z+2,9);K=pick([2,4,5,10]);expr=`${K}*(s+${z})/(s^2*(s+${p1}))`;num=[K*z,K];den=[0,0,p1,1];}
+      const ch=PS.add(den,num);if(roots(ch).some(r=>r[0]>-1e-6))continue;
+      const L0=type===0?K/(p1*p2):type===1?K/p1:K*z/p1;
+      const Kp=type===0?L0:Infinity,Kv=type===0?0:type===1?L0:Infinity,Ka=type<2?0:type===2?L0:Infinity;
+      const e=inp==='step'?A/(1+Kp):inp==='ramp'?(Kv?A/Kv:Infinity):(Ka?A/Ka:Infinity);
+      const d=unityLoop(null,{label:'G',expr});const rt=inp==='step'?`${A}·u(t)`:inp==='ramp'?`${A}·t`:`${A}·t²/2`;
+      return {d,name:'Steady-state error',_ans:{aE:e===Infinity?'inf':e},
+        q:`Unity negative feedback with <span class="mth"><i>G</i>(<i>s</i>) = ${esc(prettyExpr(expr))}</span>. The input is a ${inp}, r(t) = ${rt}. Find the steady-state error e<sub>ss</sub>. Type <code>inf</code> if it grows without bound.`,
+        ans:`<div class="pgrid">${numInput('aE','Steady-state error','','number or inf')}</div>`,
+        check(){const v=readNum('aE');if(isNaN(v))return {empty:true};if(close(v,e,0.01)||(e===0&&Math.abs(v)<1e-6))return {ok:true,html:`e<sub>ss</sub> = ${e===Infinity?'∞':fmtN(+e.toPrecision(4))}. The system is type ${type}${type===0?`, K<sub>p</sub> = ${fmtN(+Kp.toPrecision(4))}`:type===1?`, K<sub>v</sub> = ${fmtN(+Kv.toPrecision(4))}`:`, K<sub>a</sub> = ${fmtN(+Ka.toPrecision(4))}`}.`};
+          return {ok:false,tip:'Count the poles at s = 0 to get the system type, then use the matching error constant: step → A/(1+Kp), ramp → A/Kv, parabola → A/Ka.'};},
+        hints:[`<b>System type.</b> G(s) has ${type} pole${type===1?'':'s'} at the origin, so it is a type ${type} system.`,
+          `<b>Error constants.</b> K<sub>p</sub> = lim G(s) = ${fK(Kp)}, K<sub>v</sub> = lim sG(s) = ${fK(Kv)}, K<sub>a</sub> = lim s²G(s) = ${fK(Ka)} (all as s → 0).`],
+        solution:()=>`Type ${type}. ${inp==='step'?`e<sub>ss</sub> = A/(1 + K<sub>p</sub>) = ${A}/(1 + ${fK(Kp)})`:inp==='ramp'?`e<sub>ss</sub> = A/K<sub>v</sub> = ${A}/${fK(Kv)}`:`e<sub>ss</sub> = A/K<sub>a</sub> = ${A}/${fK(Ka)}`} = <b>${e===Infinity?'∞':fmtN(+e.toPrecision(4))}</b>.`};
+    }
+    return GEN.stab(level);
+  },
+  spec(level){
+    let K,a,z,wn;do{const zt=0.2+Math.random()*0.55,w=1+Math.random()*7;K=Math.max(1,Math.round(w*w));a=Math.round(2*zt*Math.sqrt(K)*10)/10;wn=Math.sqrt(K);z=a/(2*wn);}while(z<0.15||z>0.85||a<=0);
+    const sq=Math.sqrt(1-z*z);const vals={os:100*Math.exp(-z*Math.PI/sq),tp:Math.PI/(wn*sq),ts:4/(z*wn),zeta:z,wn};
+    const what=pick(level==='easy'?['zeta','wn','os']:['os','tp','ts','zeta','wn','os','ts']);
+    const lab={os:['Percent overshoot','%'],tp:['Peak time','s'],ts:['Settling time (2 % criterion)','s'],zeta:['Damping ratio ζ',''],wn:['Natural frequency ωn','rad/s']}[what];
+    const expr=`${K}/(s*(s+${a}))`;const d=unityLoop(null,{label:'G',expr});
+    return {d,name:'Second-order specs',_ans:{aS:vals[what]},
+      q:`Unity negative feedback with <span class="mth"><i>G</i>(<i>s</i>) = ${K} / (s(s + ${a}))</span>. Find the <b>${lab[0].toLowerCase()}</b> of the closed-loop step response${what==='ts'?' (use t<sub>s</sub> ≈ 4/(ζω<sub>n</sub>))':''}.`,
+      ans:`<div class="pgrid">${numInput('aS',lab[0],lab[1])}</div>`,
+      check(){const v=readNum('aS');if(isNaN(v))return {empty:true};if(close(v,vals[what],0.03))return {ok:true,html:`${lab[0]} = ${fmtN(+vals[what].toPrecision(4))} ${lab[1]} (ζ = ${fmtN(+z.toPrecision(3))}, ω<sub>n</sub> = ${fmtN(+wn.toPrecision(4))} rad/s).`};
+        return {ok:false,tip:what==='os'&&close(v,vals.os/100,0.03)?'Give it as a percentage, not a fraction.':'Find ωn and ζ from the closed-loop denominator first, then apply the standard formula.'};},
+      hints:[`<b>Closed loop.</b> T(s) = G/(1 + G) = ${K} / (s² + ${a}s + ${K}). Compare with ωn² / (s² + 2ζωn s + ωn²).`,
+        `<b>Parameters.</b> ωn = √${K} = ${fmtN(+wn.toPrecision(4))} rad/s, ζ = ${a} / (2ωn) = ${fmtN(+z.toPrecision(3))}.`,
+        `<b>Formulas.</b> %OS = 100·e^(−ζπ/√(1−ζ²)), t<sub>p</sub> = π/(ωn√(1−ζ²)), t<sub>s</sub> ≈ 4/(ζωn).`],
+      solution:()=>`ωn = ${fmtN(+wn.toPrecision(4))} rad/s, ζ = ${fmtN(+z.toPrecision(3))} ⇒ ${lab[0].toLowerCase()} = <b>${fmtN(+vals[what].toPrecision(4))} ${lab[1]}</b>. (For reference: %OS ${vals.os.toFixed(1)} %, t<sub>p</sub> ${fmtN(+vals.tp.toPrecision(3))} s, t<sub>s</sub> ${fmtN(+vals.ts.toPrecision(3))} s.)`};
+  },
+  match(level){
+    const r2=(x)=>Math.round(x*10)/10;
+    const cats={
+      over:()=>{const p1=r2(0.6+Math.random()),p2=r2(3+Math.random()*2);return {poles:[[-p1,0],[-p2,0]],desc:'two real poles: overdamped, no overshoot, slow because of the pole near the origin'};},
+      first:()=>{const p=r2(1+Math.random()*2);return {poles:[[-p,0]],desc:'one real pole: first-order, rises smoothly with no overshoot'};},
+      lowz:()=>{const wn=2+Math.random()*2,z=0.2+Math.random()*0.06;return {poles:[[-z*wn,wn*Math.sqrt(1-z*z)],[-z*wn,-wn*Math.sqrt(1-z*z)]],desc:'complex poles close to the imaginary axis: lightly damped, large overshoot and long ringing'};},
+      midz:()=>{const wn=1.5+Math.random()*1.5,z=0.45+Math.random()*0.15;return {poles:[[-z*wn,wn*Math.sqrt(1-z*z)],[-z*wn,-wn*Math.sqrt(1-z*z)]],desc:'complex poles at about 60° from the real axis: moderate overshoot, settles in a couple of cycles'};},
+      undamped:()=>{const w=1.5+Math.random()*1.5;return {poles:[[0,w],[0,-w]],desc:'poles on the imaginary axis: oscillates forever, marginally stable'};},
+      unstable:()=>{const w=1.5+Math.random(),s=0.15+Math.random()*0.15;return {poles:[[s,w],[s,-w]],desc:'poles in the right half-plane: the oscillation grows, unstable'};},
+    };
+    const keys=Object.keys(cats).sort(()=>Math.random()-0.5).slice(0,4);
+    const opts=keys.map(k=>{const c=cats[k]();const d=fromRoots(c.poles);const n=[PS.val(d,0)||1];return {k,...c,n,d};});
+    const ti=ri(0,3),mode=Math.random()<0.5?'step2pz':'pz2step';
+    const stepOf=o=>{const sr=stepResponse(o.n,o.d,o.poles);return stepSVG(sr,stabOf(o.poles)==='stable'?1:null);};
+    const pzOf=o=>pzSVG(o.poles,[]);
+    return {name:'Match the response',_ans:{choice:ti},board:()=>`<div class="mboard"><div class="plabel">${mode==='step2pz'?'Unit step response':'Pole map'}</div>${mode==='step2pz'?stepOf(opts[ti]):pzOf(opts[ti])}</div>`,
+      q:mode==='step2pz'?'Which pole map produces this step response?':'Which step response belongs to this pole map?',
+      ans:`<div class="mgrid">${opts.map((o,i)=>`<button class="mopt" data-mo="${i}"><b>${'ABCD'[i]}</b>${mode==='step2pz'?pzOf(o):stepOf(o)}</button>`).join('')}</div>`,
+      bind(){$$('#prAnsArea [data-mo]').forEach(b=>b.onclick=()=>{$$('#prAnsArea [data-mo]').forEach(x=>x.classList.toggle('on',x===b));prob.choice=+b.dataset.mo;doCheck();});},
+      check(){if(prob.choice==null)return {empty:true};if(prob.choice===ti)return {ok:true,html:`Option ${'ABCD'[ti]}: ${opts[ti].desc}.`};return {ok:false,tip:`Option ${'ABCD'[prob.choice]} has ${opts[prob.choice].desc}. Look again at how far the poles are from the imaginary axis and whether they are complex.`};},
+      hints:['<b>Reading pole maps.</b> Complex poles mean oscillation. The further left the poles are, the faster the response decays. Poles on the imaginary axis never settle, and poles to the right make the response grow.'],
+      solution:()=>`Option <b>${'ABCD'[ti]}</b>: ${opts[ti].desc}.`};
+  },
+};
+function routhHTML(a2,a1,a0){return `<table class="routh"><tr><th>s³</th><td>1</td><td>${a1}</td></tr><tr><th>s²</th><td>${a2}</td><td>${a0} + K</td></tr><tr><th>s¹</th><td>(${a2}·${a1} − ${a0} − K) / ${a2}</td><td>0</td></tr><tr><th>s⁰</th><td>${a0} + K</td><td></td></tr></table>`;}
+
+/* --- driver --- */
+function renderProblem(){
+  const p=prob;prCount++;
+  $('#prNum').textContent=p.title?`From the library · ${p.title}`:`Problem ${prCount} · ${p.name} · ${prLevel}`;
+  $('#prQ').innerHTML=p.q;$('#prAnsArea').innerHTML=p.ans;$('#prFb').innerHTML='';$('#prHints').innerHTML='';
+  if(p.bind)p.bind();
+  const ae=$('#prAnsArea').querySelector('input');if(ae){$('#prAnsArea').querySelectorAll('input').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doCheck();}}));}
+  $('#prSfg').hidden=!p.d;$('#prOpenRow').hidden=!p.d;$('#prCheck').hidden=p.type==='match';
+  drawProblem(null);renderScore();
+}
+function newProblem(){const t=prType==='mix'?pick(PTYPES.slice(1).map(x=>x[0])):prType;prob=GEN[t](prLevel);prob.type=t;prob.hint=0;renderProblem();}
+function setProblem(d,level,title){prob=GEN.tf(level||prLevel,d,title);prob.type='tf';prob.hint=0;renderProblem();}
+function drawProblem(hlx){
+  const p=prob;if(!p)return;
+  if(p.board){$('#prSvg').innerHTML=p.board();return;}
+  $('#prSvg').innerHTML=prSfg?sfgStatic(p.d,{hl:hlx}):staticSVG(p.d,{hl:hlx,pad:20,label:'Practice diagram'});
+  $('#prSfg').textContent=prSfg?'Show as block diagram':'Show as signal flow graph';
+}
 function renderScore(){$('#prScore').innerHTML=`<div><b>${score.right}</b>solved</div><div><b>${score.tries?Math.round(100*score.right/score.tries):0}%</b>first-try accuracy</div><div><b>${score.streak}</b>streak</div><div><b>${score.best}</b>best streak</div>`;}
-function previewAns(txt){
-  if(!txt.trim()){$('#ansPrev').innerHTML='<span class="muted" style="font-family:var(--sans);font-size:13px">Your answer will be typeset here.</span>';return;}
-  try{const vals={};prob.syms.forEach(s=>vals[s]=1.3);parseSym(txt,prob.syms,vals);
-    const id=symIdent(prob.syms);let s=txt.replace(/\s+/g,''),out='';
-    for(let i=0;i<s.length;){const m=id(s,i);if(m){out+=symHTML(m.name);i+=m.len;continue;}const c=s[i];out+=c==='*'?'':c==='-'?' − ':c==='+'?' + ':c==='/'?' / ':esc(c);i++;}
-    $('#ansPrev').innerHTML=out;}
-  catch(err){$('#ansPrev').innerHTML=`<span class="bad" style="font-family:var(--sans);font-size:13px">${esc(err.message)}</span>`;}
-}
-function equalTo(txt,nP,dP){
-  for(let t=0;t<6;t++){const vals={};prob.syms.forEach(s=>vals[s]=0.25+Math.random()*1.6);const want=SP.evalN(nP,vals)/SP.evalN(dP,vals);if(!isFinite(want)||Math.abs(SP.evalN(dP,vals))<1e-3){t--;continue;}
-    const got=parseSym(txt,prob.syms,vals);if(!isFinite(got)||Math.abs(got-want)>1e-7*Math.max(1,Math.abs(want)))return false;}
-  return true;
-}
-function checkAnswer(){
-  const txt=$('#ansIn').value;if(!txt.trim()){$('#ansIn').focus();return;}
-  const r=prob.r;let ok;try{ok=equalTo(txt,r.num,r.den);}catch(err){$('#prFb').innerHTML=`<div class="fb miss"><b>Can’t read that.</b> ${esc(err.message)}</div>`;return;}
-  const first=!prob.done&&!prob.tried&&!prob.revealed;
-  if(ok){
-    if(!prob.done){if(first){score.tries++;score.right++;score.streak++;score.best=Math.max(score.best,score.streak);}else if(!prob.revealed){score.right++;}}
-    prob.done=true;store.set('bdb-score',score);renderScore();
-    $('#prFb').innerHTML=`<div class="fb good"><b>Correct.</b> ${fracHTML(spHTML(r.num),spHTML(r.den))}<br><span style="font-size:13px">${r.paths.length} forward path${r.paths.length>1?'s':''}, ${r.loops.length} loop${r.loops.length===1?'':'s'}${r.combos.length?`, ${r.combos.length} non-touching group${r.combos.length>1?'s':''}`:''}.</span></div>`;
-    return;
-  }
+function doCheck(){
+  const p=prob;const res=p.check();
+  if(res.empty){const i=$('#prAnsArea input');if(i)i.focus();return;}
+  if(res.err){$('#prFb').innerHTML=`<div class="fb miss"><b>Can’t read that.</b> ${esc(res.err)}</div>`;return;}
+  const first=!p.done&&!p.tried&&!p.revealed;
+  if(res.ok){if(!p.done){if(first){score.tries++;score.right++;score.streak++;score.best=Math.max(score.best,score.streak);}else if(!p.revealed)score.right++;}
+    p.done=true;store.set('bdb-score',score);renderScore();$('#prFb').innerHTML=`<div class="fb good"><b>Correct.</b> ${res.html||''}</div>`;return;}
   if(first){score.tries++;score.streak=0;store.set('bdb-score',score);renderScore();}
-  prob.tried=true;
-  let tip='Check each loop’s sign and whether you included every forward path. A hint can help.';
-  try{
-    const anyCof=r.cof.some(c=>!SP.isOne(c.d));
-    if(anyCof&&equalTo(txt,r.sumP,r.den))tip='Close. Your Δ is right, but some loops do not touch a forward path, so that path’s cofactor Δₖ is not 1.';
-    else if(r.combos.length&&equalTo(txt,r.num,r.firstOrder))tip='Close. Δ also needs products of non-touching loops, added with a + sign.';
-    else if(equalTo(txt,r.den,r.num))tip='That is upside down: the forward paths go on top, Δ goes underneath.';
-    else{let flipped=SP.c(1);r.loops.forEach(l=>{flipped=SP.add(flipped,l.g);});if(!r.combos.length&&equalTo(txt,r.num,flipped))tip='Close. Check the loop signs: a negative-feedback loop has a negative gain, so it appears as + in Δ = 1 − ΣL.';}
-  }catch(e){}
-  $('#prFb').innerHTML=`<div class="fb miss"><b>Not equal yet.</b> ${esc(tip)}</div>`;
+  p.tried=true;$('#prFb').innerHTML=`<div class="fb miss"><b>Not yet.</b> ${res.tip}</div>`;
 }
-function giveHint(){
-  const r=prob.r;const k=prob.hint++;const sub=i=>`<sub>${i}</sub>`;let h='';
-  if(k===0)h=`<div class="hint"><b>Forward paths.</b> There ${r.paths.length===1?'is 1 path':`are ${r.paths.length} paths`} from input to output. Hover to highlight.<ul>${r.paths.map((p,i)=>`<li data-ph="p:${i}"><i>P</i>${sub(i+1)} = ${spHTML(p.g)}</li>`).join('')}</ul></div>`;
-  else if(k===1)h=`<div class="hint"><b>Loops.</b> ${r.loops.length} loop${r.loops.length===1?'':'s'}, gains include the junction sign.<ul>${r.loops.map((l,i)=>`<li data-ph="l:${i}"><i>L</i>${sub(i+1)} = ${spHTML(l.g)}</li>`).join('')||'<li>No loops.</li>'}</ul></div>`;
-  else if(k===2)h=`<div class="hint"><b>Non-touching loops and Δ.</b> ${r.combos.length?`Groups that share no node: ${r.combos.map(c=>c.map(i=>`<i>L</i>${sub(i+1)}`).join('')).join(', ')}.`:'Every pair of loops touches.'}<div class="mth" style="margin-top:6px;white-space:normal">Δ = ${spHTML(r.delta)}</div>${r.cof.some(c=>!SP.isOne(c.d))?`<div style="margin-top:6px">${r.cof.map((c,i)=>`Δ${sub(i+1)} = ${spHTML(c.d)}`).join(' · ')}</div>`:'<div style="margin-top:6px">Every loop touches every path, so each Δₖ = 1.</div>'}</div>`;
-  else{revealAns();return;}
-  $('#prHints').insertAdjacentHTML('beforeend',h);
-}
-function revealAns(){
-  const r=prob.r;if(!prob.done&&!prob.tried&&!prob.revealed){score.tries++;score.streak=0;store.set('bdb-score',score);renderScore();}
-  prob.revealed=true;prob.hint=4;
-  $('#prFb').innerHTML=`<div class="fb info"><b>Solution.</b><div class="tf" style="margin-top:8px;font-size:17px">${fracHTML(spHTML(r.num),spHTML(r.den))}</div><div style="margin-top:6px;font-family:var(--mono);font-size:12px;color:var(--ink-3);overflow-x:auto">${esc(`(${spText(r.num)}) / (${spText(r.den)})`)}</div></div>`;
-}
-$('#ansIn').addEventListener('input',e=>previewAns(e.target.value));
-$('#ansIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();checkAnswer();}});
-$('#prCheck').onclick=checkAnswer;$('#prHint').onclick=giveHint;$('#prReveal').onclick=revealAns;$('#prNext').onclick=newProblem;
-$('#prOpen').onclick=()=>{const d=clone(prob.d);delete d._out;loadDiagram(d,'Practice diagram loaded into the editor.');ioOut=prob.outId;renderResult();showTab('editor');requestAnimationFrame(fit);};
+function giveHint(){const p=prob;if(p.hint>=p.hints.length){revealAns();return;}$('#prHints').insertAdjacentHTML('beforeend',`<div class="hint">${p.hints[p.hint++]}</div>`);}
+function revealAns(){const p=prob;if(!p.done&&!p.tried&&!p.revealed){score.tries++;score.streak=0;store.set('bdb-score',score);renderScore();}
+  p.revealed=true;$('#prFb').innerHTML=`<div class="fb info"><b>Solution.</b> ${p.solution()}</div>`;}
+$('#prType').innerHTML=PTYPES.map(([k,l])=>`<option value="${k}"${k===prType?' selected':''}>${l}</option>`).join('');
+$('#prType').onchange=e=>{prType=e.target.value;store.set('bdb-ptype',prType);newProblem();};
+$('#prCheck').onclick=doCheck;$('#prHint').onclick=giveHint;$('#prReveal').onclick=revealAns;$('#prNext').onclick=newProblem;
+$('#prSfg').onclick=()=>{prSfg=!prSfg;drawProblem(null);};
+$('#prOpen').onclick=()=>{if(!prob.d)return;const d=clone(prob.d);delete d._out;loadDiagram(d,'Practice diagram loaded into the editor.');if(prob.outId)ioOut=prob.outId;renderResult();showTab('editor');requestAnimationFrame(fit);};
 $$('#prLevel button').forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.lv===prLevel));b.onclick=()=>{prLevel=b.dataset.lv;store.set('bdb-level',prLevel);$$('#prLevel button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));newProblem();};});
-$('#prHints').addEventListener('pointerover',e=>{const li=e.target.closest('[data-ph]');if(li)drawProblem(hlFrom({...prob.r,ids:prob.d.nodes.map(n=>n.id)},li.dataset.ph));});
+$('#prHints').addEventListener('pointerover',e=>{const li=e.target.closest('[data-ph]');if(li&&prob.r)drawProblem(hlFrom({...prob.r,ids:prob.d.nodes.map(n=>n.id)},li.dataset.ph));});
 $('#prHints').addEventListener('pointerout',e=>{if(e.target.closest('[data-ph]'))drawProblem(null);});
 
-/* ---- theme ---- */
-$('#themeBtn').onclick=()=>{const cur=document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const nx=cur==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',nx);store.set('bdb-theme',nx);};
-const th=store.get('bdb-theme');if(th)document.documentElement.setAttribute('data-theme',th);
-
-/* ---- boot ---- */
-function boot(){
-  const saved=store.get('bdb-diagram');
-  if(saved&&Array.isArray(saved.nodes)&&saved.nodes.length)D=saved;else D=clone(EX.find(e=>e.id==='lead').d);
-  renderExamples();renderRules();renderFile();renderCanvas();renderInspector();renderResult();updUndo();
-  const h=(location.hash||'').slice(1);const start=['editor','simulate','examples','practice','rules'].includes(h)?h:'editor';
-  showTab(start);
-  requestAnimationFrame(()=>{fit();view.fitted=true;});
-  window.addEventListener('resize',()=>{if(currentTab==='editor'&&!drag)fit();});
+/* ===== Plant animation for library plants ===== */
+function plantFor(id){let cur=byId(D,id),g=0;
+  while(cur&&g++<60){if(cur.t==='blk')return cur.kind&&KINDS[cur.kind]&&KINDS[cur.kind].anim?cur:null;
+    if(cur.t==='pick'||cur.t==='out'){const w=D.wires.find(w=>w.b===cur.id);if(!w)return null;cur=byId(D,w.a);}else return null;}
+  return null;}
+let ANIM=null;
+function stopAnim(){if(ANIM&&ANIM.raf)cancelAnimationFrame(ANIM.raf);if(ANIM)ANIM.playing=false;}
+function animCardHTML(blk){const K=KINDS[blk.kind];return `<div class="pcard"><div class="phead"><h5>Plant animation · ${esc(K.name)} (${symHTML(blk.label)})</h5><div class="btns"><button class="btn sm primary" id="anPlay">▶ Play</button></div></div>
+  <div class="anwrap"><canvas id="anCv" aria-label="Animation of the plant"></canvas></div><input type="range" id="anScrub" min="0" max="1000" value="0" aria-label="Animation time"><div class="note muted" id="anNote"></div></div>`;}
+function initAnim(blk,t,y){
+  stopAnim();const cvs=$('#anCv'),scrub=$('#anScrub'),btn=$('#anPlay'),note=$('#anNote');if(!cvs)return;
+  const kind=KINDS[blk.kind].anim,T=t[t.length-1]||1;const Dp=Math.min(Math.max(T,3),10);
+  const fin=y.filter(isFinite);const ymax=Math.max(1e-9,...fin.map(Math.abs));
+  let th=null;
+  if(kind==='motorw'){const k=(4*Math.PI/ymax)*(Dp/T);th=[0];for(let i=1;i<t.length;i++){const a=isFinite(y[i])?y[i]:0,b=isFinite(y[i-1])?y[i-1]:0;th.push(th[i-1]+0.5*(a+b)*(t[i]-t[i-1])*k);}}
+  note.textContent=`Simulated time 0 to ${fmtN(T)} s plays over ${fmtN(+Dp.toFixed(1))} s.`+(kind==='motorw'?' Shaft speed is scaled so the motion stays visible.':kind==='mass'||kind==='tank'||kind==='thermal'?' Drawing is scaled to the largest value in the run.':'');
+  const S={playing:false,frac:0,raf:0};ANIM=S;
+  const idxAt=tt=>{let lo=0,hi=t.length-1;while(hi-lo>1){const m=(lo+hi)>>1;if(t[m]<tt)lo=m;else hi=m;}return hi;};
+  const draw=()=>{
+    const dpr=window.devicePixelRatio||1,W=cvs.clientWidth||600,H=200;cvs.width=W*dpr;cvs.height=H*dpr;cvs.style.height=H+'px';
+    const g=cvs.getContext&&cvs.getContext('2d');if(!g)return;g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);g.fillStyle='#FFFFFF';g.fillRect(0,0,W,H);
+    const tt=S.frac*T,i=idxAt(tt),v=isFinite(y[i])?y[i]:0;
+    g.font='12px Tahoma, Segoe UI, sans-serif';g.lineWidth=1.5;g.strokeStyle='#1E2429';g.fillStyle='#1E2429';
+    const cx=W/2,cy=H/2;
+    const label=(s)=>{g.fillStyle='#1E2429';g.fillText(s,12,20);g.fillStyle='#5B666E';g.fillText(`t = ${tt.toFixed(2)} s`,12,38);};
+    if(kind==='motorw'||kind==='motorp'){
+      const ang=kind==='motorp'?v:th[i];
+      g.fillStyle='#D9DFE3';g.fillRect(cx-110,cy-55,120,110);g.strokeRect(cx-110,cy-55,120,110);
+      g.fillStyle='#8C979F';g.fillRect(cx+10,cy-6,70,12);g.strokeRect(cx+10,cy-6,70,12);
+      g.beginPath();g.arc(cx+110,cy,46,0,2*Math.PI);g.fillStyle='#F4F6F7';g.fill();g.stroke();
+      g.save();g.translate(cx+110,cy);g.rotate(-ang);g.strokeStyle='#00838A';g.lineWidth=4;g.beginPath();g.moveTo(0,0);g.lineTo(40,0);g.stroke();
+      g.fillStyle='#D0211D';g.beginPath();g.arc(38,0,5,0,2*Math.PI);g.fill();g.restore();
+      g.fillStyle='#1E2429';g.beginPath();g.arc(cx+110,cy,5,0,2*Math.PI);g.fill();
+      label(kind==='motorp'?`θ = ${fmtN(+v.toPrecision(4))} rad (${fmtN(+(v*180/Math.PI).toFixed(1))}°)`:`ω = ${fmtN(+v.toPrecision(4))} rad/s`);
+    } else if(kind==='mass'){
+      const sc=Math.min(130,W/2-90)/ymax,x=cx+v*sc;const gy=cy+40;
+      g.fillStyle='#8C979F';g.fillRect(30,cy-50,12,100);g.beginPath();g.moveTo(20,gy);g.lineTo(W-20,gy);g.stroke();
+      const mx=x-35;const coils=10,sx=42,ex=mx;g.beginPath();g.moveTo(sx,cy-15);for(let k=1;k<=coils;k++){const px=sx+(ex-sx)*k/(coils+1);g.lineTo(px,cy-15+(k%2?-10:10));}g.lineTo(ex,cy-15);g.strokeStyle='#1E2429';g.stroke();
+      g.beginPath();g.moveTo(42,cy+15);g.lineTo((42+mx)/2-10,cy+15);g.stroke();g.strokeRect((42+mx)/2-10,cy+7,30,16);g.beginPath();g.moveTo((42+mx)/2+2,cy+15);g.lineTo(mx,cy+15);g.stroke();
+      g.fillStyle='#00838A';g.fillRect(mx,cy-35,70,75);g.strokeRect(mx,cy-35,70,75);g.fillStyle='#FFFFFF';g.fillText('m',mx+31,cy+6);
+      g.strokeStyle='#C3CBD1';g.setLineDash([4,4]);g.beginPath();g.moveTo(cx,cy-55);g.lineTo(cx,gy);g.stroke();g.setLineDash([]);
+      label(`x = ${fmtN(+v.toPrecision(4))} m`);
+    } else if(kind==='tank'){
+      const top=30,bot=H-20,tw=120,tx=cx-tw/2;const lvl=Math.max(0,Math.min(1,v/(ymax*1.15)));
+      g.fillStyle='#BFE3F2';g.fillRect(tx,bot-(bot-top)*lvl,tw,(bot-top)*lvl);g.strokeStyle='#1E2429';g.lineWidth=2;g.beginPath();g.moveTo(tx,top);g.lineTo(tx,bot);g.lineTo(tx+tw,bot);g.lineTo(tx+tw,top);g.stroke();
+      g.lineWidth=1.5;g.fillStyle='#8C979F';g.fillRect(tx-70,top-12,90,8);g.fillRect(tx+tw,bot-14,60,8);
+      g.fillStyle='#1E2429';label(`h = ${fmtN(+v.toPrecision(4))} m`);
+    } else if(kind==='thermal'){
+      const f=Math.max(0,Math.min(1,v/ymax));const col=`rgb(${Math.round(91+(226-91)*f)},${Math.round(143+(80-143)*f)},${Math.round(214+(42-214)*f)})`;
+      g.fillStyle='#D9DFE3';g.fillRect(cx-90,cy-60,180,120);g.strokeRect(cx-90,cy-60,180,120);g.fillStyle=col;g.fillRect(cx-75,cy-45,150,80);g.strokeRect(cx-75,cy-45,150,80);
+      g.strokeStyle='#D0211D';g.lineWidth=2;g.beginPath();for(let k=0;k<=12;k++){const px=cx-60+k*10;g.lineTo(px,cy+40+(k%2?-6:6));}g.stroke();g.lineWidth=1.5;
+      label(`ΔT = ${fmtN(+v.toPrecision(4))} K`);
+    } else if(kind==='pend'){
+      const a=Math.max(-Math.PI,Math.min(Math.PI,v));const L=110,bx=cx,by=H-22;
+      g.fillStyle='#8C979F';g.fillRect(bx-50,by,100,10);g.beginPath();g.arc(bx,by,6,0,2*Math.PI);g.fillStyle='#1E2429';g.fill();
+      const ex=bx+L*Math.sin(a),ey=by-L*Math.cos(a);g.strokeStyle='#1E2429';g.lineWidth=4;g.beginPath();g.moveTo(bx,by);g.lineTo(ex,ey);g.stroke();g.lineWidth=1.5;
+      g.fillStyle='#00838A';g.beginPath();g.arc(ex,ey,13,0,2*Math.PI);g.fill();g.stroke();
+      g.strokeStyle='#C3CBD1';g.setLineDash([4,4]);g.beginPath();g.moveTo(bx,by);g.lineTo(bx,by-L-20);g.stroke();g.setLineDash([]);
+      label(`θ = ${fmtN(+v.toPrecision(4))} rad (${fmtN(+(v*180/Math.PI).toFixed(1))}°)`);
+    }
+  };
+  const frame=now=>{if(!S.playing)return;S.frac=Math.min(1,(now-S.t0)/(Dp*1000));scrub.value=Math.round(S.frac*1000);draw();if(S.frac<1)S.raf=requestAnimationFrame(frame);else{S.playing=false;btn.textContent='▶ Replay';}};
+  btn.onclick=()=>{if(S.playing){S.playing=false;btn.textContent='▶ Play';return;}if(S.frac>=1)S.frac=0;S.playing=true;btn.textContent='❚❚ Pause';S.t0=performance.now()-S.frac*Dp*1000;S.raf=requestAnimationFrame(frame);};
+  scrub.oninput=()=>{S.playing=false;btn.textContent='▶ Play';S.frac=scrub.value/1000;draw();};
+  draw();
 }
 
 /* ===== Simulation workspace ===== */
@@ -1893,7 +2543,7 @@ function renderSimSide(){
   let h=`<div class="sec"><h3>System<button class="btn sm" id="simEdit" style="margin-left:auto">Edit diagram</button></h3><div class="simthumb">${staticSVG(D,{pad:16})}</div>`;
   if(ins.length&&cand.length)h+=`<div class="io" style="margin-top:10px"><span>Analyse</span><select id="sfIn" aria-label="Analysed input">${ins.map(n=>`<option value="${n.id}"${n.id===SIM.fIn?' selected':''}>${esc(n.label)}</option>`).join('')}</select><span>→</span><select id="sfOut" aria-label="Analysed output">${cand.map(c=>`<option value="${c.id}"${c.id===SIM.fOut?' selected':''}>${esc(c.name)}${c.kind==='output of block'?' (block output)':''}</option>`).join('')}</select></div>`;
   h+=`<div id="simTF"></div></div>`;
-  if(ins.length)h+=`<div class="sec"><h3>Input signals</h3>${ins.map(inputRow).join('')}<div class="field" style="margin:10px 0 0"><label for="sDur">Run time in seconds</label><input id="sDur" class="code" placeholder="Automatic" value="${esc(SIM.dur)}" inputmode="decimal" autocomplete="off"></div></div>`;
+  if(ins.length)h+=`<div class="sec"><h3>Input signals</h3>${ins.map(inputRow).join('')}${hasDigital(D)?`<div class="field" style="margin:10px 0 0"><label for="sTs">Sample time Ts for digital blocks (s)</label><input id="sTs" class="code" value="${fmtN(getTs())}" inputmode="decimal" autocomplete="off"></div>`:''}<div class="field" style="margin:10px 0 0"><label for="sDur">Run time in seconds</label><input id="sDur" class="code" placeholder="Automatic" value="${esc(SIM.dur)}" inputmode="decimal" autocomplete="off"></div></div>`;
   h+=`<div class="sec"><h3>Signals to plot</h3><div class="sigs">${cand.map(c=>`<label class="sig"><input type="checkbox" data-sig="${c.id}"${SIM.signals.includes(c.id)?' checked':''}><span class="sw" style="background:${colorFor(c.id)}"></span>${symHTML(c.name)}${c.kind?`<span class="muted"> ${c.kind}</span>`:''}</label>`).join('')}</div>
      <label class="sig" style="margin-top:6px"><input type="checkbox" id="sShowIn"${SIM.showInput?' checked':''}>Show the input waveforms</label></div>`;
   h+=`<div class="sec"><h3>Tune a gain</h3>${bl.length?`<div class="io"><span>Multiply</span><select id="sTb" aria-label="Block to tune">${bl.map(b=>`<option${b===SIM.tuneBlock?' selected':''}>${esc(b)}</option>`).join('')}</select><span>by</span><input id="sTk" class="code knum" value="${fmtN(SIM.tuneK)}" inputmode="decimal" autocomplete="off" aria-label="Gain multiplier"></div>
@@ -1907,6 +2557,7 @@ function renderSimSide(){
   $$('#simSide .inrow').forEach(row=>{const lab=row.dataset.in;
     row.querySelector('select').onchange=e=>{SIM.inputs[lab].wave=e.target.value;saveSim();renderSimSide();renderSimView();};
     row.querySelectorAll('input[data-k]').forEach(inp=>inp.addEventListener('input',()=>{const v=parseFloat(inp.value);inp.classList.toggle('badin',!isFinite(v));if(!isFinite(v))return;SIM.inputs[lab][inp.dataset.k]=v;saveSim();queueView();}));});
+  const stsI=$('#sTs');if(stsI)stsI.addEventListener('input',()=>{const v=parseFloat(stsI.value);const ok=v>0&&v<1e3;stsI.classList.toggle('badin',!ok);if(!ok)return;D.Ts=v;store.set('bdb-diagram',D);queueView();});
   const du=$('#sDur');if(du)du.addEventListener('input',()=>{const v=du.value.trim();if(v&&!(parseFloat(v)>0)){du.classList.add('badin');return;}du.classList.remove('badin');SIM.dur=v;saveSim();queueView();});
   $$('#simSide [data-sig]').forEach(cb=>cb.onchange=()=>{const id=cb.dataset.sig;SIM.signals=SIM.signals.filter(x=>x!==id);if(cb.checked)SIM.signals.push(id);saveSim();renderSimSide();renderSimView();});
   $('#sShowIn').onchange=e=>{SIM.showInput=e.target.checked;saveSim();renderSimView();};
@@ -1958,7 +2609,9 @@ function renderSimView(){
   if(base.missing){v.innerHTML=missingHTML(base.missing);bindEmpty();return;}
   if(base.err){v.innerHTML=`<div class="pcard"><p class="bad">${esc(base.err)}</p></div>`;return;}
   try{
-    if(SIM.view==='time')viewTime(v);else if(SIM.view==='bode')viewBode(v);else if(SIM.view==='nyq')viewNyq(v);else viewLocus(v);
+    stopAnim();
+    if(SIM.view==='time')viewTime(v);else if(SIM.view==='bode')viewBode(v);else if(SIM.view==='nyq')viewNyq(v);else if(SIM.view==='digital')viewDigital(v);else viewLocus(v);
+    if(hasDigital(D)&&['bode','nyq','locus'].includes(SIM.view))v.insertAdjacentHTML('afterbegin','<p class="warnline">This view treats digital blocks as their continuous originals. Use the Digital view for the sampled loop.</p>');
   }catch(err){console.error(err);v.innerHTML=`<div class="pcard"><p class="bad">Could not compute this view: ${esc(err.message)}</p></div>`;}
   bindEmpty();
 }
@@ -1966,7 +2619,8 @@ function renderSimView(){
 /* time */
 function simTime(){
   const active=D.nodes.filter(n=>n.t==='in'&&SIM.inputs[n.label]&&SIM.inputs[n.label].wave!=='none');
-  const sigs=SIM.signals.map(id=>byId(D,id)).filter(Boolean);
+  const sigs0=SIM.signals.map(id=>byId(D,id)).filter(Boolean);const sigs=[...sigs0];{const fo=byId(D,SIM.fOut);if(fo&&!sigs.includes(fo))sigs.push(fo);}
+  if(hasDigital(D))return simTimeHybrid(active,sigs,sigs0);
   const tfs={},missing=new Set(),poles=[];let improper=[];
   for(const i of active)for(const s of sigs){const r=tfOf(i.id,s.id);if(r.missing){r.missing.forEach(m=>missing.add(m));continue;}if(r.err)throw new Error(r.err);tfs[i.id+'|'+s.id]=r.st;poles.push(...r.st.poles);}
   const prim=tfOf(SIM.fIn,SIM.fOut);if(prim.st)poles.push(...prim.st.poles);
@@ -1983,7 +2637,7 @@ function simTime(){
       const yi=c.wave==='impulse'?lsim(st,()=>0,[{t0:+c.t0||0,A:+c.A||0}],T,N,mx):lsim(st,waveFn(c),[],T,N,mx);
       if(!yi){bad=true;improper.push(`${i.label} → ${s.label}`);continue;}
       for(let k=0;k<=N;k++)y[k]+=yi[k];}
-    out.push({node:s,y,bad});}
+    out.push({node:s,y,bad,hidden:!sigs0.includes(s)});}
   const inputs=active.map(i=>{const c=SIM.inputs[i.label];return {node:i,c,y:c.wave==='impulse'?t.map(()=>0):t.map(waveFn(c))};});
   // primary metrics
   let met=null;const pin=active.find(i=>i.id===SIM.fIn);
@@ -2006,14 +2660,15 @@ function kv(label,val,cls=''){return `<div class="kvi"><span>${label}</span><b c
 function viewTime(v){
   const R=simTime();if(R.missing){v.innerHTML=missingHTML(R.missing);return;}
   const series=[],leg=[];
-  R.out.forEach(o=>{const col=colorFor(o.node.id);series.push({x:R.t,y:o.y,color:col,name:o.node.label,w:2.2});leg.push({color:col,html:symHTML(o.node.label)+(o.node.t==='blk'?' <span class="muted">output</span>':'')});});
+  R.out.filter(o=>!o.hidden).forEach(o=>{const col=colorFor(o.node.id);series.push({x:R.t,y:o.y,color:col,name:o.node.label,w:2.2});leg.push({color:col,html:symHTML(o.node.label)+(o.node.t==='blk'?' <span class="muted">output</span>':'')});});
   if(SIM.showInput)R.inputs.forEach(i=>{if(i.c.wave!=='impulse'){series.push({x:R.t,y:i.y,color:'var(--ink-3)',dash:'5 4',w:1.4,name:i.node.label+' in'});}leg.push({color:'var(--ink-3)',dash:true,html:`${symHTML(i.node.label)} <span class="muted">${i.c.wave}</span>`});});
   if(simRef&&simRef.time){series.push({x:simRef.time.t,y:simRef.time.y,color:'var(--ink-2)',dash:'2 4',w:2,name:'reference'});leg.push({color:'var(--ink-2)',dash:true,html:`<span class="muted">reference: ${esc(simRef.label)}</span>`});}
   let ys=[];series.forEach(s=>s.y.forEach(y=>{if(isFinite(y))ys.push(y);}));
   let y0=Math.min(0,...ys),y1=Math.max(0,...ys);if(y1-y0<1e-9){y0-=1;y1+=1;}const pad=(y1-y0)*0.08;
   const vlines=SIM.showInput?R.inputs.filter(i=>i.c.wave==='impulse').map(i=>({x:+i.c.t0||0,cls:'crit',label:'δ'})):[];
-  const blow=R.out.some(o=>o.y.some(y=>!isFinite(y)));
-  let h=`<div class="pcard"><div class="phead"><h5>Time response</h5>${legendHTML(leg)}</div>${blow?'<p class="warnline">The response grows without bound, so the run stops where it leaves the chart.</p>':''}<div class="pbox" id="pTime"></div></div>`;
+  const blow=R.blow||R.out.some(o=>o.y.some(y=>!isFinite(y)));
+  let h=`<div class="pcard"><div class="phead"><h5>Time response</h5>${legendHTML(leg)}</div>${blow?'<p class="warnline">The response grows without bound, so the run stops where it leaves the chart.</p>':''}<div class="pbox" id="pTime"></div>${R.digital?`<p class="note muted" style="margin:6px 0 0">Sampled-data simulation: digital blocks update every T<sub>s</sub> = ${fmtN(R.Ts)} s and hold their output in between. Simulate ▸ Digital compares it with the continuous design.</p>`:''}</div>`;
+  const plant=plantFor(SIM.fOut);const plantSer=plant?R.out.find(o=>o.node.id===SIM.fOut):null;if(plant&&plantSer)h+=animCardHTML(plant);
   if(R.improper.length)h+=`<p class="warnline">Skipped ${R.improper.map(esc).join(', ')}: more zeros than poles, so it has no time response.</p>`;
   const m=R.met;
   if(m){const inN=byId(D,SIM.fIn),outN=byId(D,SIM.fOut);
@@ -2025,6 +2680,7 @@ function viewTime(v){
   if(lp.L){const e=errConst(lp.L);h+=`<div class="pcard"><div class="phead"><h5>Steady-state error</h5><span class="muted" style="font-size:12px">from the loop gain <i>L</i>(<i>s</i>), assuming unity feedback</span></div><div class="kvgrid">${kv('System type',e.type)+kv('K<sub>p</sub> position',fK(e.Kp))+kv('K<sub>v</sub> velocity',fK(e.Kv))+kv('K<sub>a</sub> acceleration',fK(e.Ka))+kv('e<sub>ss</sub> unit step',fK(e.ep))+kv('e<sub>ss</sub> unit ramp',fK(e.ev))+kv('e<sub>ss</sub> unit parabola',fK(e.ea))}</div></div>`;}
   v.innerHTML=h;
   drawPlot($('#pTime'),{H:330,x:[0,R.T],y:[y0-pad,y1+pad],xlabel:'t (s)',series,vlines,hover:'x',fmtX:x=>`t = ${fmtN(x)} s`,hlines:[{y:0,cls:'axz'}],label:'Time response'});
+  if(plant&&plantSer)initAnim(plant,R.t,plantSer.y);
   lastTime=R;
 }
 let lastTime=null;
@@ -2166,14 +2822,397 @@ $('#sRef').onclick=()=>{
 $('#sCsv').onclick=()=>{
   let R;try{R=simTime();}catch(e){R=null;}
   if(!R||R.missing)return toast('Nothing to copy yet.');
-  const cols=[['t',R.t],...R.out.map(o=>[o.node.label,o.y]),...R.inputs.map(i=>[i.node.label+' input',i.y])];
+  const cols=[['t',R.t],...R.out.filter(o=>!o.hidden).map(o=>[o.node.label,o.y]),...R.inputs.map(i=>[i.node.label+' input',i.y])];
   const lines=[cols.map(c=>c[0]).join(',')];for(let k=0;k<R.t.length;k++)lines.push(cols.map(c=>isFinite(c[1][k])?+c[1][k].toPrecision(8):'').join(','));
   copyText(lines.join('\n'),`Copied ${R.t.length} rows as CSV. Paste into a spreadsheet.`);
 };
 function renderSim(){simSig();validateSim();saveSim();renderSimSide();renderSimView();$('#sRef').textContent=simRef?'Clear reference':'Keep as reference';}
 window.addEventListener('resize',()=>{if(currentTab==='simulate'){clearTimeout(window.__rsT);window.__rsT=setTimeout(renderSimView,120);}});
 
-boot();
+
+/* ===== Simulate: sampled-data time response and the Digital view ===== */
+function simTimeHybrid(active,sigs,sigs0){
+  const Ts=getTs();const poles=[],missing=new Set();
+  for(const i of active)for(const s of sigs){const r=tfOf(i.id,s.id);if(r.missing)r.missing.forEach(m=>missing.add(m));else if(r.st)poles.push(...r.st.poles);}
+  const prim=tfOf(SIM.fIn,SIM.fOut);if(prim.missing)prim.missing.forEach(m=>missing.add(m));else poles.push(...prim.st.poles);
+  if(missing.size)return {missing:[...missing]};
+  const bt=baseTime(poles);let T=0;
+  for(const i of active){const c=SIM.inputs[i.label];let e=(+c.t0||0)+bt;if(c.wave==='sine'||c.wave==='square')e=(+c.t0||0)+Math.max(bt,5*2*Math.PI/Math.max(1e-6,+c.w||1));if(c.wave==='pulse')e+=(+c.width||0);T=Math.max(T,e);}
+  if(!active.length)T=bt;T=Math.max(T,20*Ts);
+  T=parseFloat(SIM.dur)>0?parseFloat(SIM.dur):niceCeil(Math.min(Math.max(T,0.01),5000));
+  const watch=[...new Set(sigs.map(s=>s.id))];
+  const run=hybridRun(D,Ts,T,SIM.inputs,watch);
+  const out=sigs.map(s=>({node:s,y:run.ys[s.id],hidden:!sigs0.includes(s)}));
+  const inputs=active.map(i=>{const c=SIM.inputs[i.label];return {node:i,c,y:c.wave==='impulse'?run.t.map(()=>0):run.t.map(waveFn(c))};});
+  let met=null;const pin=active.find(i=>i.id===SIM.fIn);
+  if(pin&&prim.st){const c=SIM.inputs[pin.label];const r2=hybridRun(D,Ts,T,{[pin.label]:c},[SIM.fOut]);const y1=r2.ys[SIM.fOut];
+    let stab='stable';try{const rho=specRad(zPoles(D,Ts));stab=rho>1+1e-7?'unstable':rho>1-1e-7?'marginal':'stable';}catch(e){}
+    const u=c.wave==='impulse'?0:waveFn(c)(T);const yEnd=y1[y1.length-1];met={wave:c.wave,A:+c.A||0,t0:+c.t0||0,st:prim.st,yEnd,err:u-yEnd,stab};
+    if(c.wave==='step'&&stab==='stable')Object.assign(met,stepInfo(r2.t,y1,+c.t0||0,(+c.A||0)*dcGain(prim.st)));}
+  return {t:run.t,T,out,inputs,met,improper:[],digital:true,Ts,blow:!!run.blow};
+}
+function digitalBlocks(){return D.nodes.filter(n=>n.t==='blk'&&n.dig);}
+function viewDigital(v){
+  const dbs=digitalBlocks();
+  if(!dbs.length){
+    const cand=D.nodes.find(n=>n.t==='blk'&&n.label.trim()===SIM.tuneBlock)||D.nodes.find(n=>n.t==='blk'&&(n.kind==='pid'||n.kind==='lead'||/^(Gc|C|K)/.test(n.label)))||D.nodes.find(n=>n.t==='blk');
+    v.innerHTML=`<div class="pcard empty"><h4>No digital blocks yet</h4><p>A digital controller samples its input every <i>T<sub>s</sub></i> seconds, computes a difference equation and holds its output until the next sample. Make a block digital in its properties (Implementation → Digital), or start with one click.</p><div class="btns">${cand?`<button class="btn sm primary" id="mkDig">Make ${esc(cand.label)} digital (Tustin, Ts = 0.05 s)</button>`:''}<button class="btn sm" data-simex="dts">Example: sample time and stability</button><button class="btn sm" data-simex="dmotor">Example: digital PID on a motor</button></div></div>`;
+    const b=$('#mkDig');if(b)b.onclick=()=>{snapshot();cand.dig=true;cand.dmethod='tustin';if(!(D.Ts>0))D.Ts=0.05;else D.Ts=0.05;changed();renderSim();};
+    return;
+  }
+  const Ts=getTs();let zs,err=null;try{zs=zPoles(D,Ts);}catch(e){err=e.message;}
+  if(err){v.innerHTML=`<div class="pcard"><p class="bad">${esc(err)}</p></div>`;return;}
+  const rho=specRad(zs);const stab=rho>1+1e-7?'unstable':rho>1-1e-7?'marginal':'stable';
+  const prim=tfOf(SIM.fIn,SIM.fOut).st;
+  const bt=baseTime(prim?prim.poles:[]);const T=niceCeil(Math.max(bt,20*Ts));
+  const inN=byId(D,SIM.fIn),outN=byId(D,SIM.fOut);
+  let run=null;try{run=hybridRun(D,Ts,T,{[inN.label]:{wave:'step',A:1,t0:0}},[SIM.fOut,...dbs.map(n=>n.id)]);}catch(e){err=e.message;}
+  const N=600,tc=Array.from({length:N+1},(_,k)=>k*T/N);let yc=null;
+  if(prim){const mx=Math.max(1e-6,...prim.poles.map(p=>Math.hypot(p[0],p[1])));yc=lsim(prim,t=>t>=0?1:0,[],T,N,mx);}
+  const zrows=zs.filter(z=>z[1]>=-1e-12).map(z=>{const m=Math.hypot(z[0],z[1]);let sTxt='—';if(m>1e-9){const sr=Math.log(m)/Ts,si=Math.atan2(z[1],z[0])/Ts;sTxt=`${fmtN(sr)}${Math.abs(si)>1e-9?` ± ${fmtN(Math.abs(si))}j`:''}`;}
+    return `<div class="prow"><span>${fmtN(z[0])}${Math.abs(z[1])>1e-9?` ± ${fmtN(Math.abs(z[1]))}j`:''}</span><span>|z| ${fmtN(+m.toPrecision(4))}${m>1+1e-7?' <b class="bad">outside</b>':''} · s ≈ ${sTxt}</span></div>`;}).join('');
+  let h=`<div class="pcard"><div class="phead"><h5>Step response: sampled controller vs. continuous design</h5>${BADGE[stab]}</div>
+    ${legendHTML([{color:'var(--c1)',html:`${symHTML(outN.label)} with digital blocks, <i>T<sub>s</sub></i> = ${fmtN(Ts)} s`},{color:'var(--ink-2)',dash:true,html:`${symHTML(outN.label)} if every block were continuous`}])}<div class="pbox" id="pDstep"></div></div>
+    <div class="pcard"><div class="phead"><h5>Digital block outputs (held between samples)</h5></div><div class="pbox" id="pDu"></div></div>
+    <div class="dgrid"><div class="pcard"><div class="phead"><h5>Closed-loop poles in the <i>z</i>-plane</h5></div><div class="pbox" id="pZ"></div>
+      <p class="note muted" style="margin:6px 0 0">Stable when every pole lies inside the unit circle (|z| &lt; 1). Spectral radius ${fmtN(+rho.toPrecision(4))}. Each pole maps to an s-plane pole through z = e<sup>sT<sub>s</sub></sup>.</p></div>
+    <div class="pcard"><div class="phead"><h5>Pole list</h5></div><div class="plist"><div class="prow ph"><span>z</span><span>magnitude and s-equivalent</span></div>${zrows}</div></div></div>
+    <div class="pcard"><div class="phead"><h5>Sample time</h5></div><div class="kvgrid">${kv('Sample time T<sub>s</sub>',fmtN(Ts)+' s')+kv('Sampling frequency ω<sub>s</sub>',fmtN(2*Math.PI/Ts)+' rad/s')+kv('Nyquist frequency',fmtN(Math.PI/Ts)+' rad/s')}<div class="kvi"><span>Largest stable T<sub>s</sub></span><b id="maxTs">—</b></div></div>
+      <div class="btns" style="margin-top:10px"><label class="pf inl" for="dTs"><span>Change T<sub>s</sub></span><input id="dTs" value="${fmtN(Ts)}" inputmode="decimal" autocomplete="off"><em>s</em></label><button class="btn sm" id="dTsHalf">÷ 2</button><button class="btn sm" id="dTsDbl">× 2</button><button class="btn sm primary" id="dMax">Find largest stable T<sub>s</sub></button></div></div>
+    <div class="pcard"><div class="phead"><h5>Discretised blocks</h5></div>${dbs.map(n=>{let body;try{const z=discretizeNode(n,Ts,n.label.trim()===SIM.tuneBlock?SIM.tuneK:1);body=`<div class="tf" style="font-size:15px"><span class="lhs"><i>${esc(n.label)}</i>(<i>z</i>) =</span>${fracHTML(zPolyHTML(z.nz),zPolyHTML(z.dz))}</div><div class="diffeq">${diffEqHTML(z,'e','u')}</div>`;}catch(e){body=`<p class="bad note">${esc(e.message)}</p>`;}
+      return `<div class="dblk"><div class="dbh">${symHTML(n.label)}<select data-dm="${n.id}" aria-label="Discretisation for ${esc(n.label)}">${Object.entries(DMETHODS).map(([k,l])=>`<option value="${k}"${(n.dmethod||'zoh')===k?' selected':''}>${l}</option>`).join('')}</select></div>${body}</div>`;}).join('')}</div>`;
+  if(err)h=`<p class="warnline">${esc(err)}</p>`+h;
+  v.innerHTML=h;
+  const ser=[];if(run)ser.push({x:run.t,y:run.ys[SIM.fOut],color:'var(--c1)',w:2.2,name:'sampled'});if(yc)ser.push({x:tc,y:yc,color:'var(--ink-2)',dash:'5 4',w:1.6,name:'continuous'});
+  const all=ser.flatMap(s=>s.y).filter(isFinite);let y0=Math.min(0,...all),y1=Math.max(0,...all);if(y1-y0<1e-9)y1=y0+1;const pd=(y1-y0)*0.08;
+  drawPlot($('#pDstep'),{H:280,x:[0,T],y:[y0-pd,y1+pd],xlabel:'t (s)',series:ser,hover:'x',fmtX:x=>`t = ${fmtN(x)} s`,hlines:[{y:0}],label:'Sampled step response'});
+  if(run){const us=dbs.map((n,i)=>({x:run.t,y:run.ys[n.id],color:SC[(i+1)%SC.length],w:2,name:n.label}));const ua=us.flatMap(s=>s.y).filter(isFinite);let u0=Math.min(0,...ua),u1=Math.max(0,...ua);if(u1-u0<1e-9)u1=u0+1;const up=(u1-u0)*0.08;
+    drawPlot($('#pDu'),{H:200,x:[0,T],y:[u0-up,u1+up],xlabel:'t (s)',series:us,hover:'x',fmtX:x=>`t = ${fmtN(x)} s`,hlines:[{y:0}],label:'Digital outputs'});}
+  const R=Math.max(1.3,...zs.map(z=>Math.hypot(z[0],z[1])*1.15));
+  drawPlot($('#pZ'),{H:300,equal:true,axes:true,x:[-R,R],y:[-R,R],circles:[{x:0,y:0,r:1,cls:'ucirc2'}],marks:zs.map(z=>({x:z[0],y:z[1],shape:'x',color:Math.hypot(z[0],z[1])>1+1e-7?'var(--neg)':'var(--c1)',size:6,title:`z = ${fmtN(z[0])}${z[1]?` ${z[1]<0?'−':'+'} ${fmtN(Math.abs(z[1]))}j`:''}`})),xlabel:'Re z',label:'z-plane'});
+  const setTs=v=>{if(!(v>0&&v<1e3))return;D.Ts=+v.toPrecision(4);store.set('bdb-diagram',D);renderSimView();};
+  $('#dTs').addEventListener('change',e=>setTs(parseFloat(e.target.value)));
+  $('#dTsHalf').onclick=()=>setTs(Ts/2);$('#dTsDbl').onclick=()=>setTs(Ts*2);
+  $('#dMax').onclick=()=>{const el=$('#maxTs');el.textContent='searching…';setTimeout(()=>{let r;try{r=maxStableTs(D);}catch(e){r={err:e.message};}
+    el.innerHTML=r.err?`<span class="bad">${esc(r.err)}</span>`:r.none?'<span class="bad">unstable even at 1 ms</span>':r.all?'stable up to 5 s':`${fmtN(+r.Ts.toPrecision(3))} s`;},20);};
+  $$('#simView [data-dm]').forEach(s=>s.onchange=()=>{const n=byId(D,s.dataset.dm);snapshot();n.dmethod=s.value;store.set('bdb-diagram',D);renderSimView();});
+}
+
+/* ===== Export: PLC code, PID_Compact, MATLAB, Python, report ===== */
+const XT=[['scl','TIA Portal SCL','PLC code'],['st','IEC 61131-3 ST (CODESYS)','PLC code'],['pidc','PID_Compact settings','PLC code'],['mat','MATLAB script','Analysis'],['py','Python script','Analysis'],['rep','Report (PDF / HTML)','Documents']];
+const XS={t:'scl',blk:null,Ts:null,meth:null,fb:'',lo:-100,hi:100,clamp:true,scale:false,actLo:0,actHi:100,lreal:false,
+  rep:{title:'Control system design report',name:'',course:'',sec:{diag:true,tf:true,poles:true,step:true,bode:true,dig:true,code:false}}};
+{const r=store.get('bdb-rep');if(r&&typeof r==='object'){if(r.title!=null)XS.rep.title=r.title;if(r.name!=null)XS.rep.name=r.name;if(r.course!=null)XS.rep.course=r.course;if(r.sec)Object.assign(XS.rep.sec,r.sec);}}
+const saveRep=()=>store.set('bdb-rep',XS.rep);
+const ident=s=>{let x=String(s||'X').replace(/[^A-Za-z0-9_]/g,'_');if(/^[0-9]/.test(x))x='B_'+x;return x||'X';};
+function ctrlCandidates(){return D.nodes.filter(n=>n.t==='blk'&&n.expr&&n.expr.trim());}
+function pickCtrl(){const c=ctrlCandidates();return c.find(n=>n.dig)||c.find(n=>n.kind==='pid'||n.kind==='lead')||c.find(n=>/^(Gc|C|K|PID)/i.test(n.label))||c[0]||null;}
+function fmtR(v){if(!isFinite(v)||v===0)return '0.0';const a=Math.abs(v);if(a<1e-4||a>=1e7){let [m,e]=v.toExponential(8).split('e');m=m.replace(/0+$/,'').replace(/\.$/,'.0');if(!m.includes('.'))m+='.0';return m+'E'+(+e);}let s=String(+v.toPrecision(9));if(!/[.eE]/.test(s))s+='.0';return s;}
+function xDiscretize(n){const Ts=XS.Ts,m=XS.meth;const tf=blockTF(n,1);const z=c2d(tf.n,tf.d,Ts,m);return {...normZ(z.nz,z.dz),tf};}
+
+/* ---- checks shared by the PLC targets ---- */
+function plcChecks(n,dz){
+  const out=[];const Ts=XS.Ts;
+  try{const ps=roots(dz.tf.d);const mx=Math.max(0,...ps.map(p=>Math.hypot(p[0],p[1])));if(mx*Ts>0.5)out.push({bad:true,t:`The controller has a pole at ${fmtN(+mx.toPrecision(3))} rad/s, which is fast for T<sub>s</sub> = ${fmtN(Ts)} s (|p|·T<sub>s</sub> = ${fmtN(+(mx*Ts).toPrecision(2))}). Aim for T<sub>s</sub> ≤ ${fmtN(+(0.5/mx).toPrecision(2))} s, or lower the derivative filter N.`});}catch(e){}
+  if(Math.abs(Ts*1000-Math.round(Ts*1000))>1e-9)out.push({bad:true,t:'A cyclic interrupt OB runs in whole milliseconds. Round T<sub>s</sub> to a whole number of ms.'});
+  try{const d2=clone(D);const m=byId(d2,n.id);m.dig=true;m.dmethod=XS.meth;d2.Ts=XS.Ts;const zs=zPoles(d2,XS.Ts,{k:1});const rho=specRad(zs);
+    out.push(rho<1-1e-7?{ok:true,t:`Closed loop with this discrete controller at T<sub>s</sub> = ${fmtN(Ts)} s: <b>stable</b> (largest |z| = ${fmtN(+rho.toPrecision(3))}).`}:{bad:true,t:`Closed loop with this discrete controller at T<sub>s</sub> = ${fmtN(Ts)} s: <b>unstable</b> (largest |z| = ${fmtN(+rho.toPrecision(3))}). Use a smaller T<sub>s</sub>.`});}
+  catch(e){out.push({t:`Closed-loop check skipped: ${esc(e.message)}`});}
+  return out;
+}
+
+/* ---- PLC code generators ---- */
+function genPLC(kind){
+  const n=byId(D,XS.blk);if(!n)return {err:'Pick a block with a transfer function.'};
+  let dz;try{dz=xDiscretize(n);}catch(e){return {err:e.message.includes('future')?e.message:`This block cannot be discretised: ${e.message}`};}
+  const scl=kind==='scl',p=scl?'#':'',T=XS.lreal?(scl?'LReal':'LREAL'):(scl?'Real':'REAL'),B=scl?'Bool':'BOOL',I=scl?'Int':'INT';
+  const c0=scl?'//':'(*',c1=scl?'':' *)';const cm=s=>`${c0} ${s}${c1}`;
+  const r2i=XS.lreal?'LREAL_TO_INT':'REAL_TO_INT',i2r=XS.lreal?'INT_TO_LREAL':'INT_TO_REAL';
+  const N=dz.order,b=dz.b,a=dz.a,fb=ident(XS.fb||`${n.label}_Controller`);
+  const terms=[];for(let i=0;i<=N;i++)if(Math.abs(b[i])>1e-15)terms.push([b[i],`${p}e${i?i:''}`]);for(let i=1;i<=N;i++)if(Math.abs(a[i])>1e-15)terms.push([-a[i],`${p}u${i}`]);
+  const ind=scl?'\t':'    ';
+  const eqLines=terms.length?terms.map(([c,v],i)=>`${i?ind+'     '+(c<0?'- ':'+ '):(c<0?'-':'')}${fmtR(Math.abs(c))} * ${v}`).join('\n')+';':'0.0;';
+  const hist=[];for(let i=1;i<=N;i++){hist.push(`e${i}`,`u${i}`);}
+  const zTxt=`(${zText(dz.nz)}) / (${zText(dz.dz)})`;
+  const deTxt=diffEqText(dz);
+  const hdr=[`Generated by Eros's Block Diagram Editor Mark 2 from block ${n.label}.`,`${n.label}(s) = ${n.expr.replace(/\s+/g,'')}`,`Discretised with ${DMETHODS[XS.meth]}, Ts = ${fmtN(XS.Ts)} s:`,`${n.label}(z) = ${zTxt}`,deTxt,`Call this block every ${fmtN(XS.Ts)} s (cyclic interrupt / task interval ${fmtN(+(XS.Ts*1000).toPrecision(6))} ms).`];
+  let s='';
+  if(scl){s+=`FUNCTION_BLOCK "${fb}"\n{ S7_Optimized_Access := 'TRUE' }\nVERSION : 0.1\n   VAR_INPUT \n      Enable : ${B};   // TRUE runs the controller, FALSE resets it\n      Setpoint : ${T};   // set-point in process units\n`+(XS.scale?`      Actual_Raw : ${I};   // analog input, 0..27648\n`:`      Actual : ${T};   // measured value in process units\n`)+`   END_VAR\n\n   VAR_OUTPUT \n      Output : ${T};   // controller output (clamped)\n`+(XS.scale?`      Output_Raw : ${I};   // analog output, 0..27648\n`:'')+`   END_VAR\n\n   VAR \n`+hist.map(h=>`      ${h} : ${T};\n`).join('')+`   END_VAR\n\n   VAR_TEMP \n      e : ${T};\n      u : ${T};\n      pv : ${T};\n   END_VAR\n\n   VAR CONSTANT \n      OUT_MIN : ${T} := ${fmtR(XS.lo)};\n      OUT_MAX : ${T} := ${fmtR(XS.hi)};\n`+(XS.scale?`      ACT_LO : ${T} := ${fmtR(XS.actLo)};   // process value at raw 0\n      ACT_HI : ${T} := ${fmtR(XS.actHi)};   // process value at raw 27648\n`:'')+`   END_VAR\n\n\nBEGIN\n`;}
+  else{s+=`FUNCTION_BLOCK ${fb}\nVAR_INPUT\n    Enable : ${B};   (* TRUE runs the controller, FALSE resets it *)\n    Setpoint : ${T};\n`+(XS.scale?`    Actual_Raw : ${I};   (* analog input, 0..27648 *)\n`:`    Actual : ${T};\n`)+`END_VAR\nVAR_OUTPUT\n    Output : ${T};\n`+(XS.scale?`    Output_Raw : ${I};\n`:'')+`END_VAR\nVAR\n`+hist.map(h=>`    ${h} : ${T};\n`).join('')+`    e : ${T};\n    u : ${T};\n    pv : ${T};\nEND_VAR\nVAR CONSTANT\n    OUT_MIN : ${T} := ${fmtR(XS.lo)};\n    OUT_MAX : ${T} := ${fmtR(XS.hi)};\n`+(XS.scale?`    ACT_LO : ${T} := ${fmtR(XS.actLo)};\n    ACT_HI : ${T} := ${fmtR(XS.actHi)};\n`:'')+`END_VAR\n\n(* ---------- implementation ---------- *)\n`;}
+  s+=hdr.map(h=>ind+cm(h)).join('\n')+'\n\n';
+  s+=`${ind}IF NOT ${p}Enable THEN\n`+hist.map(h=>`${ind}    ${p}${h} := 0.0;\n`).join('')+`${ind}    ${p}Output := 0.0;\n`+(XS.scale?`${ind}    ${p}Output_Raw := 0;\n`:'')+`${ind}    RETURN;\n${ind}END_IF;\n\n`;
+  s+=XS.scale?`${ind}${p}pv := ${p}ACT_LO + (${p}ACT_HI - ${p}ACT_LO) * ${i2r}(${p}Actual_Raw) / 27648.0;\n`:`${ind}${p}pv := ${p}Actual;\n`;
+  s+=`${ind}${p}e := ${p}Setpoint - ${p}pv;\n\n${ind}${p}u := ${eqLines}\n\n`;
+  if(XS.clamp)s+=`${ind}${cm('Clamp the output. Storing the clamped value as u1 also stops integral wind-up.')}\n${ind}IF ${p}u > ${p}OUT_MAX THEN\n${ind}    ${p}u := ${p}OUT_MAX;\n${ind}ELSIF ${p}u < ${p}OUT_MIN THEN\n${ind}    ${p}u := ${p}OUT_MIN;\n${ind}END_IF;\n\n`;
+  if(N){s+=`${ind}${cm('Shift the history for the next sample')}\n`;for(let i=N;i>=2;i--)s+=`${ind}${p}e${i} := ${p}e${i-1};\n${ind}${p}u${i} := ${p}u${i-1};\n`;s+=`${ind}${p}e1 := ${p}e;\n${ind}${p}u1 := ${p}u;\n\n`;}
+  s+=`${ind}${p}Output := ${p}u;\n`;
+  if(XS.scale)s+=`${ind}${p}Output_Raw := ${r2i}(27648.0 * (${p}u - ${p}OUT_MIN) / (${p}OUT_MAX - ${p}OUT_MIN));\n`;
+  s+=scl?'END_FUNCTION_BLOCK\n':'END_FUNCTION_BLOCK\n';
+  return {code:s,fb,dz,n,checks:plcChecks(n,dz)};
+}
+function zText(c){c=PS.trim(c);const mx=Math.max(...c.map(Math.abs));let s='',f=true;for(let k=c.length-1;k>=0;k--){const v=c[k];if(Math.abs(v)<=1e-10*mx)continue;const neg=v<0,av=Math.abs(v);const vv=k===0?'':k===1?'z':`z^${k}`;const co=(k>0&&Math.abs(av-1)<1e-9)?'':fmtN(+av.toPrecision(6));s+=(f?(neg?'-':''):(neg?' - ':' + '))+co+(co&&vv?'*':'')+vv;f=false;}return s||'0';}
+function diffEqText(dz){const t=[];dz.b.forEach((c,i)=>{if(Math.abs(c)>1e-12)t.push([c,`e[k${i?'-'+i:''}]`]);});dz.a.forEach((c,i)=>{if(i&&Math.abs(c)>1e-12)t.push([-c,`u[k-${i}]`]);});
+  return 'u[k] = '+(t.map(([c,v],i)=>(i?(c<0?' - ':' + '):(c<0?'-':''))+fmtN(+Math.abs(c).toPrecision(6))+'*'+v).join('')||'0');}
+
+function genPIDC(){
+  const n=byId(D,XS.blk);if(!n||n.kind!=='pid')return {err:'PID_Compact settings come from a PID controller block. Add one from the Instructions library (Controllers ▸ PID controller) or pick it in the list.'};
+  const P=n.params,Kp=+P.Kp,Ki=+P.Ki,Kd=+P.Kd,Nf=+P.N;
+  if(!(Kp>0))return {err:'PID_Compact needs a positive proportional gain (Kp > 0). Its Ti and Td are defined relative to Kp.'};
+  const Ti=Ki>0?Kp/Ki:0,Td=Kd>0?Kd/Kp:0,ratio=Kd>0&&Nf>0?1/(Nf*Td):0;
+  const rows=[['Gain','Proportional gain',Kp],['Ti','Integration time (s), 0 = no I action',Ti],['Td','Derivative time (s), 0 = no D action',Td],['TdFiltRatio','Derivative delay coefficient',ratio],['PWeighting','Proportional weighting',1],['DWeighting','Derivative weighting',1],['Cycle','Sample time of the PID algorithm (s)',XS.Ts]];
+  const code=`// PID_Compact parameters from block ${n.label} (Kp ${fmtN(Kp)}, Ki ${fmtN(Ki)}, Kd ${fmtN(Kd)}, N ${fmtN(Nf)})\n// Write once at start-up (for example in OB100) or enter them in the PID_Compact configuration.\n`+rows.map(([k,,v])=>`"PID_Compact_1".Retain.CtrlParams.${k} := ${fmtR(v)};`).join('\n')+'\n';
+  return {rows,code,n,notes:['PID_Compact computes Kp·[(b·w − x) + (w − x)/(Ti·s) + Td·s/(a·Td·s + 1)·(c·w − x)]. With both weightings set to 1.0 it matches the PID block here.','The gains only carry over if the process value and output use the same units and scaling as your model. PID_Compact usually works with the output in % (0–100), so rescale Kp if your model output is in volts or another unit.','Call PID_Compact in a cyclic interrupt OB. Its sample time comes from the OB cycle, so set the OB cycle to the Cycle value.']};
+}
+
+/* ---- MATLAB / Python ---- */
+function spCode(sp,nm,pow){if(!sp.size)return '0';
+  return termsSorted(sp).map((t,i)=>{const neg=t.c<0,ac=Math.abs(t.c);const ks=Object.keys(t.m).sort(symCmp).map(k=>t.m[k]>1?`${nm[k]}${pow}${t.m[k]}`:nm[k]);const parts=(Math.abs(ac-1)>1e-9||!ks.length)?[fmtN(ac),...ks]:ks;return (i===0?(neg?'-':''):(neg?' - ':' + '))+parts.join('*');}).join('');}
+function genScript(lang){
+  const ins=D.nodes.filter(n=>n.t==='in');const inId=(ioIn&&byId(D,ioIn))?ioIn:ins[0]?.id;const outId=(ioOut&&byId(D,ioOut))?ioOut:D.nodes.find(n=>n.t==='out')?.id;
+  if(!inId||!outId)return {err:'The diagram needs an input and an output.'};
+  const r=solve(D,inId,outId);const inN=byId(D,inId),outN=byId(D,outId);
+  const blocks=[];const seen=new Set();for(const n of D.nodes)if(n.t==='blk'){const k=n.label.trim();if(seen.has(k))continue;seen.add(k);blocks.push(n);}
+  const nm={};blocks.forEach(n=>nm[n.label.trim()]=ident(n.label.trim()));
+  const py=lang==='py',pow=py?'**':'^',cmt=py?'#':'%';
+  const arr=v=>'['+v.map(x=>String(+x.toPrecision(12))).join(', ')+']';
+  const lines=[];const date=new Date().toISOString().slice(0,10);
+  lines.push(`${cmt} Exported from Eros's Block Diagram Editor Mark 2, ${date}`,`${cmt} Closed loop ${inN.label} -> ${outN.label}, built from Mason's gain formula`);
+  if(py)lines.push(`${cmt} pip install control numpy matplotlib`,'import control as ct','import matplotlib.pyplot as plt','');else lines.push('clear; close all;','');
+  lines.push(`${cmt} --- blocks ---`);
+  for(const n of blocks){const id=nm[n.label.trim()];
+    if(!n.expr||!n.expr.trim()){lines.push(py?`${id} = ct.tf([1], [1])   # TODO: ${n.label} has no transfer function in the diagram`:`${id} = tf(1, 1);   % TODO: ${n.label} has no transfer function in the diagram`);continue;}
+    let num,den;try{const q=parseS(n.expr);num=PS.trim(q.n);den=PS.trim(q.d);const l=den[den.length-1];num=num.map(x=>x/l);den=den.map(x=>x/l);}catch(e){lines.push(`${cmt} ${n.label}: could not read "${n.expr}"`);continue;}
+    const desc=n.kind&&KINDS[n.kind]?`${KINDS[n.kind].name}, `:'';
+    lines.push(py?`${id} = ct.tf(${arr([...num].reverse())}, ${arr([...den].reverse())})   # ${desc}${n.expr}`:`${id} = tf(${arr([...num].reverse())}, ${arr([...den].reverse())});   % ${desc}${n.expr}`);}
+  lines.push('',`${cmt} --- closed loop and loop gain ---`);
+  const Texp=SP.isOne(r.den)?`(${spCode(r.num,nm,pow)})`:`(${spCode(r.num,nm,pow)}) / (${spCode(r.den,nm,pow)})`;
+  const Lsp=SP.add(r.delta,SP.c(-1));const hasL=r.loops.length>0&&Lsp.size>0;
+  if(py){lines.push(`T = ct.minreal(${Texp}, verbose=False)`);if(hasL)lines.push(`L = ct.minreal(${spCode(Lsp,nm,pow)}, verbose=False)   # 1 + L(s) = Delta(s)`);
+    lines.push('print(T)','','t, y = ct.step_response(T)',"plt.figure(); plt.plot(t, y); plt.grid(True); plt.title('Step response'); plt.xlabel('t (s)')");
+    if(hasL)lines.push('gm, pm, wcg, wcp = ct.margin(L)',"print(f'Gain margin {gm:.4g}, phase margin {pm:.4g} deg, crossovers {wcg:.4g} / {wcp:.4g} rad/s')",'plt.figure(); ct.bode_plot(L)','plt.figure(); ct.root_locus(L)');
+    lines.push('print("Closed-loop poles:", ct.poles(T))');}
+  else{lines.push(`T = minreal(${Texp});`);if(hasL)lines.push(`L = minreal(${spCode(Lsp,nm,pow)});   % 1 + L(s) = Delta(s)`);
+    lines.push('T','','figure; step(T); grid on; title(\'Step response\');','stepinfo(T)');
+    if(hasL)lines.push('figure; margin(L); grid on;','figure; rlocus(L); grid on;','[Gm, Pm, Wcg, Wcp] = margin(L)');
+    lines.push('pole(T)');}
+  const digs=blocks.filter(n=>n.dig&&n.expr);
+  if(digs.length){lines.push('',`${cmt} --- digital blocks (Ts = ${fmtN(getTs())} s) ---`);
+    for(const n of digs){const id=nm[n.label.trim()];let z;try{z=discretizeNode(n,getTs(),1);}catch(e){lines.push(`${cmt} ${n.label}: ${e.message}`);continue;}
+      const m=n.dmethod||'zoh';const nzD=[...z.nz].reverse(),dzD=[...z.dz].reverse();
+      const native=py?{zoh:'zoh',tustin:'tustin',fe:'euler',be:'backward_diff'}[m]:{zoh:'zoh',tustin:'tustin'}[m];
+      lines.push(py?`${id}_z = ct.tf(${arr(nzD)}, ${arr(dzD)}, ${fmtN(getTs())})   # ${DMETHODS[m]}`:`${id}_z = tf(${arr(nzD)}, ${arr(dzD)}, ${fmtN(getTs())});   % ${DMETHODS[m]}`);
+      if(native)lines.push(py?`# check: ct.sample_system(${id}, ${fmtN(getTs())}, method='${native}')`:`% check: c2d(${id}, ${fmtN(getTs())}, '${native}')`);}}
+  if(py)lines.push('','plt.show()');
+  return {code:lines.join('\n')+'\n'};
+}
+
+/* ---- window ---- */
+function openExport(target,blkId){
+  if(target)XS.t=target;
+  const cands=ctrlCandidates();
+  if(blkId&&byId(D,blkId))XS.blk=blkId;else if(!byId(D,XS.blk))XS.blk=pickCtrl()?.id||null;
+  const n=byId(D,XS.blk);
+  if(n){if(n.dig){XS.Ts=getTs();XS.meth=n.dmethod||'zoh';}else{XS.Ts=XS.Ts||(D.Ts>0?D.Ts:0.01);XS.meth=XS.meth||'tustin';}XS.fb=ident(`${n.label}_Controller`);}
+  else{XS.Ts=XS.Ts||0.01;XS.meth=XS.meth||'tustin';}
+  $('#xwin').hidden=false;$('#xback').hidden=false;renderExport();
+}
+function closeExport(){$('#xwin').hidden=true;$('#xback').hidden=true;}
+function xOptHTML(){
+  const t=XS.t,cands=ctrlCandidates();
+  if(t==='scl'||t==='st'||t==='pidc'){
+    if(!cands.length)return '<p class="note muted">No block has a transfer function yet. Give your controller one in the editor, or add a PID controller from the Instructions library.</p>';
+    let h=`<label class="pf" for="xBlk"><span>Controller block</span><select id="xBlk">${cands.map(n=>`<option value="${n.id}"${n.id===XS.blk?' selected':''}>${esc(n.label)}${n.kind?' · '+esc(KINDS[n.kind].name):''}${n.dig?' · digital':''}</option>`).join('')}</select><em></em></label>`;
+    h+=`<label class="pf" for="xTs"><span>Sample time T<sub>s</sub></span><input id="xTs" value="${fmtN(XS.Ts)}" inputmode="decimal"><em>s</em></label>`;
+    if(t!=='pidc'){
+      h+=`<label class="pf" for="xMeth"><span>Discretisation</span><select id="xMeth">${Object.entries(DMETHODS).map(([k,v])=>`<option value="${k}"${XS.meth===k?' selected':''}>${v}</option>`).join('')}</select><em></em></label>
+      <label class="pf" for="xFb"><span>Function block name</span><input id="xFb" value="${esc(XS.fb)}" spellcheck="false"><em></em></label>
+      <div class="xrow"><label class="pf" for="xLo"><span>Output min</span><input id="xLo" value="${fmtN(XS.lo)}" inputmode="decimal"><em></em></label><label class="pf" for="xHi"><span>Output max</span><input id="xHi" value="${fmtN(XS.hi)}" inputmode="decimal"><em></em></label></div>
+      <label class="chk"><input type="checkbox" id="xClamp"${XS.clamp?' checked':''}> Clamp output (with anti-windup)</label>
+      <label class="chk"><input type="checkbox" id="xScale"${XS.scale?' checked':''}> Raw analog I/O (0–27648)</label>
+      ${XS.scale?`<div class="xrow"><label class="pf" for="xAlo"><span>Process value at 0</span><input id="xAlo" value="${fmtN(XS.actLo)}" inputmode="decimal"><em></em></label><label class="pf" for="xAhi"><span>at 27648</span><input id="xAhi" value="${fmtN(XS.actHi)}" inputmode="decimal"><em></em></label></div>`:''}
+      <label class="chk"><input type="checkbox" id="xLreal"${XS.lreal?' checked':''}> 64-bit ${t==='scl'?'LReal':'LREAL'} (S7-1500, CODESYS)</label>`;}
+    return h;}
+  if(t==='mat'||t==='py'){const i=byId(D,ioIn)||D.nodes.find(n=>n.t==='in'),o=byId(D,ioOut)||D.nodes.find(n=>n.t==='out');
+    return `<p class="note">Writes every block as a transfer function, then the closed loop ${i?symHTML(i.label):'R'} → ${o?symHTML(o.label):'C'} from Mason’s formula, the loop gain, and step, Bode and root-locus commands.</p><p class="note muted">Change the analysed input and output in the editor’s Transfer function panel.</p>${t==='py'?'<p class="note muted">Needs the <code>control</code> package: <code>pip install control</code>.</p>':''}`;}
+  const R=XS.rep,S=R.sec;
+  return `<label class="pf" for="rTitle"><span>Title</span><input id="rTitle" value="${esc(R.title)}"><em></em></label>
+    <label class="pf" for="rName"><span>Student name</span><input id="rName" value="${esc(R.name)}" placeholder="Your name"><em></em></label>
+    <label class="pf" for="rCourse"><span>Course / lab</span><input id="rCourse" value="${esc(R.course)}" placeholder="e.g. Control Systems, Lab 3"><em></em></label>
+    <div class="xsub">Sections</div>
+    ${[['diag','Block diagram'],['tf','Transfer function'],['poles','Poles and stability'],['step','Step response'],['bode','Bode plot and margins'],['dig','Digital implementation'],['code','Controller PLC code (SCL)']].map(([k,l])=>`<label class="chk"><input type="checkbox" data-rs="${k}"${S[k]?' checked':''}> ${l}</label>`).join('')}`;
+}
+let xLast=null;
+function renderExport(){
+  const t=XS.t;
+  $('#xList').innerHTML=['PLC code','Analysis','Documents'].map(g=>`<div class="xg">${g}</div>`+XT.filter(x=>x[2]===g).map(([k,l])=>`<button class="xi${k===t?' on':''}" data-xt="${k}"><i class="ti ${k==='rep'?'ti-doc':k==='pidc'?'ti-sim':'ti-ed'}"></i>${l}</button>`).join('')).join('');
+  $('#xOpts').innerHTML=xOptHTML();
+  bindXOpts();renderXPreview();
+}
+function bindXOpts(){
+  $$('#xList [data-xt]').forEach(b=>b.onclick=()=>{XS.t=b.dataset.xt;renderExport();});
+  const num=(id,key,ok=v=>isFinite(v))=>{const el=$('#'+id);if(!el)return;el.addEventListener('input',()=>{const v=parseFloat(el.value);const g=ok(v);el.classList.toggle('badin',!g);if(!g)return;XS[key]=v;renderXPreview();});};
+  const bk=$('#xBlk');if(bk)bk.onchange=()=>{XS.blk=bk.value;const n=byId(D,XS.blk);if(n){XS.fb=ident(`${n.label}_Controller`);if(n.dig){XS.Ts=getTs();XS.meth=n.dmethod||'zoh';}}renderExport();};
+  num('xTs','Ts',v=>v>0&&v<1e4);num('xLo','lo');num('xHi','hi');num('xAlo','actLo');num('xAhi','actHi');
+  const me=$('#xMeth');if(me)me.onchange=()=>{XS.meth=me.value;renderXPreview();};
+  const fbI=$('#xFb');if(fbI)fbI.addEventListener('input',()=>{XS.fb=fbI.value;renderXPreview();});
+  [['xClamp','clamp'],['xLreal','lreal']].forEach(([id,k])=>{const c=$('#'+id);if(c)c.onchange=()=>{XS[k]=c.checked;renderXPreview();};});
+  const sc=$('#xScale');if(sc)sc.onchange=()=>{XS.scale=sc.checked;renderExport();};
+  [['rTitle','title'],['rName','name'],['rCourse','course']].forEach(([id,k])=>{const el=$('#'+id);if(el)el.addEventListener('input',()=>{XS.rep[k]=el.value;saveRep();clearTimeout(window.__rpT);window.__rpT=setTimeout(renderXPreview,250);});});
+  $$('#xOpts [data-rs]').forEach(c=>c.onchange=()=>{XS.rep.sec[c.dataset.rs]=c.checked;saveRep();renderXPreview();});
+}
+function hiCode(code,lang){
+  let h=esc(code);
+  const re=lang==='mat'?/(^|\n)([^\n%]*?)(%[^\n]*)/g:lang==='py'?/(^|\n)([^\n#'"]*?)(#[^\n]*)/g:null;
+  if(re)h=h.replace(re,(m,a,b,c)=>`${a}${b}<span class="cc">${c}</span>`);
+  else h=h.replace(/(\/\/[^\n]*|\(\*[\s\S]*?\*\))/g,'<span class="cc">$1</span>');
+  if(lang==='scl'||lang==='st')h=h.replace(/\b(FUNCTION_BLOCK|END_FUNCTION_BLOCK|VAR_INPUT|VAR_OUTPUT|VAR_TEMP|VAR CONSTANT|VAR|END_VAR|BEGIN|IF|THEN|ELSIF|ELSE|END_IF|RETURN|NOT|VERSION)\b/g,'<span class="ck">$1</span>');
+  return h;
+}
+function renderXPreview(){
+  const t=XS.t,pv=$('#xPrev'),act=$('#xActs'),notes=$('#xNotes');notes.innerHTML='';
+  if(t==='scl'||t==='st'){
+    const r=genPLC(t);xLast=r;
+    if(r.err){pv.innerHTML=`<p class="bad note" style="padding:12px">${esc(r.err)}</p>`;act.innerHTML='';return;}
+    pv.innerHTML=`<pre class="code">${hiCode(r.code,t)}</pre>`;
+    act.innerHTML=`<button class="btn primary" id="xCopy">Copy code</button><button class="btn" id="xSave">Save as ${esc(r.fb)}_${t==='scl'?'scl':'st'}.txt</button>`;
+    $('#xCopy').onclick=()=>copyText(r.code,'Code copied. Paste it into your PLC project.');
+    $('#xSave').onclick=()=>saveFile(`${r.fb}_${t==='scl'?'scl':'st'}.txt`,r.code,t==='scl'?'Saved. Rename the file to .scl before importing it into TIA Portal.':'Saved.');
+    notes.innerHTML=`<div class="xchecks">${r.checks.map(c=>`<div class="${c.ok?'cok':c.bad?'cbad':'cinfo'}">${c.ok?'✔':c.bad?'⚠':'ℹ'} ${c.t}</div>`).join('')}</div>`+
+      (t==='scl'?`<ol class="xsteps"><li>In TIA Portal open <b>External source files</b> in the project tree, choose <b>Add new external file</b> and pick the saved file (rename it from .txt to .scl first). Then right-click it and choose <b>Generate blocks from source</b>. Or create an SCL function block and paste the code.</li><li>Add a <b>cyclic interrupt OB</b> (for example OB30) with a cycle time of <b>${fmtN(+(XS.Ts*1000).toPrecision(6))} ms</b>, and call <b>"${esc(r.fb)}"</b> there with an instance data block. The coefficients are only correct at this sample time.</li><li>Wire <b>${XS.scale?'Actual_Raw':'Actual'}</b> to your sensor and <b>${XS.scale?'Output_Raw':'Output'}</b> to the actuator. Check the sign: a positive error should push the output in the direction that raises the process value.</li><li>Test in <b>PLCSIM</b> first, then on hardware with the output limits set safely.</li></ol>`
+        :`<ol class="xsteps"><li>In CODESYS add a POU of type <b>Function Block</b> in Structured Text, paste the declaration part (down to the last END_VAR) into the declaration editor and the rest into the implementation editor.</li><li>Call it from a <b>cyclic task</b> with an interval of <b>${fmtN(+(XS.Ts*1000).toPrecision(6))} ms</b>.</li><li>Test in simulation mode before connecting real I/O.</li></ol>`);
+    return;}
+  if(t==='pidc'){
+    const r=genPIDC();xLast=r;
+    if(r.err){pv.innerHTML=`<p class="note" style="padding:12px">${esc(r.err)}</p>`;act.innerHTML='';return;}
+    pv.innerHTML=`<table class="xtab"><tr><th>Parameter</th><th>Meaning</th><th>Value</th></tr>${r.rows.map(([k,m,v])=>`<tr><td><code>${k}</code></td><td>${esc(m)}</td><td class="num">${fmtN(+(+v).toPrecision(6))}</td></tr>`).join('')}</table><pre class="code">${hiCode(r.code,'scl')}</pre>`;
+    act.innerHTML=`<button class="btn primary" id="xCopy">Copy SCL lines</button>`;$('#xCopy').onclick=()=>copyText(r.code,'PID_Compact lines copied.');
+    notes.innerHTML=`<ul class="xsteps">${r.notes.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;return;}
+  if(t==='mat'||t==='py'){
+    const r=genScript(t);xLast=r;
+    if(r.err){pv.innerHTML=`<p class="bad note" style="padding:12px">${esc(r.err)}</p>`;act.innerHTML='';return;}
+    pv.innerHTML=`<pre class="code">${hiCode(r.code,t)}</pre>`;
+    const fn=t==='py'?'block_diagram_py.txt':'block_diagram_m.txt';
+    act.innerHTML=`<button class="btn primary" id="xCopy">Copy script</button><button class="btn" id="xSave">Save as ${fn}</button>`;
+    $('#xCopy').onclick=()=>copyText(r.code,'Script copied.');$('#xSave').onclick=()=>saveFile(fn,r.code,`Saved. Rename it to .${t==='py'?'py':'m'} to run it.`);
+    notes.innerHTML=`<p class="note muted">${t==='py'?'Run it with Python 3 after installing the control package. The step plot and margins should match the Simulate tab.':'Paste into a MATLAB script or the command window (needs the Control System Toolbox). The step plot and margins should match the Simulate tab.'}</p>`;return;}
+  /* report */
+  let data;try{data=buildReportData();}catch(e){pv.innerHTML=`<p class="bad note" style="padding:12px">${esc(e.message)}</p>`;act.innerHTML='';return;}
+  xLast=data;pv.innerHTML=`<div class="paper">${reportHTML(data)}</div>`;
+  act.innerHTML=`<button class="btn primary" id="xPdf">Save as PDF</button><button class="btn" id="xHtml">Save as HTML</button>`;
+  $('#xPdf').onclick=()=>savePDF(data);$('#xHtml').onclick=()=>saveFile(`${ident(XS.rep.title).slice(0,40)||'report'}.html`,reportDoc(data),'Report saved. Open it in a browser to read or print it.');
+  notes.innerHTML=`<p class="note muted">The report uses the analysed input and output from the editor (${esc(data.io)}). The PDF is built in your browser; nothing is uploaded.</p>`;
+}
+async function getDownloads(){try{if(window.claude&&window.claude.use)return await window.claude.use('downloads');}catch(e){}return null;}
+async function saveFile(name,data,okMsg){
+  const dl=await getDownloads();
+  if(!dl){toast('Saving files isn’t available in this view. Use the copy button instead.');return;}
+  try{await dl.save({filename:name,data});toast(okMsg||'Saved.');}
+  catch(e){const c=e&&e.code;toast(c==='declined'?'Save cancelled.':c==='rate_limited'?'Another save is still waiting for your answer.':`Could not save: ${(e&&e.message)||c||'unknown error'}`);}
+}
+
+/* ---- report ---- */
+const SVGPROPS=['fill','stroke','stroke-width','stroke-dasharray','stroke-linejoin','stroke-linecap','opacity','fill-opacity','stroke-opacity','font-family','font-size','font-style','font-weight','text-anchor','paint-order','display'];
+function hiddenHost(){let h=document.getElementById('rptHost');if(!h){h=document.createElement('div');h.id='rptHost';h.setAttribute('aria-hidden','true');document.body.appendChild(h);}return h;}
+function inlineSVG(svg,W){
+  const clone=svg.cloneNode(true);const src=[svg,...svg.querySelectorAll('*')],dst=[clone,...clone.querySelectorAll('*')];
+  src.forEach((el,i)=>{const cs=getComputedStyle(el);let st='';for(const p of SVGPROPS){const v=cs.getPropertyValue(p);if(v)st+=`${p}:${v};`;}dst[i].setAttribute('style',st);dst[i].removeAttribute('class');});
+  clone.querySelectorAll('[style*="display:none"],[style*="display: none"]').forEach(e=>e.remove());
+  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+  const vb=(clone.getAttribute('viewBox')||'0 0 640 360').split(/[\s,]+/).map(Number);const w=W||vb[2],h=Math.round(w*vb[3]/vb[2]);
+  clone.setAttribute('width',w);clone.setAttribute('height',h);clone.removeAttribute('role');
+  return {svg:new XMLSerializer().serializeToString(clone),w,h};
+}
+function renderInHost(html,W){const host=hiddenHost();const box=document.createElement('div');box.style.width=W+'px';box.innerHTML=html;host.appendChild(box);return box;}
+function plotToSVG(opts,W=640){const host=hiddenHost();const box=document.createElement('div');box.className='pbox';box.style.width=W+'px';host.appendChild(box);drawPlot(box,opts);const svg=box.querySelector('svg');const r=inlineSVG(svg,W);box.remove();return r;}
+function buildReportData(){
+  const R=XS.rep,S=R.sec;const ins=D.nodes.filter(n=>n.t==='in');const inId=(ioIn&&byId(D,ioIn))?ioIn:ins[0]?.id;const outId=(ioOut&&byId(D,ioOut))?ioOut:D.nodes.find(n=>n.t==='out')?.id;
+  if(!inId||!outId)throw new Error('The diagram needs an input and an output for a report.');
+  const inN=byId(D,inId),outN=byId(D,outId);const r=solve(D,inId,outId);
+  const data={title:R.title||'Control system design report',name:R.name,course:R.course,date:new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}),io:`${inN.label} → ${outN.label}`,inL:inN.label,outL:outN.label,S:{...S},r,sections:[]};
+  if(S.diag){const box=renderInHost(staticSVG(D,{pad:24}),640);data.diagram=inlineSVG(box.querySelector('svg'),640);box.remove();}
+  data.tfSymHTML=SP.isOne(r.den)?spHTML(r.num):fracHTML(spHTML(r.num),spHTML(r.den));
+  data.tfSymTxt=SP.isOne(r.den)?spText(r.num):`(${spText(r.num)}) / (${spText(r.den)})`;
+  /* numeric part */
+  const syms=[...SP.syms(r.den,SP.syms(r.num))];const map={},miss=[];
+  for(const s of syms){const b=D.nodes.find(n=>n.t==='blk'&&n.label.trim()===s&&n.expr&&n.expr.trim());if(!b){miss.push(s);continue;}try{map[s]=parseS(b.expr);}catch(e){miss.push(s);}}
+  data.missing=miss;
+  if(!miss.length&&r.paths.length){
+    const st=simplifyTF(RO.div(evalSPtoR(r.num,map),evalSPtoR(r.den,map)));data.st=st;
+    data.tfNumHTML=PS.trim(st.d).length===1?sPolyHTML(PS.scale(st.n,1/st.d[0])):fracHTML(sPolyHTML(st.n),sPolyHTML(st.d));
+    data.tfNumTxt=`(${sPolyText(st.n)}) / (${sPolyText(st.d)})`;
+    const lp=r.loops.length?(()=>{const sy=[...SP.syms(r.delta)];const m2={};for(const s of sy){if(map[s])m2[s]=map[s];else{const b=D.nodes.find(n=>n.t==='blk'&&n.label.trim()===s&&n.expr);if(b)m2[s]=parseS(b.expr);}}const Dk=evalSPtoR(r.delta,m2);return {L:simplifyTF(RO.sub(Dk,RO.num(1))),ch:simplifyTF(Dk).zeros};})():null;
+    data.poles=lp?lp.ch:st.poles;data.zeros=st.zeros;data.stab=stabOf(data.poles);
+    if(S.step){const sr=stepResponse(st.n,st.d,st.poles);if(!sr.improper){const fv=PS.val(st.n,0)/PS.val(st.d,0);const m=data.stab==='stable'?stepMetrics(sr,fv):null;
+      let ys=sr.y.filter(isFinite);let y0=Math.min(0,...ys),y1=Math.max(0,...ys,isFinite(fv)?fv:0);if(y1-y0<1e-9)y1=y0+1;const pd=(y1-y0)*0.08;
+      data.stepPlot=plotToSVG({H:300,x:[0,sr.t[sr.t.length-1]],y:[y0-pd,y1+pd],xlabel:'t (s)',series:[{x:sr.t,y:sr.y,color:'#00838A',w:2.2}],hlines:[{y:0}].concat(isFinite(fv)&&m?[{y:fv,cls:'crit'}]:[]),label:'Step response'});
+      if(m){let pk=-Infinity,tp=0;sr.y.forEach((v,i)=>{if(v>pk){pk=v;tp=sr.t[i];}});data.metrics=[['Final value',fmtN(+fv.toPrecision(4))],['Peak',fmtN(+pk.toPrecision(4))],['Overshoot',(m.os<0.05?'0':m.os.toFixed(1))+' %'],['Peak time',fmtN(+tp.toPrecision(4))+' s'],['Rise time (10–90 %)',m.tr!=null?fmtN(+m.tr.toPrecision(4))+' s':'—'],['Settling time (2 %)',fmtN(+m.ts.toPrecision(4))+' s']];}}}
+    if(S.bode&&lp&&lp.L.k){const L=lp.L;const [w0,w1]=wRange([L,st]);const ws=logspace(w0,w1,400);const db=[],ph=[];ws.forEach(w=>{const q=fr(L,w);db.push(q.db);ph.push(q.ph);});
+      const mg=margins(L,w0,w1);const fin=db.filter(isFinite);let dmax=Math.max(...fin,0),dmin=Math.max(Math.min(...fin,0),dmax-140);
+      let pmin=Math.floor(Math.min(...ph,-90)/45)*45,pmax=Math.ceil(Math.max(...ph,0)/45)*45;if(pmax-pmin<90)pmax=pmin+90;
+      const vl=[];if(mg.pm)vl.push({x:mg.pm.w,cls:'crit'});if(mg.gm)vl.push({x:mg.gm.w,cls:'crit'});
+      data.bodeMag=plotToSVG({H:220,xlog:true,x:[w0,w1],y:[dmin-5,dmax+5],yStep:dmax-dmin>80?20:10,series:[{x:ws,y:db,color:'#1F5FBF',w:2}],hlines:[{y:0}],vlines:vl,label:'Bode magnitude'});
+      data.bodePh=plotToSVG({H:200,xlog:true,x:[w0,w1],y:[pmin,pmax],yStep:pmax-pmin>360?90:45,series:[{x:ws,y:ph,color:'#1F5FBF',w:2}],hlines:[{y:-180,cls:'crit'}],vlines:vl,xlabel:'ω (rad/s)',label:'Bode phase'});
+      data.marg=[['Gain margin',mg.gm?mg.gm.v.toFixed(2)+' dB at '+fmtN(+mg.gm.w.toPrecision(4))+' rad/s':'∞'],['Phase margin',mg.pm?mg.pm.v.toFixed(1)+'° at '+fmtN(+mg.pm.w.toPrecision(4))+' rad/s':'∞']];
+      data.Ltxt=`L(s) = (${sPolyText(L.n)}) / (${sPolyText(L.d)})`;}
+  }
+  if(S.dig){const digs=D.nodes.filter(n=>n.t==='blk'&&n.dig&&n.expr);if(digs.length){data.dig=digs.map(n=>{try{const z=discretizeNode(n,getTs(),1);return {label:n.label,meth:DMETHODS[n.dmethod||'zoh'],zHTML:fracHTML(zPolyHTML(z.nz),zPolyHTML(z.dz)),zTxt:`(${zText(z.nz)}) / (${zText(z.dz)})`,de:diffEqText(z)};}catch(e){return {label:n.label,err:e.message};}});
+    try{const rho=specRad(zPoles(D,getTs(),{k:1}));data.digStab=`Sampled closed loop at Ts = ${fmtN(getTs())} s: ${rho<1-1e-7?'stable':'unstable'} (largest |z| = ${fmtN(+rho.toPrecision(3))}).`;}catch(e){}}}
+  if(S.code){const c=pickCtrl();if(c){const keep={...XS};XS.blk=c.id;if(c.dig){XS.Ts=getTs();XS.meth=c.dmethod||'zoh';}else{XS.Ts=XS.Ts||0.01;XS.meth=XS.meth||'tustin';}XS.fb=ident(`${c.label}_Controller`);const g=genPLC('scl');Object.assign(XS,{blk:keep.blk,Ts:keep.Ts,meth:keep.meth,fb:keep.fb});if(g.code)data.code=g.code;}}
+  return data;
+}
+function poleTxt(p){return Math.abs(p[1])>1e-9?`${fmtN(+p[0].toPrecision(4))} ± ${fmtN(+Math.abs(p[1]).toPrecision(4))}j`:fmtN(+p[0].toPrecision(4));}
+function poleInfo(p){if(Math.abs(p[1])>1e-9){const wn=Math.hypot(p[0],p[1]);return `ζ = ${fmtN(+(-p[0]/wn).toFixed(3))}, ωn = ${fmtN(+wn.toPrecision(4))} rad/s`;}return p[0]>1e-7?'right half-plane':Math.abs(p[0])<=1e-7?'integrator':`τ = ${fmtN(+(-1/p[0]).toPrecision(4))} s`;}
+function reportHTML(d){
+  let k=0;const H=t=>`<h2>${++k}&nbsp;&nbsp;${t}</h2>`;const S=d.S;
+  let h=`<header class="rhead"><h1>${esc(d.title)}</h1><p>${[d.name,d.course,d.date].filter(Boolean).map(esc).join(' · ')}</p></header>`;
+  if(S.diag&&d.diagram)h+=H('Block diagram')+`<figure>${d.diagram.svg}<figcaption>System from ${esc(d.inL)} to ${esc(d.outL)}.</figcaption></figure>`;
+  if(S.tf){h+=H('Closed-loop transfer function')+`<p>From Mason’s gain formula (${d.r.paths.length} forward path${d.r.paths.length===1?'':'s'}, ${d.r.loops.length} loop${d.r.loops.length===1?'':'s'}):</p><div class="rmath"><span>${fracHTML(symHTML(d.outL),symHTML(d.inL))} =</span>${d.tfSymHTML}</div>`;
+    if(d.tfNumHTML)h+=`<p>With the block transfer functions substituted:</p><div class="rmath"><span><i>T</i>(<i>s</i>) =</span>${d.tfNumHTML}</div>`;else if(d.missing.length)h+=`<p class="rnote">Blocks without a transfer function: ${d.missing.map(esc).join(', ')}. Numeric results are omitted.</p>`;}
+  if(S.poles&&d.poles){h+=H('Poles and stability')+`<p>The closed loop is <b>${d.stab==='stable'?'stable':d.stab==='unstable'?'unstable':'marginally stable'}</b>.</p><table class="rtab"><tr><th>Closed-loop pole</th><th>Description</th></tr>${d.poles.filter(p=>p[1]>=-1e-12).map(p=>`<tr><td>${poleTxt(p)}</td><td>${poleInfo(p)}</td></tr>`).join('')}</table>`;}
+  if(S.step&&d.stepPlot){h+=H('Unit step response')+`<figure>${d.stepPlot.svg}</figure>`+(d.metrics?`<table class="rtab">${d.metrics.map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</table>`:'');}
+  if(S.bode&&d.bodeMag){h+=H('Frequency response of the loop gain')+`<p class="rnote">${esc(d.Ltxt)}</p><figure>${d.bodeMag.svg}${d.bodePh.svg}<figcaption>Bode magnitude (dB) and phase (degrees); dashed lines mark the crossover frequencies.</figcaption></figure><table class="rtab">${d.marg.map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</table>`;}
+  if(S.dig&&d.dig){h+=H('Digital implementation')+`<p>Sample time T<sub>s</sub> = ${fmtN(getTs())} s.${d.digStab?' '+esc(d.digStab):''}</p>`+d.dig.map(x=>x.err?`<p class="rnote">${esc(x.label)}: ${esc(x.err)}</p>`:`<p><b>${esc(x.label)}</b> (${esc(x.meth)})</p><div class="rmath"><span><i>${esc(x.label)}</i>(<i>z</i>) =</span>${x.zHTML}</div><pre class="rcode">${esc(x.de)}</pre>`).join('');}
+  if(S.code&&d.code)h+=H('Controller code (TIA Portal SCL)')+`<pre class="rcode">${esc(d.code)}</pre>`;
+  return h;
+}
+const REPORT_CSS=`body{font:14px/1.5 Georgia,"Times New Roman",serif;color:#111;max-width:760px;margin:24px auto;padding:0 20px}h1{font:700 24px Arial,Helvetica,sans-serif;margin:0 0 4px}h2{font:700 16px Arial,Helvetica,sans-serif;margin:26px 0 8px;padding-bottom:3px;border-bottom:1px solid #999}.rhead p{color:#444;margin:0 0 10px}figure{margin:8px 0}figure svg{max-width:100%;height:auto;display:block}figcaption{font-size:12px;color:#555}.rmath{font:17px "Times New Roman",serif;margin:8px 0 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle}.frac .fn{padding:0 4px 2px}.frac .fd{padding:2px 4px 0;border-top:1px solid #111}.rtab{border-collapse:collapse;margin:6px 0 10px;font:13px Arial,Helvetica,sans-serif}.rtab td,.rtab th{border:1px solid #bbb;padding:3px 10px;text-align:left}.rtab th{background:#eee}.rcode{font:11.5px Consolas,"Courier New",monospace;background:#f5f5f5;border:1px solid #ccc;padding:8px;white-space:pre-wrap}.rnote{color:#555;font-size:13px}.mth i,i{font-style:italic}sub,sup{font-size:70%}`;
+function reportDoc(d){return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.title)}</title><style>${REPORT_CSS}</style></head><body>${reportHTML(d)}<p class="rnote" style="margin-top:30px">Generated with Eros’s Block Diagram Editor Mark 2.</p></body></html>`;}
+
+/* PDF via jsPDF (loaded on demand) */
+function loadJsPDF(){return new Promise((res,rej)=>{if(window.jspdf&&window.jspdf.jsPDF)return res(window.jspdf.jsPDF);const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=()=>window.jspdf?res(window.jspdf.jsPDF):rej(new Error('PDF library did not load'));s.onerror=()=>rej(new Error('PDF library could not be loaded'));document.head.appendChild(s);});}
+function svgToPng(svgStr,w,h,scale=2){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=Math.round(w*scale);c.height=Math.round(h*scale);const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0,c.width,c.height);try{res(c.toDataURL('image/jpeg',0.92));}catch(e){rej(e);}};img.onerror=()=>rej(new Error('Could not render a figure'));img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svgStr);});}
+const PDFMAP={'−':'-','–':'-','—':'-','±':'+/-','·':'*','×':'x','→':'->','ζ':'zeta','ω':'w','ωn':'wn','θ':'theta','τ':'tau','Δ':'Delta','∞':'inf','√':'sqrt','≈':'~','≤':'<=','≥':'>=','’':"'",'‘':"'",'“':'"','”':'"','²':'^2','³':'^3','⁴':'^4','⁵':'^5','ⁿ':'^n','…':'...','✔':'OK','⚠':'!','ℹ':'i','▸':'>','ₖ':'k','φ':'phi'};
+const pdfTxt=s=>String(s).replace(/[−–—±·×→ζωθτΔ∞√≈≤≥’‘“”²³⁴⁵ⁿ…✔⚠ℹ▸ₖφ]/g,c=>PDFMAP[c]||'').replace(/[^\x00-\xFF]/g,'?');
+async function savePDF(d){
+  const btn=$('#xPdf');if(btn){btn.disabled=true;btn.textContent='Building PDF…';}
+  try{
+    const JsPDF=await loadJsPDF();const doc=new JsPDF({unit:'mm',format:'a4',compress:true});const L=18,W=174,BOT=282;let y=20,k=0;
+    const need=hh=>{if(y+hh>BOT){doc.addPage();y=18;}};
+    const para=(t,o={})=>{doc.setFont(o.font||'helvetica',o.style||'normal');doc.setFontSize(o.size||10.5);const lines=doc.splitTextToSize(pdfTxt(t),W);const lh=(o.size||10.5)*0.45;for(const ln of lines){need(lh);doc.text(ln,L,y);y+=lh;}y+=o.after??2;};
+    const head=t=>{need(14);y+=4;doc.setFont('helvetica','bold');doc.setFontSize(13);doc.text(pdfTxt(`${++k}  ${t}`),L,y);y+=2;doc.setDrawColor(150);doc.line(L,y,L+W,y);y+=6;};
+    const fig=async(f,maxW=W)=>{if(!f)return;const png=await svgToPng(f.svg,f.w,f.h);const w=maxW,h=w*f.h/f.w;need(h+2);doc.addImage(png,'JPEG',L,y,w,h);y+=h+3;};
+    const table=rows=>{doc.setFont('helvetica','normal');doc.setFontSize(10);for(const [a,b] of rows){need(6);doc.text(pdfTxt(a),L+2,y);doc.text(pdfTxt(b),L+70,y);y+=5.2;}y+=2;};
+    const S=d.S;
+    doc.setFont('helvetica','bold');doc.setFontSize(18);doc.text(pdfTxt(d.title),L,y);y+=7;
+    doc.setFont('helvetica','normal');doc.setFontSize(10.5);doc.setTextColor(80);doc.text(pdfTxt([d.name,d.course,d.date].filter(Boolean).join('  ·  ')),L,y);doc.setTextColor(0);y+=8;
+    if(S.diag&&d.diagram){head('Block diagram');await fig(d.diagram);para(`System from ${d.inL} to ${d.outL}.`,{size:9});}
+    if(S.tf){head('Closed-loop transfer function');para(`From Mason's gain formula (${d.r.paths.length} forward path(s), ${d.r.loops.length} loop(s)):`);para(`${d.outL}/${d.inL} = ${d.tfSymTxt}`,{font:'courier',size:10});
+      if(d.tfNumTxt){para('With the block transfer functions substituted:');para(`T(s) = ${d.tfNumTxt}`,{font:'courier',size:10});}else if(d.missing.length)para(`Blocks without a transfer function: ${d.missing.join(', ')}. Numeric results are omitted.`,{size:9});}
+    if(S.poles&&d.poles){head('Poles and stability');para(`The closed loop is ${d.stab==='stable'?'stable':d.stab==='unstable'?'unstable':'marginally stable'}.`);table(d.poles.filter(p=>p[1]>=-1e-12).map(p=>[poleTxt(p),poleInfo(p)]));}
+    if(S.step&&d.stepPlot){head('Unit step response');await fig(d.stepPlot);if(d.metrics)table(d.metrics);}
+    if(S.bode&&d.bodeMag){head('Frequency response of the loop gain');para(d.Ltxt,{font:'courier',size:9});await fig(d.bodeMag);await fig(d.bodePh);table(d.marg);}
+    if(S.dig&&d.dig){head('Digital implementation');para(`Sample time Ts = ${fmtN(getTs())} s. ${d.digStab||''}`);for(const x of d.dig){if(x.err){para(`${x.label}: ${x.err}`);continue;}para(`${x.label} (${x.meth})`,{style:'bold'});para(`${x.label}(z) = ${x.zTxt}`,{font:'courier',size:9.5});para(x.de,{font:'courier',size:9.5,after:4});}}
+    if(S.code&&d.code){head('Controller code (TIA Portal SCL)');para(d.code.replace(/\t/g,'    '),{font:'courier',size:8});}
+    const pages=doc.getNumberOfPages();for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(120);doc.text(pdfTxt(`${d.title}  ·  page ${i} of ${pages}`),L,292);doc.setTextColor(0);}
+    const buf=doc.output('arraybuffer');
+    await saveFile(`${ident(d.title).slice(0,40)||'report'}.pdf`,buf,'Report saved as PDF.');
+  }catch(e){toast(`Could not build the PDF: ${e.message}. Save as HTML instead.`);}
+  finally{if(btn){btn.disabled=false;btn.textContent='Save as PDF';}}
+}
+
+/* ---- wiring ---- */
+$('#xClose').onclick=closeExport;$('#xback').onclick=closeExport;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#xwin').hidden)closeExport();});
 
 /* ===== Classic menu bar and task-card tabs (Mark 2) ===== */
 (function(){
@@ -2200,7 +3239,7 @@ boot();
     'v:editor':()=>showTab('editor'),'v:simulate':()=>showTab('simulate'),'v:practice':()=>showTab('practice'),'v:rules':()=>showTab('rules'),
     'zin':()=>{toEditor();zoomAt(1.2);},'zout':()=>{toEditor();zoomAt(1/1.2);},'fit':()=>{toEditor();fit();},
     'i:blk':()=>{toEditor();addAt('blk');},'i:sum':()=>{toEditor();addAt('sum');},'i:pick':()=>{toEditor();addAt('pick');},'i:in':()=>{toEditor();addAt('in');},'i:out':()=>{toEditor();addAt('out');},
-    's:time':()=>toSim('time'),'s:bode':()=>toSim('bode'),'s:nyq':()=>toSim('nyq'),'s:locus':()=>toSim('locus'),
+    's:time':()=>toSim('time'),'s:bode':()=>toSim('bode'),'s:nyq':()=>toSim('nyq'),'s:locus':()=>toSim('locus'),'x:scl':()=>openExport('scl'),'x:mat':()=>openExport('mat'),'x:rep':()=>openExport('rep'),'s:digital':()=>toSim('digital'),
     'm:select':()=>{toEditor();setTool('select');},'m:wire':()=>{toEditor();setTool('wire');},
     'h:keys':()=>{toEditor();sel=null;renderCanvas();renderInspector();$('#insp').scrollIntoView({block:'start'});},
     'h:mason':()=>{showTab('rules');setTimeout(()=>{const w=document.querySelector('.rule.wide');if(w)w.scrollIntoView({block:'start'});},30);},
@@ -2213,6 +3252,13 @@ boot();
     const t=document.getElementById(b.dataset.jump);if(t&&side)side.scrollTo({top:t.offsetTop-side.offsetTop,behavior:'smooth'});
   }));
 })();
+
+{const b=document.getElementById('bExport');if(b)b.onclick=()=>openExport();const r=document.getElementById('sRep');if(r)r.onclick=()=>openExport('rep');}
+
+boot();
+
+
+
 
 </script>
 
